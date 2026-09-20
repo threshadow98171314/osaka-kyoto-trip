@@ -17,7 +17,10 @@ docs/
 └── 04_attractions/...  ← Markdown 原始文件（我閱讀用）
 
 attraction_selector_output/
-└── attractions.csv, attractions.html  ← 旅伴可閱讀的輸出
+└── attractions.csv       ← CSV 輸出
+
+docs/selector/
+└── attractions.html, foods.html, candidates.html  ← 互動式選擇器（GitHub Pages）
 ```
 
 ## 工作流程
@@ -31,10 +34,9 @@ attraction_selector_output/
 
 ### 流程 2: 產生 CSV/HTML（我執行）
 
-執行產生腳本：
+執行產生腳本（腳本只有一份，就在本 skill 的 scripts/ 下）：
 ```bash
-source .venv/bin/activate
-python attraction_selector_output/generate.py
+python .claude/skills/attraction-selector/scripts/generate.py
 ```
 
 ## JSON 資料格式

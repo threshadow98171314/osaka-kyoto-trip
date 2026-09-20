@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大阪・京都之旅 2026</title>
+<meta name="description" content="2026年9月26日至10月3日 關西 8天7夜 — 行程表與規劃工具入口">
+<meta name="theme-color" content="#B5451B">
+<style>
+:root {
+  --primary: #B5451B;
+  --primary-dark: #8C2E0A;
+  --primary-light: #D4652F;
+  --secondary: #4A6FA5;
+  --accent: #C49A3C;
+  --bg: #FAF8F5;
+  --surface: #FFFFFF;
+  --text: #2C2416;
+  --muted: #7A6E5D;
+  --border: #E0D8CC;
+  --shadow: 0 2px 8px rgba(44,36,22,0.08);
+  --font: 'Noto Sans TC', 'PingFang TC', 'Hiragino Sans', 'Microsoft JhengHei',
+          'Yu Gothic UI', system-ui, -apple-system, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --primary: #E8825A;
+    --primary-dark: #C4603A;
+    --primary-light: #F0A181;
+    --secondary: #8FB3DE;
+    --accent: #D9B463;
+    --bg: #17140F;
+    --surface: #221E17;
+    --text: #EDE6DA;
+    --muted: #A69A88;
+    --border: #3A332A;
+    --shadow: 0 2px 8px rgba(0,0,0,0.5);
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+header {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary) 55%, var(--primary-light));
+  color: #fff;
+  text-align: center;
+  padding: 44px 16px 36px;
+}
+
+header h1 { font-size: 1.55rem; font-weight: 800; letter-spacing: 0.5px; }
+header p  { font-size: 0.9rem; opacity: 0.92; margin-top: 6px; }
+
+main { max-width: 680px; margin: 0 auto; padding: 28px 16px 48px; }
+
+.card {
+  display: block;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--primary);
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.15s, border-left-color 0.15s;
+}
+
+.card:hover { transform: translateY(-2px); border-left-color: var(--accent); }
+.card.is-tool { border-left-color: var(--secondary); }
+.card h2 { font-size: 1.05rem; font-weight: 700; margin-bottom: 5px; }
+.card p  { font-size: 0.84rem; color: var(--muted); }
+
+.badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: 20px;
+  background: var(--primary);
+  color: #fff;
+  margin-left: 7px;
+  vertical-align: 2px;
+}
+
+.badge.tool { background: var(--secondary); }
+
+h3.group {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+  margin: 26px 0 10px;
+}
+
+footer {
+  text-align: center;
+  font-size: 0.76rem;
+  color: var(--muted);
+  padding: 0 16px 36px;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🇯🇵 大阪・京都之旅</h1>
+  <p>2026年 9月26日（六） → 10月3日（六）｜8天7夜</p>
+</header>
+
+<main>
+  <h3 class="group">正式行程</h3>
+
+  <a class="card" href="final/index.html">
+    <h2>📅 完整行程表<span class="badge">主要</span></h2>
+    <p>逐日時間軸、交通指引、已預約項目與地圖連結。可離線閱讀，支援深色模式與日文地名顯示。</p>
+  </a>
+
+  <h3 class="group">規劃工具</h3>
+
+  <a class="card is-tool" href="selector/attractions.html">
+    <h2>🗾 景點選擇器<span class="badge tool">111 筆</span></h2>
+    <p>依城市與標籤篩選候選景點，勾選想去的地方，選擇會自動保存。</p>
+  </a>
+
+  <a class="card is-tool" href="selector/foods.html">
+    <h2>🍜 美食選擇器<span class="badge tool">37 筆</span></h2>
+    <p>依地區與類別篩選候選餐廳小吃，標註價位帶，勾選結果同樣會保存。</p>
+  </a>
+
+  <a class="card is-tool" href="selector/candidates.html">
+    <h2>⭐ 候選清單</h2>
+    <p>彙整上面兩個選擇器中已勾選的景點與美食，可一次匯出。</p>
+  </a>
+</main>
+
+<footer>
+  <p>資料最後查證：2026年9月20日</p>
+</footer>
+
+</body>
+</html>

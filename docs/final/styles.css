@@ -22,8 +22,18 @@
   --shadow-lg: 0 4px 20px rgba(44,36,22,0.12);
   --radius: 12px;
   --radius-sm: 8px;
-  --font-noto: 'Noto Sans TC', 'Noto Sans JP', sans-serif;
+  /* 字體：先用系統內建字型，離線／CDN 失效時仍可正常顯示中日文 */
+  --font-noto: 'Noto Sans TC', 'Noto Sans JP', 'PingFang TC', 'Hiragino Sans',
+               'Microsoft JhengHei', 'Yu Gothic UI', system-ui, -apple-system, sans-serif;
   --max-w: 800px;
+
+  /* 語意化色票（深色模式會覆寫這組） */
+  --surface: var(--bg-white);
+  --surface-alt: #EFF3F9;
+  --on-surface: var(--text-dark);
+  --on-surface-muted: var(--text-gray);
+  --chip-bg: #EEF3FA;
+  --chip-border: #C0D3E3;
 }
 
 /* === Reset & Base === */
@@ -75,9 +85,6 @@ img {
   color: white;
   padding: 24px 16px;
   text-align: center;
-  position: sticky;
-  top: 0;
-  z-index: 100;
   box-shadow: var(--shadow);
 }
 
@@ -140,11 +147,13 @@ img {
 
 /* === Sticky Day Navigation === */
 .day-nav {
-  background: var(--bg-white);
+  background: var(--surface);
   border-bottom: 1px solid var(--border);
   position: sticky;
-  top: 76px;
+  /* header 不再 sticky，日期列直接吸附在視窗頂端 —— 手機上任何位置都能切換日期 */
+  top: 0;
   z-index: 90;
+  box-shadow: 0 2px 6px rgba(44,36,22,0.06);
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
@@ -270,7 +279,7 @@ main {
 .timeline-item {
   position: relative;
   margin-bottom: 16px;
-  background: var(--bg-white);
+  background: var(--surface);
   border-radius: var(--radius);
   padding: 12px 14px;
   box-shadow: var(--shadow);
@@ -295,7 +304,7 @@ main {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: var(--bg-white);
+  background: var(--surface);
   border: 2.5px solid var(--border);
   z-index: 1;
 }
@@ -341,6 +350,9 @@ main {
   font-weight: 700;
   color: var(--text-dark);
   flex: 1;
+  /* flex 項目預設 min-width:auto 不會縮到比內容小，長標題會把右側標籤擠出畫面 */
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .tl-tag {
@@ -402,7 +414,7 @@ main {
   color: var(--secondary);
   margin-top: 6px;
   padding: 3px 10px 3px 6px;
-  background: #EEF3FA;
+  background: var(--chip-bg);
   border-radius: 20px;
   transition: background 0.2s;
 }
@@ -436,7 +448,7 @@ main {
 /* === Map Links Footer (per day) === */
 .day-maps {
   margin-top: 16px;
-  background: #EFF3F9;
+  background: var(--surface-alt);
   border-radius: var(--radius);
   padding: 12px 14px;
 }
@@ -461,8 +473,8 @@ main {
   font-size: 0.72rem;
   font-weight: 600;
   color: var(--secondary);
-  background: var(--bg-white);
-  border: 1px solid #C0D3E3;
+  background: var(--surface);
+  border: 1px solid var(--chip-border);
   border-radius: 20px;
   padding: 3px 10px 3px 6px;
   transition: background 0.2s;
@@ -564,11 +576,229 @@ main {
   }
 }
 
+/* === 工具列（語言／主題切換） === */
+.toolbar {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.toolbar button {
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.42);
+  color: white;
+  padding: 5px 13px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-family: var(--font-noto);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.toolbar button:hover,
+.toolbar button[aria-pressed="true"] {
+  background: rgba(255,255,255,0.36);
+}
+
+/* 日文地名（預設隱藏，切換後顯示於中文名下一行） */
+.ja-name {
+  display: none;
+  font-size: 0.8em;
+  font-weight: 500;
+  color: var(--on-surface-muted);
+  margin-top: 2px;
+  overflow-wrap: anywhere;
+}
+
+body.show-ja .ja-name {
+  display: block;
+}
+
+/* === 預算追蹤 === */
+.budget {
+  margin: 20px 0 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  box-shadow: var(--shadow);
+}
+
+.budget h3 {
+  font-size: 0.95rem;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+
+.budget .budget-hint {
+  font-size: 0.74rem;
+  color: var(--on-surface-muted);
+  margin-bottom: 10px;
+}
+
+.budget-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 0.82rem;
+}
+
+.budget-row:last-of-type {
+  border-bottom: none;
+}
+
+.budget-row .b-label {
+  flex: 1;
+  min-width: 0;
+}
+
+.budget-row .b-fixed {
+  color: var(--on-surface-muted);
+  white-space: nowrap;
+}
+
+.budget-row input[type="number"] {
+  width: 84px;
+  padding: 4px 7px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--on-surface);
+  font-family: var(--font-noto);
+  font-size: 0.82rem;
+  text-align: right;
+}
+
+.budget-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 2px solid var(--primary);
+  font-weight: 700;
+}
+
+.budget-total-row .b-amount {
+  font-size: 1.25rem;
+  color: var(--primary);
+}
+
+.budget-total-row .b-twd {
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: var(--on-surface-muted);
+}
+
+.budget-reset {
+  margin-top: 10px;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--on-surface-muted);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 0.74rem;
+  font-family: var(--font-noto);
+  cursor: pointer;
+}
+
+.budget-reset:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* === 離線提示 === */
+.offline-badge {
+  display: none;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 20px;
+  background: var(--text-dark);
+  color: white;
+  font-size: 0.76rem;
+  padding: 7px 16px;
+  border-radius: 20px;
+  box-shadow: var(--shadow-lg);
+  z-index: 200;
+}
+
+body.is-offline .offline-badge {
+  display: block;
+}
+
+/* === 深色模式 === */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --primary: #E8825A;
+    --primary-light: #F0A181;
+    --primary-dark: #C4603A;
+    --secondary: #8FB3DE;
+    --accent: #D9B463;
+    --bg-light: #17140F;
+    --bg-warm: #1E1A14;
+    --bg-white: #221E17;
+    --text-dark: #EDE6DA;
+    --text-gray: #A69A88;
+    --border: #3A332A;
+    --shadow: 0 2px 8px rgba(0,0,0,0.5);
+    --shadow-lg: 0 4px 20px rgba(0,0,0,0.6);
+    --surface: #221E17;
+    --surface-alt: #1C2430;
+    --on-surface: #EDE6DA;
+    --on-surface-muted: #A69A88;
+    --chip-bg: #1E2833;
+    --chip-border: #35485C;
+  }
+}
+
+:root[data-theme="dark"] {
+  --primary: #E8825A;
+  --primary-light: #F0A181;
+  --primary-dark: #C4603A;
+  --secondary: #8FB3DE;
+  --accent: #D9B463;
+  --bg-light: #17140F;
+  --bg-warm: #1E1A14;
+  --bg-white: #221E17;
+  --text-dark: #EDE6DA;
+  --text-gray: #A69A88;
+  --border: #3A332A;
+  --shadow: 0 2px 8px rgba(0,0,0,0.5);
+  --shadow-lg: 0 4px 20px rgba(0,0,0,0.6);
+  --surface: #221E17;
+  --surface-alt: #1C2430;
+  --on-surface: #EDE6DA;
+  --on-surface-muted: #A69A88;
+  --chip-bg: #1E2833;
+  --chip-border: #35485C;
+}
+
+/* 深色模式下的標籤配色（淺底色在深色背景會刺眼） */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .tl-tag.fixed    { background: #4A3A18; color: #F0D9A0; }
+  :root:not([data-theme="light"]) .tl-tag.transport { background: #1E3A52; color: #A8CBEC; }
+  :root:not([data-theme="light"]) .tl-tag.highlight { background: #4E2A1C; color: #F5B79B; }
+  :root:not([data-theme="light"]) .site-footer      { background: #100E0A; }
+}
+
+:root[data-theme="dark"] .tl-tag.fixed     { background: #4A3A18; color: #F0D9A0; }
+:root[data-theme="dark"] .tl-tag.transport { background: #1E3A52; color: #A8CBEC; }
+:root[data-theme="dark"] .tl-tag.highlight { background: #4E2A1C; color: #F5B79B; }
+:root[data-theme="dark"] .site-footer      { background: #100E0A; }
+
 /* === Print === */
 @media print {
   .day-nav,
   .back-to-top,
-  .site-header .lang-toggle {
+  .offline-badge,
+  .budget-reset,
+  .site-header .toolbar {
     display: none;
   }
 
@@ -577,7 +807,8 @@ main {
     page-break-after: always;
   }
 
-  .site-header {
-    position: static;
+  /* 列印時一併顯示日文地名，方便在當地出示給站務人員 */
+  .ja-name {
+    display: block !important;
   }
 }

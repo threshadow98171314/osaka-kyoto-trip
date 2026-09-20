@@ -4,8 +4,8 @@
       "id": "nintendo-kyoto",
       "name": "Nintendo KYOTO",
       "city": "京都",
-      "area": "私房祕境",
-      "category": "私房祕境",
+      "area": "私房秘境",
+      "category": "私房秘境",
       "features": "任天堂直營店、遊戲主題商品、限定商品、大雕像打卡",
       "price": "免費（購物另計）",
       "duration": "1小時",
@@ -37,7 +37,7 @@
       ]
     },
     {
-      "id": "sanjusangendo",
+      "id": "sanzenin",
       "name": "三千院",
       "city": "京都",
       "area": "私房秘境",
@@ -55,11 +55,11 @@
       ]
     },
     {
-      "id": "下鴨神社",
+      "id": "shimogamo-jinja",
       "name": "下鴨神社",
       "city": "京都",
-      "area": "私房祕境",
-      "category": "私房祕境",
+      "area": "私房秘境",
+      "category": "私房秘境",
       "features": "京都最古老神社、糺之森（市區唯一原始森林）、《有頂天家族》聖地",
       "price": "免費",
       "duration": "1小時",
@@ -110,11 +110,11 @@
       ]
     },
     {
-      "id": "任天堂博物館",
+      "id": "nintendo-museum",
       "name": "任天堂博物館",
       "city": "京都",
-      "area": "私房祕境",
-      "category": "私房祕境",
+      "area": "私房秘境",
+      "category": "私房秘境",
       "features": "2024/10/2 開幕、任天堂歷史展示、互動體驗、抽籤預約制",
       "price": "¥3,000（大人）/ ¥2,000（國高中生）/ ¥1,000（國小）",
       "duration": "2-3小時",
@@ -166,7 +166,7 @@
       ]
     },
     {
-      "id": "先鬥町",
+      "id": "pontocho",
       "name": "先鬥町",
       "city": "京都",
       "area": "定番",
@@ -566,11 +566,11 @@
       ]
     },
     {
-      "id": "比叡山延曆寺",
+      "id": "hieizan-enryakuji",
       "name": "比叡山延曆寺",
       "city": "京都",
-      "area": "私房祕境",
-      "category": "私房祕境",
+      "area": "私房秘境",
+      "category": "私房秘境",
       "features": "天下不可能嶺、錠戶關、世界遺產",
       "price": "¥1,000",
       "duration": "3小時",
@@ -643,11 +643,11 @@
       ]
     },
     {
-      "id": "源光庵",
+      "id": "genkoan",
       "name": "源光庵",
       "city": "京都",
-      "area": "私房祕境",
-      "category": "私房祕境",
+      "area": "私房秘境",
+      "category": "私房秘境",
       "features": "頓悟之窗（圓窗）、迷惘之窗（方窗）、禪意寺院",
       "price": "¥500",
       "duration": "1小時",
@@ -719,7 +719,7 @@
       ]
     },
     {
-      "id": "西本願寺",
+      "id": "nishi-honganji",
       "name": "西本願寺",
       "city": "京都",
       "area": "定番",
@@ -1020,7 +1020,7 @@
       ]
     },
     {
-      "id": "teamlab-長居植物園",
+      "id": "teamlab-nagai-botanical-garden",
       "name": "teamLab 長居植物園",
       "city": "大阪",
       "area": "其他",
@@ -1038,7 +1038,7 @@
       ]
     },
     {
-      "id": "一心寺-骨佛寺-",
+      "id": "isshinji",
       "name": "一心寺（骨佛寺）",
       "city": "大阪",
       "area": "其他",
@@ -1147,7 +1147,7 @@
       ]
     },
     {
-      "id": "國立國際美術館",
+      "id": "nmao-osaka",
       "name": "國立國際美術館",
       "city": "大阪",
       "area": "市中心",
@@ -1379,7 +1379,7 @@
       ]
     },
     {
-      "id": "日本橋電器街-電電城-",
+      "id": "nipponbashi-denden-town",
       "name": "日本橋電器街（電電城）",
       "city": "大阪",
       "area": "市中心",
@@ -1807,7 +1807,7 @@
       ]
     },
     {
-      "id": "藥師寺",
+      "id": "yakushiji",
       "name": "藥師寺",
       "city": "奈良",
       "area": "奈良",

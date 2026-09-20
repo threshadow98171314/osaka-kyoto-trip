@@ -29,13 +29,28 @@
 
 ## 概述
 
-這是一個大阪・京都之旅的個人旅遊規劃 repository（2026年10月）。主要文件 `osaka_kyoto_7days.md` 包含7天行程規劃，涵蓋景點、交通、美食和購物詳情。
+這是一個關西之旅的個人旅遊規劃 repository。
+
+**實際行程：2026年9月26日（六）～10月3日（六），8天7夜**，路線為大阪 → 神戶／姬路 → 奈良 → 京都，含已預約的固定行程（Mouriya 神戶牛、teamLab Biovortex、任天堂博物館、敘敘苑）。
+
+> ⚠️ 舊版的 `大阪京都七天.html`（7天6夜、10月中旬賞楓版）與實際行程不符，已於 2026-09-20 刪除。
+> **唯一正式行程為 `docs/final/index.html`。**
 
 ## 主要檔案
 
-### 根目錄
-- `大阪京都七天.html` - 旅遊計劃 HTML 版本
-- `CLAUDE.md` - 本檔案
+### 網站入口 docs/
+- `docs/index.html` - 網站首頁，連往行程表與各規劃工具（GitHub Pages 根路徑）
+- `docs/final/index.html` - **正式行程表**（逐日時間軸）
+- `docs/final/styles.css` - 行程表樣式（含深色模式）
+- `docs/final/sw.js` / `manifest.json` / `icon.svg` - PWA，讓行程可離線閱讀
+
+### docs/final/index.html 功能說明（請勿移除）
+- **逐日切換**：`showDay(n)` 一次只顯示一天；出發當天會依系統日期自動跳到對應那天，否則沿用上次瀏覽的日期（localStorage `lastDay`）
+- **日文地名**：`.ja-name` 標註日文寫法，僅在繁中與日文寫法不同時才加；切換狀態存於 localStorage `showJa`；**列印時一律顯示**，方便在當地出示給站務人員
+- **主題**：自動／淺色／深色三段循環，存於 localStorage `theme`
+- **預算追蹤**：各分類金額存於 localStorage `budget.*`，固定門票小計 `FIXED_TICKETS` 定義在 script 內，改動票價時要一併更新
+- **離線**：Service Worker 快取行程本體；字體採非阻塞載入，CDN 失效時退回系統中日文字型
+- **地圖連結**：`?q=` 一律使用**明文日文地名**，不要改回 percent-encoding（歷史上曾因編碼轉換導致 17 個連結指向錯誤地點）
 
 ### 審核目錄 audit/
 - `audit/records/` - 審核記錄（按日期存放）
@@ -44,9 +59,10 @@
 - `audit/discrepancies.md` - 發現的資訊不一致處
 
 ### 景點選擇輸出 attraction_selector_output/
-- `attraction_selector_output/attractions.html` - 候選景點清單（多功能互動網頁）
-- `attraction_selector_output/foods.html` - 美食選擇器（類似attractions.html的互動分頁）
-- `attraction_selector_output/candidates.html` - 候選清單（薈萃已選的景點和美食）
+- `attraction_selector_output/attractions.csv` - 景點清單 CSV（由 generate.py 產生）
+
+> 產生腳本只有一份，位於 `.claude/skills/attraction-selector/scripts/generate.py`。
+> 互動式 HTML 選擇器在 `docs/selector/`（見下方），不在本目錄。
 
 ### docs/selector/ -HTML選擇器（GitHub Pages顯示用）
 這些 HTML 檔案使用 Tailwind CSS CDN 引入樣式，無需 build step：
@@ -120,7 +136,7 @@ docs/
 │   │   └── 大阪其他.md
 │   ├── 京都/             # 京都景點
 │   │   ├── 京都經典.md
-│   │   ├── 京都祕境.md
+│   │   ├── 京都秘境.md
 │   │   └── 京都文化.md
 │   ├── 奈良/奈良景點.md  # 奈良景點
 │   └── 關西延伸/         # 關西延伸景點
@@ -144,10 +160,19 @@ docs/
 
 ## 爬蟲工具
 
-爬蟲工具位於 `.claude/skills/web-crawler/`。使用方式：
+爬蟲工具位於 `.claude/skills/web-crawler/`。
+
+> `.venv/` 已從版控移除（原本誤 commit 了 1,306 個檔案，且是 Linux 版無法跨平台）。
+> 使用前請自行建立：
+> ```bash
+> python -m venv .venv
+> # Windows: .venv\Scripts\activate    macOS/Linux: source .venv/bin/activate
+> pip install markdownify requests beautifulsoup4
+> ```
+
+使用方式：
 
 ```bash
-source .venv/bin/activate
 python -c "
 from pathlib import Path
 import sys

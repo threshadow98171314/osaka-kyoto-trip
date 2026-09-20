@@ -5,10 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🇯🇵 日本關西行程 2026｜9/26 - 10/3</title>
   <meta name="description" content="2026年9月26日至10月3日 日本關西之旅完整行程表">
+  <meta name="theme-color" content="#B5451B">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css">
+  <!-- 字體非阻塞載入：CDN 連不上（例如在日本沒網路）時直接用系統內建中日文字型 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" media="print" onload="this.media='all'">
 </head>
 <body>
 
@@ -17,9 +21,9 @@
     <div class="container">
       <h1>🇯🇵 日本關西行程</h1>
       <p class="trip-dates">2026年 9月26日（六）→ 10月3日（六）｜8天7夜</p>
-      <div class="lang-toggle">
-        <button class="lang-btn active" onclick="switchLang('zh')">中文</button>
-        <button class="lang-btn" onclick="switchLang('en')">English</button>
+      <div class="toolbar">
+        <button id="jaToggle" type="button" aria-pressed="false" onclick="toggleJa()">🇯🇵 顯示日文地名</button>
+        <button id="themeToggle" type="button" onclick="cycleTheme()">🌗 主題</button>
       </div>
     </div>
   </header>
@@ -29,12 +33,12 @@
     <div class="flight-item">
       <span>🛫</span>
       <span><strong>去程</strong> 15:15 TPE → 19:00 KIX</span>
-      <a href="https://maps.google.com/maps?q=%E9%97%9D%E8%A6%96%E5%9C%8B%E9%9A%9B%E6%A9%9F%E6%A9%84%E5%A0%B4" target="_blank" rel="noopener" style="color:#FFD700;font-size:0.78rem;">📍 KIX</a>
+      <a href="https://maps.google.com/maps?q=関西国際空港" target="_blank" rel="noopener" style="color:#FFD700;font-size:0.78rem;">📍 KIX</a>
     </div>
     <div class="flight-item">
       <span>🛬</span>
       <span><strong>回程</strong> 12:20 KIX → 14:15 TPE</span>
-      <a href="https://maps.google.com/maps?q=%E9%97%9D%E8%A6%96%E5%9C%8B%E9%9A%9B%E6%A9%9F%E6%A9%84%E5%A0%B4" target="_blank" rel="noopener" style="color:#FFD700;font-size:0.78rem;">📍 KIX</a>
+      <a href="https://maps.google.com/maps?q=関西国際空港" target="_blank" rel="noopener" style="color:#FFD700;font-size:0.78rem;">📍 KIX</a>
     </div>
   </div>
 
@@ -75,7 +79,7 @@
             <div class="tl-header">
               <span class="tl-time">15:15</span>
               <span class="tl-icon">✈️</span>
-              <span class="tl-title">航班｜TPE 桃園機場 → KIX 關西機場</span>
+              <span class="tl-title">航班｜TPE 桃園機場 → KIX 關西機場<span class="ja-name">桃園国際空港→関西国際空港</span></span>
               <span class="tl-tag">航班</span>
             </div>
             <div class="tl-detail">
@@ -99,7 +103,7 @@
             <div class="tl-header">
               <span class="tl-time">20:15</span>
               <span class="tl-icon">🚇</span>
-              <span class="tl-title">南海電鐵 關西機場 → 新今宮站</span>
+              <span class="tl-title">南海電鐵 關西機場 → 新今宮站<span class="ja-name">南海電鉄／関西国際空港→新今宮駅</span></span>
               <span class="tl-tag transport">交通</span>
             </div>
             <div class="tl-detail">
@@ -110,7 +114,7 @@
                 <li>搭乘約 <strong>40-45 分鐘</strong>直達「新今宮站」（南海電鐵官網：<a href="https://www.nankai.co.jp/tc_railway/" target="_blank" rel="noopener">www.nankai.co.jp</a>）</li>
               </ol>
             </div>
-            <a class="map-link" href="https://maps.google.com/maps?q=%E5%8D%97%E6%B5%B7%E9%9B%BB%E9%90%B5+%E6%96%B0%E4%BB%8A%E5%AE%AE%E9%A7%9D" target="_blank" rel="noopener">
+            <a class="map-link" href="https://maps.google.com/maps?q=南海電鉄+新今宮駅" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               新今宮站
             </a>
@@ -149,8 +153,8 @@
         <div class="day-maps">
           <h4>📍 今日相關地圖</h4>
           <div class="map-list">
-            <a class="map-chip" href="https://maps.google.com/maps?q=%E9%97%9D%E8%A6%96%E5%9C%8B%E9%9A%9B%E6%A9%9F%E6%A9%84%E5%A0%B4" target="_blank" rel="noopener">🛫 關西機場</a>
-            <a class="map-chip" href="https://maps.google.com/maps?q=%E5%8D%97%E6%B5%B7%E9%9B%BB%E9%90%B5+%E6%96%B0%E4%BB%8A%E5%AE%AE%E9%A7%9D" target="_blank" rel="noopener">🚇 新今宮站</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=関西国際空港" target="_blank" rel="noopener">🛫 關西機場</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=南海電鉄+新今宮駅" target="_blank" rel="noopener">🚇 新今宮站</a>
             <a class="map-chip" href="https://maps.google.com/maps?q=Apartment+Hotel+11+Namba+Minami+Shin-Imamiya+II" target="_blank" rel="noopener">🏨 一難波南2號店</a>
           </div>
         </div>
@@ -184,7 +188,7 @@
               <p>從飯店出發，步行約 5 分鐘即可抵達早市，品嚐新鮮海產與生魚片丼飯。</p>
               <p class="tl-note">📍 地址：大阪市浪速區敷津東 2-2-8｜最近站：地鐵大國町站</p>
             </div>
-            <a class="map-link" href="https://maps.google.com/maps?q=%E6%9C%A8%E6%B4%8B%E5%B8%82%E5%A0%B4+%E5%A4%A7%E9%98%AA" target="_blank" rel="noopener">
+            <a class="map-link" href="https://maps.google.com/maps?q=木津市場+大阪" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               木津市場
             </a>
@@ -200,8 +204,8 @@
             <div class="tl-detail">
               <p>step-by-step 交通指引：</p>
               <ol>
-                <li>步行至地鐵「大國町站」，刷 ICOCA 搭乘御堂筋線（往千里中央方向），搭 1 站至「<strong>本町站</strong>」下车</li>
-                <li>在本站依照指標轉乘地鐵中央線（往森之宮・長田方向），搭 2 站至「<strong>谷町四丁目站</strong>」下车</li>
+                <li>步行至地鐵「大國町站」，刷 ICOCA 搭乘御堂筋線（往千里中央方向），搭 1 站至「<strong>本町站</strong>」下車</li>
+                <li>在本站依照指標轉乘地鐵中央線（往森之宮・長田方向），搭 2 站至「<strong>谷町四丁目站</strong>」下車</li>
                 <li>從谷町四丁目站出站（推薦走 1B 或 9 號出口），步行約 10-15 分鐘穿過大阪城公園即可抵達天守閣</li>
               </ol>
             </div>
@@ -218,7 +222,7 @@
               <p>漫步大阪城公園，欣賞天守閣與護城河；計畫B：可至大阪歷史博物館</p>
               <p class="tl-note">⏱ 建議停留：2 小時｜📍 地址：大阪市中央區大阪城 1-1</p>
             </div>
-            <a class="map-link" href="https://maps.google.com/maps?q=%E5%A4%A7%E9%98%AA%E5%9F%8E%E5%85%AC%E5%9C%92" target="_blank" rel="noopener">
+            <a class="map-link" href="https://maps.google.com/maps?q=大阪城公園" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               大阪城
             </a>
@@ -228,7 +232,7 @@
             <div class="tl-header">
               <span class="tl-time">13:00</span>
               <span class="tl-icon">🚇</span>
-              <span class="tl-title">交通｜大阪城 → 黑門市場</span>
+              <span class="tl-title">交通｜大阪城 → 黑門市場<span class="ja-name">大阪城→黒門市場</span></span>
               <span class="tl-tag transport">交通</span>
             </div>
             <div class="tl-detail">
@@ -245,14 +249,14 @@
             <div class="tl-header">
               <span class="tl-time">13:20</span>
               <span class="tl-icon">🍢</span>
-              <span class="tl-title">午餐｜黑門市場</span>
+              <span class="tl-title">午餐｜黑門市場<span class="ja-name">黒門市場</span></span>
               <span class="tl-tag highlight">景點</span>
             </div>
             <div class="tl-detail">
               <p>邊走邊吃，推薦和牛烤肉串、黑門三平生魚片、高橋豆漿</p>
               <p class="tl-note">📍 地址：中央區日本橋 2-4-1｜最近站：日本橋站 10 號出口步行 2 分鐘</p>
             </div>
-            <a class="map-link" href="https://maps.google.com/maps?q=%E9%BB%91%E5%80%89%E5%B8%82%E5%A0%B4+%E5%A4%A7%E9%98%AA" target="_blank" rel="noopener">
+            <a class="map-link" href="https://maps.google.com/maps?q=黒門市場+大阪" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               黑門市場
             </a>
@@ -262,7 +266,7 @@
             <div class="tl-header">
               <span class="tl-time">14:30</span>
               <span class="tl-icon">🛒</span>
-              <span class="tl-title">景點｜日本橋電器街 ＆ 心齋橋筋商店街</span>
+              <span class="tl-title">景點｜日本橋電器街 ＆ 心齋橋筋商店街<span class="ja-name">日本橋でんでんタウン／心斎橋筋商店街</span></span>
               <span class="tl-tag highlight">景點</span>
             </div>
             <div class="tl-detail">
@@ -273,11 +277,11 @@
                 <li>可順路拍攝固力果跑跑人</li>
               </ol>
             </div>
-            <a class="map-link" href="https://maps.google.com/maps?q=%E6%97%A5%E6%9C%AC%E6%A9%8B%E9%9B%BB%E6%A9%84%E8%A1%97+%E5%A4%A7%E9%98%AA" target="_blank" rel="noopener">
+            <a class="map-link" href="https://maps.google.com/maps?q=日本橋でんでんタウン+大阪" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               日本橋電器街
             </a>
-            <a class="map-link" href="https://maps.google.com/maps?q=%E5%BF%83%E9%BD%8B%E6%A9%8B%E7%AD%8B%E5%95%86%E5%BA%97%E8%A1%97+%E5%A4%A7%E9%98%AA" target="_blank" rel="noopener" style="margin-left:8px;">
+            <a class="map-link" href="https://maps.google.com/maps?q=心斎橋筋商店街+大阪" target="_blank" rel="noopener" style="margin-left:8px;">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               心齋橋筋
             </a>
@@ -287,7 +291,7 @@
             <div class="tl-header">
               <span class="tl-time">16:30</span>
               <span class="tl-icon">🚇</span>
-              <span class="tl-title">交通｜心齋橋 → 寶可夢中心</span>
+              <span class="tl-title">交通｜心齋橋 → 寶可夢中心<span class="ja-name">心斎橋→ポケモンセンターオーサカ</span></span>
               <span class="tl-tag transport">交通</span>
             </div>
             <div class="tl-detail">
@@ -299,14 +303,14 @@
             <div class="tl-header">
               <span class="tl-time">16:45</span>
               <span class="tl-icon">🎮</span>
-              <span class="tl-title">景點｜寶可夢中心（大阪）</span>
+              <span class="tl-title">景點｜寶可夢中心（大阪）<span class="ja-name">ポケモンセンターオーサカ（大丸梅田店 13F）</span></span>
               <span class="tl-tag highlight">景點</span>
             </div>
             <div class="tl-detail">
               <p>位於大丸百貨梅田店 13 樓，蒐集限定寶可夢商品</p>
               <p class="tl-note">📍 地址：大阪市北區梅田 3-1-1 大丸百貨 13F｜🕐 10:00-20:00</p>
             </div>
-            <a class="map-link" href="https://maps.google.com/maps?q=%E5%A4%A7%E4%B8%B8%E7%99%BE%E8%B2%A8+%E5%8F%B0%E6%9D%B1+%E5%93%A5%E7%94%9F%E4%B8%AD%E5%BF%83" target="_blank" rel="noopener">
+            <a class="map-link" href="https://maps.google.com/maps?q=ポケモンセンターオーサカ+大丸梅田店" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               寶可夢中心
             </a>
@@ -316,7 +320,7 @@
             <div class="tl-header">
               <span class="tl-time">18:30</span>
               <span class="tl-icon">🚇</span>
-              <span class="tl-title">交通｜寶可夢中心 → 天神橋筋商店街</span>
+              <span class="tl-title">交通｜寶可夢中心 → 天神橋筋商店街<span class="ja-name">ポケモンセンターオーサカ→天神橋筋商店街</span></span>
               <span class="tl-tag transport">交通</span>
             </div>
             <div class="tl-detail">
@@ -335,7 +339,7 @@
               <p>日本最長的商店街（約 2.6km），體驗在地美食，隨意逛各式小吃攤</p>
               <p class="tl-note">📍 最近站：天神橋筋六丁目站（地下鐵）、天滿站（JR）</p>
             </div>
-            <a class="map-link" href="https://maps.google.com/maps?q=%E5%A4%A9%E7%A5%9E%E6%A9%8B%E7%AD%8B%E5%95%86%E5%BA%97%E8%A1%97+%E5%A4%A7%E9%98%AA" target="_blank" rel="noopener">
+            <a class="map-link" href="https://maps.google.com/maps?q=天神橋筋商店街+大阪" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               天神橋筋商店街
             </a>
@@ -345,7 +349,7 @@
             <div class="tl-header">
               <span class="tl-time">20:30</span>
               <span class="tl-icon">♨️</span>
-              <span class="tl-title">放鬆｜浪速之湯天然溫泉</span>
+              <span class="tl-title">放鬆｜浪速之湯天然溫泉<span class="ja-name">天然温泉なにわの湯</span></span>
               <span class="tl-tag highlight">景點</span>
             </div>
             <div class="tl-detail">
@@ -355,9 +359,10 @@
                 <li>泡完湯後，從天神橋筋六丁目站搭地鐵返回「大國町站」</li>
                 <li>步行回飯店休息</li>
               </ol>
-              <p class="tl-note">📍 地址：大阪市北區流西 1-7-31 遊遊公園大樓 8F｜🕐 平日 10:00-25:00｜🎫 門票約 ¥850</p>
+              <p class="tl-note">📍 地址：大阪市北區長柄西 1-7-31｜🕐 週一～五 10:00-翌1:00／六日例假日 8:00-翌1:00（最終受理 24:00）</p>
+              <p class="tl-note">🎫 平日 ¥900／六日例假日 <strong>¥1,000</strong>（9/27 為週日，適用 ¥1,000）</p>
             </div>
-            <a class="map-link" href="https://maps.google.com/maps?q=%E6%B5%AA%E9%80%B2%E4%B9%8B%E6%B9%AF+%E5%A4%A7%E9%98%AA" target="_blank" rel="noopener">
+            <a class="map-link" href="https://maps.google.com/maps?q=天然温泉なにわの湯" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               浪速之湯
             </a>
@@ -368,14 +373,14 @@
         <div class="day-maps">
           <h4>📍 今日相關地圖</h4>
           <div class="map-list">
-            <a class="map-chip" href="https://maps.google.com/maps?q=%E6%9C%A8%E6%B4%8B%E5%B8%82%E5%A0%B4+%E5%A4%A7%E9%98%AA" target="_blank" rel="noopener">🍳 木津市場</a>
-            <a class="map-chip" href="https://maps.google.com/maps?q=%E5%A4%A7%E9%98%AA%E5%9F%8E%E5%85%AC%E5%9C%92" target="_blank" rel="noopener">🏯 大阪城</a>
-            <a class="map-chip" href="https://maps.google.com/maps?q=%E9%BB%91%E5%80%89%E5%B8%82%E5%A0%B4+%E5%A4%A7%E9%98%AA" target="_blank" rel="noopener">🍢 黑門市場</a>
-            <a class="map-chip" href="https://maps.google.com/maps?q=%E6%97%A5%E6%9C%AC%E6%A9%8B%E9%9B%BB%E6%A9%84%E8%A1%97+%E5%A4%A7%E9%98%AA" target="_blank" rel="noopener">🛒 日本橋電器街</a>
-            <a class="map-chip" href="https://maps.google.com/maps?q=%E5%BF%83%E9%BD%8B%E6%A9%8B%E7%AD%8B%E5%95%86%E5%BA%97%E8%A1%97+%E5%A4%A7%E9%98%AA" target="_blank" rel="noopener">🛍 心齋橋筋</a>
-            <a class="map-chip" href="https://maps.google.com/maps?q=%E5%A4%A7%E4%B8%B8%E7%99%BE%E8%B2%A8+%E5%8F%B0%E6%9D%B1+%E5%93%A5%E7%94%9F%E4%B8%AD%E5%BF%83" target="_blank" rel="noopener">🎮 寶可夢中心</a>
-            <a class="map-chip" href="https://maps.google.com/maps?q=%E5%A4%A9%E7%A5%9E%E6%A9%8B%E7%AD%8B%E5%95%86%E5%BA%97%E8%A1%97+%E5%A4%A7%E9%98%AA" target="_blank" rel="noopener">🍽️ 天神橋筋商店街</a>
-            <a class="map-chip" href="https://maps.google.com/maps?q=%E6%B5%AA%E9%80%B2%E4%B9%8B%E6%B9%AF+%E5%A4%A7%E9%98%AA" target="_blank" rel="noopener">♨️ 浪速之湯</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=木津市場+大阪" target="_blank" rel="noopener">🍳 木津市場</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=大阪城公園" target="_blank" rel="noopener">🏯 大阪城</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=黒門市場+大阪" target="_blank" rel="noopener">🍢 黑門市場</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=日本橋でんでんタウン+大阪" target="_blank" rel="noopener">🛒 日本橋電器街</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=心斎橋筋商店街+大阪" target="_blank" rel="noopener">🛍 心齋橋筋</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=ポケモンセンターオーサカ+大丸梅田店" target="_blank" rel="noopener">🎮 寶可夢中心</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=天神橋筋商店街+大阪" target="_blank" rel="noopener">🍽️ 天神橋筋商店街</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=天然温泉なにわの湯" target="_blank" rel="noopener">♨️ 浪速之湯</a>
           </div>
         </div>
       </div>
@@ -401,7 +406,7 @@
             <div class="tl-header">
               <span class="tl-time">09:00</span>
               <span class="tl-icon">🚇</span>
-              <span class="tl-title">交通｜大阪 → 姬路城</span>
+              <span class="tl-title">交通｜大阪 → 姬路城<span class="ja-name">大阪→姫路城</span></span>
               <span class="tl-tag transport">交通</span>
             </div>
             <div class="tl-detail">
@@ -418,13 +423,13 @@
             <div class="tl-header">
               <span class="tl-time">10:35</span>
               <span class="tl-icon">🚇</span>
-              <span class="tl-title">步行｜JR 姬路站 → 姬路城</span>
+              <span class="tl-title">步行｜JR 姬路站 → 姬路城<span class="ja-name">JR姫路駅→姫路城</span></span>
               <span class="tl-tag transport">交通</span>
             </div>
             <div class="tl-detail">
               <p>出 JR 姬路站後，沿著「大手前通」筆直步行約 <strong>15-20 分鐘</strong>即可抵達姬路城。</p>
             </div>
-            <a class="map-link" href="https://maps.google.com/maps?q=%E5%A7%AB%E8%B7%9D%E5%9F%8E+%E5%AE%97%E6%88%B6" target="_blank" rel="noopener">
+            <a class="map-link" href="https://maps.google.com/maps?q=姫路城" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               姬路城
             </a>
@@ -434,15 +439,16 @@
             <div class="tl-header">
               <span class="tl-time">10:50</span>
               <span class="tl-icon">🏯</span>
-              <span class="tl-title">景點｜姬路城</span>
+              <span class="tl-title">景點｜姬路城<span class="ja-name">姫路城</span></span>
               <span class="tl-tag highlight">景點</span>
             </div>
             <div class="tl-detail">
               <p>日本保存最完整的國寶白鷺城｜列入世界文化遺產</p>
               <p>建議遊覽路線：大手前通 → 姬路城天守閣 → 好古園（順路）</p>
-              <p class="tl-note">⏱ 建議停留：2 小時｜📍 地址：兵庫縣姬路市姬路一之王 1-1｜🎫 門票 ¥1,000</p>
+              <p class="tl-note">⏱ 建議停留：2 小時｜📍 地址：兵庫縣姬路市本町 68｜🕐 9:00-17:00（最終入城 16:00）</p>
+              <p class="tl-note">🎫 門票 <strong>¥2,500</strong>（2026/3/1 起調漲，原 ¥1,000）｜18 歲以下免費｜好古園共通券 ¥2,600</p>
             </div>
-            <a class="map-link" href="https://maps.google.com/maps?q=%E5%A7%AB%E8%B7%9D%E5%9F%8E+%E5%AE%97%E6%88%B6" target="_blank" rel="noopener">
+            <a class="map-link" href="https://maps.google.com/maps?q=姫路城" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               姬路城
             </a>
@@ -452,7 +458,7 @@
             <div class="tl-header">
               <span class="tl-time">12:50</span>
               <span class="tl-icon">🚇</span>
-              <span class="tl-title">交通｜姬路城 → 神戶 Mouriya</span>
+              <span class="tl-title">交通｜姬路城 → 神戶 Mouriya<span class="ja-name">姫路城→モーリヤ三宮店</span></span>
               <span class="tl-tag transport">交通</span>
             </div>
             <div class="tl-detail">
@@ -469,7 +475,7 @@
             <div class="tl-header">
               <span class="tl-time">14:00</span>
               <span class="tl-icon">🥩</span>
-              <span class="tl-title">固定行程｜Mouriya 三宮店｜神戶牛鐵板燒</span>
+              <span class="tl-title">固定行程｜Mouriya 三宮店｜神戶牛鐵板燒<span class="ja-name">モーリヤ三宮店（神戸牛鉄板焼）</span></span>
               <span class="tl-tag fixed">預約</span>
             </div>
             <div class="tl-detail">
@@ -478,7 +484,7 @@
               <p>🕐 11:00-22:00（Last Order 21:00）｜📞 +81 78-321-1990</p>
               <p class="tl-note">⭐ 已預約 14:00 時段｜官網：<a href="https://www.mouriya.co.jp/" target="_blank" rel="noopener">www.mouriya.co.jp</a></p>
             </div>
-            <a class="map-link" href="https://maps.google.com/maps?q=Mouriya+%E4%B8%89%E5%AE%AE%E5%BA%97+%E7%A5%9E%E6%88%B6" target="_blank" rel="noopener">
+            <a class="map-link" href="https://maps.google.com/maps?q=モーリヤ三宮店+神戸" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               Mouriya 三宮店
             </a>
@@ -488,7 +494,7 @@
             <div class="tl-header">
               <span class="tl-time">16:00</span>
               <span class="tl-icon">🏖️</span>
-              <span class="tl-title">景點｜神戶市區散策</span>
+              <span class="tl-title">景點｜神戶市區散策<span class="ja-name">北野異人館／神戸ハーバーランド モザイク</span></span>
               <span class="tl-tag highlight">景點</span>
             </div>
             <div class="tl-detail">
@@ -501,7 +507,7 @@
             <div class="tl-header">
               <span class="tl-time">18:30</span>
               <span class="tl-icon">🚇</span>
-              <span class="tl-title">交通｜神戶 → 大阪（返回飯店）</span>
+              <span class="tl-title">交通｜神戶 → 大阪（返回飯店）<span class="ja-name">神戸→大阪</span></span>
               <span class="tl-tag transport">交通</span>
             </div>
             <div class="tl-detail">
@@ -515,10 +521,10 @@
         <div class="day-maps">
           <h4>📍 今日相關地圖</h4>
           <div class="map-list">
-            <a class="map-chip" href="https://maps.google.com/maps?q=%E5%A7%AB%E8%B7%9D%E5%9F%8E+%E5%AE%97%E6%88%B6" target="_blank" rel="noopener">🏯 姬路城</a>
-            <a class="map-chip" href="https://maps.google.com/maps?q=Mouriya+%E4%B8%89%E5%AE%AE%E5%BA%97+%E7%A5%9E%E6%88%B6" target="_blank" rel="noopener">🥩 Mouriya</a>
-            <a class="map-chip" href="https://maps.google.com/maps?q=%E5%8C%97%E9%87%8E%E7%95%B6%E4%BA%BA%E9%A6%B3+%E7%A5%9E%E6%88%B6" target="_blank" rel="noopener">🏖️ 北野異人館</a>
-            <a class="map-chip" href="https://maps.google.com/maps?q=%E7%A5%9E%E6%88%B6%E6%B8%AF+Mosaic" target="_blank" rel="noopener">🌅 神戶港</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=姫路城" target="_blank" rel="noopener">🏯 姬路城</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=モーリヤ三宮店+神戸" target="_blank" rel="noopener">🥩 Mouriya</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=北野異人館+神戸" target="_blank" rel="noopener">🏖️ 北野異人館</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=神戸ハーバーランド+モザイク" target="_blank" rel="noopener">🌅 神戶港</a>
           </div>
         </div>
       </div>
@@ -576,17 +582,17 @@
             </div>
             <div class="tl-detail">
               <p>看鹿、參觀世界最大木造建築「<strong>東大寺</strong>」大佛殿、祈求學業進步的「<strong>春日大社</strong>」</p>
-              <p class="tl-note">⏱ 建議停留：2.5-3 小時｜🎫 春日大社免費｜🎫 東大寺 ¥600</p>
+              <p class="tl-note">⏱ 建議停留：2.5-3 小時｜🎫 春日大社免費（本殿特別參拜 ¥500）｜🎫 東大寺大佛殿 <strong>¥800</strong></p>
             </div>
-            <a class="map-link" href="https://maps.google.com/maps?q=%E5%8D%97%E9%A6%AC%E5%85%AC%E5%9C%92+%E5%A4%A7%E5%85%AC%E5%AF%BA" target="_blank" rel="noopener">
+            <a class="map-link" href="https://maps.google.com/maps?q=奈良公園" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               奈良公園
             </a>
-            <a class="map-link" href="https://maps.google.com/maps?q=%E6%9D%B1%E5%A4%A7%E5%AF%BA+%E5%8D%97%E9%A6%AC" target="_blank" rel="noopener" style="margin-left:8px;">
+            <a class="map-link" href="https://maps.google.com/maps?q=東大寺+奈良" target="_blank" rel="noopener" style="margin-left:8px;">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               東大寺
             </a>
-            <a class="map-link" href="https://maps.google.com/maps?q=%E6%98%A5%E6%97%A5%E5%A4%A7%E7%A4%BE+%E5%8D%97%E9%A6%AC" target="_blank" rel="noopener" style="margin-left:8px;">
+            <a class="map-link" href="https://maps.google.com/maps?q=春日大社+奈良" target="_blank" rel="noopener" style="margin-left:8px;">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               春日大社
             </a>
@@ -671,7 +677,7 @@
             <div class="tl-header">
               <span class="tl-time">19:30</span>
               <span class="tl-icon">🍜</span>
-              <span class="tl-title">晚餐｜京都車站周邊</span>
+              <span class="tl-title">晚餐｜京都車站周邊<span class="ja-name">京都駅周辺</span></span>
             </div>
             <div class="tl-detail">
               <p>展覽結束後，步行回京都車站周邊（拉麵小路或地下街用餐）</p>
@@ -683,9 +689,9 @@
         <div class="day-maps">
           <h4>📍 今日相關地圖</h4>
           <div class="map-list">
-            <a class="map-chip" href="https://maps.google.com/maps?q=%E5%8D%97%E9%A6%AC%E5%85%AC%E5%9C%92+%E5%A4%A7%E5%85%AC%E5%AF%BA" target="_blank" rel="noopener">🦌 奈良公園</a>
-            <a class="map-chip" href="https://maps.google.com/maps?q=%E6%9D%B1%E5%A4%A7%E5%AF%BA+%E5%8D%97%E9%A6%AC" target="_blank" rel="noopener">🏯 東大寺</a>
-            <a class="map-chip" href="https://maps.google.com/maps?q=%E6%98%A5%E6%97%A5%E5%A4%A7%E7%A4%BE+%E5%8D%97%E9%A6%AC" target="_blank" rel="noopener">⛩ 春日大社</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=奈良公園" target="_blank" rel="noopener">🦌 奈良公園</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=東大寺+奈良" target="_blank" rel="noopener">🏯 東大寺</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=春日大社+奈良" target="_blank" rel="noopener">⛩ 春日大社</a>
             <a class="map-chip" href="https://maps.google.com/maps?q=Randor+Residential+Hotel+Kyoto+Suites" target="_blank" rel="noopener">🏨 京都蘭多爾</a>
             <a class="map-chip" href="https://maps.google.com/maps?q=teamLab+Biovortex+Kyoto" target="_blank" rel="noopener">🎨 teamLab</a>
           </div>
@@ -713,7 +719,7 @@
             <div class="tl-header">
               <span class="tl-time">09:00</span>
               <span class="tl-icon">🚇</span>
-              <span class="tl-title">交通｜京都 → 伏見稻荷大社</span>
+              <span class="tl-title">交通｜京都 → 伏見稻荷大社<span class="ja-name">京都駅→伏見稲荷大社</span></span>
               <span class="tl-tag transport">交通</span>
             </div>
             <div class="tl-detail">
@@ -729,14 +735,14 @@
             <div class="tl-header">
               <span class="tl-time">09:20</span>
               <span class="tl-icon">⛩️</span>
-              <span class="tl-title">景點｜伏見稻荷大社</span>
+              <span class="tl-title">景點｜伏見稻荷大社<span class="ja-name">伏見稲荷大社</span></span>
               <span class="tl-tag highlight">景點</span>
             </div>
             <div class="tl-detail">
               <p>順著千本鳥居往山上走一小段，避開人潮，祈求生意興隆、五穀豐收</p>
               <p class="tl-note">📍 地址：京都市伏見區深草藪之內町 68｜🕐 24 小時開放｜🎫 免費</p>
             </div>
-            <a class="map-link" href="https://maps.google.com/maps?q=%E4%BC%8F%E8%A6%8B%E7%A8%8B%E8%8D%89%E5%A4%A7%E7%A4%BE" target="_blank" rel="noopener">
+            <a class="map-link" href="https://maps.google.com/maps?q=伏見稲荷大社" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               伏見稻荷大社
             </a>
@@ -746,7 +752,7 @@
             <div class="tl-header">
               <span class="tl-time">11:15</span>
               <span class="tl-icon">🚇</span>
-              <span class="tl-title">交通｜JR稻荷站 → JR宇治站</span>
+              <span class="tl-title">交通｜JR稻荷站 → JR宇治站<span class="ja-name">JR稲荷駅→JR宇治駅</span></span>
               <span class="tl-tag transport">交通</span>
             </div>
             <div class="tl-detail">
@@ -763,9 +769,10 @@
             </div>
             <div class="tl-detail">
               <p>參觀世界文化遺產「<strong>平等院</strong>」，吃抹茶蕎麥麵、喝宇治茶，漫步宇治川</p>
-              <p class="tl-note">📍 平等院地址：宇治市宇治蓮華 116｜🕐 庭園 8:30-17:30｜🎫 庭園 ¥600</p>
+              <p class="tl-note">📍 平等院地址：宇治市宇治蓮華 116｜🕐 庭園 8:45-17:30（受付至 17:15）｜鳳翔館 9:00-17:00</p>
+              <p class="tl-note">🎫 庭園＋鳳翔館 <strong>¥700</strong>｜鳳凰堂內部參拜另加 ¥300（現場排隊分梯次）</p>
             </div>
-            <a class="map-link" href="https://maps.google.com/maps?q=%E5%B9%B3%E7%AD%89%E9%99%A2+%E5%AE%87%E6%B2%BB" target="_blank" rel="noopener">
+            <a class="map-link" href="https://maps.google.com/maps?q=平等院+宇治" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               平等院
             </a>
@@ -775,7 +782,7 @@
             <div class="tl-header">
               <span class="tl-time">14:30</span>
               <span class="tl-icon">🚇</span>
-              <span class="tl-title">交通｜JR宇治站 → JR小倉站 → 任天堂博物館</span>
+              <span class="tl-title">交通｜JR宇治站 → JR小倉站 → 任天堂博物館<span class="ja-name">JR宇治駅→JR小倉駅→ニンテンドーミュージアム</span></span>
               <span class="tl-tag transport">交通</span>
             </div>
             <div class="tl-detail">
@@ -791,16 +798,16 @@
             <div class="tl-header">
               <span class="tl-time">15:30</span>
               <span class="tl-icon">🎮</span>
-              <span class="tl-title">固定行程｜任天堂博物館 Nintendo Museum</span>
+              <span class="tl-title">固定行程｜任天堂博物館 Nintendo Museum<span class="ja-name">ニンテンドーミュージアム</span></span>
               <span class="tl-tag fixed">預約</span>
             </div>
             <div class="tl-detail">
               <p><strong>15:30-16:00 時段進場</strong></p>
-              <p>📍 地址：京都府宇治市小倉町神樂田 56｜🕐 10:00-18:00（最終入場 17:00）</p>
+              <p>📍 地址：京都府宇治市小倉町神樂田 56｜🕐 10:00-19:00｜休館：每週二（遇假日順延至週三）</p>
               <p>官網：<a href="https://museum.nintendo.com/" target="_blank" rel="noopener">museum.nintendo.com</a></p>
-              <p class="tl-note">⭐ 已預約 15:30-16:00 時段進場｜🎫 需提前預約</p>
+              <p class="tl-note">⭐ 已預約 15:30-16:00 時段進場｜🎫 成人 ¥3,300（採事前抽選預約制）｜9/30 為週三，正常開館</p>
             </div>
-            <a class="map-link" href="https://maps.google.com/maps?q=%E4%BB%BB%E5%A4%A9%E5%9C%92%E5%8D%9A%E7%89%A9%E9%A4%A8+%E5%AE%87%E6%B2%BB" target="_blank" rel="noopener">
+            <a class="map-link" href="https://maps.google.com/maps?q=ニンテンドーミュージアム+宇治" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               任天堂博物館
             </a>
@@ -810,7 +817,7 @@
             <div class="tl-header">
               <span class="tl-time">18:00</span>
               <span class="tl-icon">🚇</span>
-              <span class="tl-title">交通｜任天堂博物館 → 京都車站</span>
+              <span class="tl-title">交通｜任天堂博物館 → 京都車站<span class="ja-name">ニンテンドーミュージアム→京都駅</span></span>
               <span class="tl-tag transport">交通</span>
             </div>
             <div class="tl-detail">
@@ -822,7 +829,7 @@
             <div class="tl-header">
               <span class="tl-time">18:45</span>
               <span class="tl-icon">🍜</span>
-              <span class="tl-title">晚餐｜京都車站周邊</span>
+              <span class="tl-title">晚餐｜京都車站周邊<span class="ja-name">京都駅周辺</span></span>
             </div>
             <div class="tl-detail">
               <p>拉麵小路（京都站大樓內）、Porta 地下街、或 AEON MALL 京都桂川</p>
@@ -834,9 +841,9 @@
         <div class="day-maps">
           <h4>📍 今日相關地圖</h4>
           <div class="map-list">
-            <a class="map-chip" href="https://maps.google.com/maps?q=%E4%BC%8F%E8%A6%8B%E7%A8%8B%E8%8D%89%E5%A4%A7%E7%A4%BE" target="_blank" rel="noopener">⛩️ 伏見稻荷大社</a>
-            <a class="map-chip" href="https://maps.google.com/maps?q=%E5%B9%B3%E7%AD%89%E9%99%A2+%E5%AE%87%E6%B2%BB" target="_blank" rel="noopener">🍵 平等院</a>
-            <a class="map-chip" href="https://maps.google.com/maps?q=%E4%BB%BB%E5%A4%A9%E5%9C%92%E5%8D%9A%E7%89%A9%E9%A4%A8+%E5%AE%87%E6%B2%BB" target="_blank" rel="noopener">🎮 任天堂博物館</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=伏見稲荷大社" target="_blank" rel="noopener">⛩️ 伏見稻荷大社</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=平等院+宇治" target="_blank" rel="noopener">🍵 平等院</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=ニンテンドーミュージアム+宇治" target="_blank" rel="noopener">🎮 任天堂博物館</a>
           </div>
         </div>
       </div>
@@ -869,7 +876,7 @@
               <p>step-by-step 交通指引：</p>
               <ol>
                 <li>前往京都車站前公車總站</li>
-                <li>搭乘 <strong>205 號公車</strong>至「<strong>金閣寺道站</strong>」下车</li>
+                <li>搭乘 <strong>205 號公車</strong>至「<strong>金閣寺道站</strong>」下車</li>
                 <li>車程約 <strong>40 分鐘</strong></li>
               </ol>
             </div>
@@ -886,7 +893,7 @@
               <p>世界文化遺產，金箔貼面的三層樓閣建築，倒映於鏡湖池中</p>
               <p class="tl-note">📍 地址：京都市北區金閣寺町 1｜🕐 9:00-17:00｜🎫 門票 ¥500</p>
             </div>
-            <a class="map-link" href="https://maps.google.com/maps?q=%E9%87%91%E9%9B%80%E5%AF%BA+%E9%B9%BF%E8%8B%91%E5%AF%BA" target="_blank" rel="noopener">
+            <a class="map-link" href="https://maps.google.com/maps?q=金閣寺+鹿苑寺" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               金閣寺
             </a>
@@ -896,7 +903,7 @@
             <div class="tl-header">
               <span class="tl-time">10:40</span>
               <span class="tl-icon">🚇</span>
-              <span class="tl-title">交通｜金閣寺 → 北野天滿宮</span>
+              <span class="tl-title">交通｜金閣寺 → 北野天滿宮<span class="ja-name">金閣寺→北野天満宮</span></span>
               <span class="tl-tag transport">交通</span>
             </div>
             <div class="tl-detail">
@@ -908,15 +915,15 @@
             <div class="tl-header">
               <span class="tl-time">11:00</span>
               <span class="tl-icon">⛩️</span>
-              <span class="tl-title">固定行程｜北野天滿宮（瑞饋祭・神幸祭）</span>
+              <span class="tl-title">固定行程｜北野天滿宮（瑞饋祭・神幸祭）<span class="ja-name">北野天満宮（ずいき祭・神幸祭）</span></span>
               <span class="tl-tag fixed">祭典</span>
             </div>
             <div class="tl-detail">
               <p>北野天滿宮是全國 12,000 間天滿宮的總本社，供奉學問之神「菅原道真」</p>
               <p>🌸 <strong>10/1 為神幸祭</strong>，現場有祭典儀式與攤販小吃</p>
-              <p class="tl-note">📍 地址：京都市上京區馬代町｜🕐 境內自由參觀｜🎫 免費（梅苑另收費）</p>
+              <p class="tl-note">📍 地址：京都市上京區馬喰町｜🕐 境內自由參觀｜🎫 免費（梅苑另收費）</p>
             </div>
-            <a class="map-link" href="https://maps.google.com/maps?q=%E5%8C%97%E9%87%8E%E5%A4%A9%E6%BB%BF%E5%AE%AE" target="_blank" rel="noopener">
+            <a class="map-link" href="https://maps.google.com/maps?q=北野天満宮" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               北野天滿宮
             </a>
@@ -926,7 +933,7 @@
             <div class="tl-header">
               <span class="tl-time">13:00</span>
               <span class="tl-icon">🚇</span>
-              <span class="tl-title">交通｜北野天滿宮 → 嵐山</span>
+              <span class="tl-title">交通｜北野天滿宮 → 嵐山<span class="ja-name">北野天満宮→嵐山</span></span>
               <span class="tl-tag transport">交通</span>
             </div>
             <div class="tl-detail">
@@ -950,7 +957,7 @@
               <p>竹林之道 → 天龍寺（曹源池庭園）→ 野宮神社 → 渡月橋看傍晚景色</p>
               <p class="tl-note">⏱ 建議停留：3.5-4 小時｜📍 最近站：嵐山站（嵐電 / JR）</p>
             </div>
-            <a class="map-link" href="https://maps.google.com/maps?q=%E5%B5%90%E5%B1%B1+%E4%BA%AC%E9%83%BD" target="_blank" rel="noopener">
+            <a class="map-link" href="https://maps.google.com/maps?q=嵐山+京都" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               嵐山
             </a>
@@ -960,7 +967,7 @@
             <div class="tl-header">
               <span class="tl-time">17:00</span>
               <span class="tl-icon">🚇</span>
-              <span class="tl-title">交通｜嵐山 → 京都車站 → 飯店</span>
+              <span class="tl-title">交通｜嵐山 → 京都車站 → 飯店<span class="ja-name">嵐山→京都駅</span></span>
               <span class="tl-tag transport">交通</span>
             </div>
             <div class="tl-detail">
@@ -984,13 +991,13 @@
             <div class="tl-header">
               <span class="tl-time">20:00</span>
               <span class="tl-icon">🌙</span>
-              <span class="tl-title">景點｜鴨川夜間散步 ＆ 先斗町</span>
+              <span class="tl-title">景點｜鴨川夜間散步 ＆ 先斗町<span class="ja-name">鴨川／先斗町</span></span>
               <span class="tl-tag highlight">景點</span>
             </div>
             <div class="tl-detail">
               <p>感受京都獨特夜生活，鴨川畔夜間散步，穿越熱鬧的先斗町通</p>
             </div>
-            <a class="map-link" href="https://maps.google.com/maps?q=%E9%9B%9E%E5%B7%9D+%E4%BA%AC%E9%83%BD" target="_blank" rel="noopener">
+            <a class="map-link" href="https://maps.google.com/maps?q=鴨川+京都" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               鴨川
             </a>
@@ -1001,10 +1008,10 @@
         <div class="day-maps">
           <h4>📍 今日相關地圖</h4>
           <div class="map-list">
-            <a class="map-chip" href="https://maps.google.com/maps?q=%E9%87%91%E9%9B%80%E5%AF%BA+%E9%B9%BF%E8%8B%91%E5%AF%BA" target="_blank" rel="noopener">🏯 金閣寺</a>
-            <a class="map-chip" href="https://maps.google.com/maps?q=%E5%8C%97%E9%87%8E%E5%A4%A9%E6%BB%BF%E5%AE%AE" target="_blank" rel="noopener">⛩️ 北野天滿宮</a>
-            <a class="map-chip" href="https://maps.google.com/maps?q=%E5%B5%90%E5%B1%B1+%E4%BA%AC%E9%83%BD" target="_blank" rel="noopener">🌿 嵐山</a>
-            <a class="map-chip" href="https://maps.google.com/maps?q=%E9%9B%9E%E5%B7%9D+%E4%BA%AC%E9%83%BD" target="_blank" rel="noopener">🌙 鴨川</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=金閣寺+鹿苑寺" target="_blank" rel="noopener">🏯 金閣寺</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=北野天満宮" target="_blank" rel="noopener">⛩️ 北野天滿宮</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=嵐山+京都" target="_blank" rel="noopener">🌿 嵐山</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=鴨川+京都" target="_blank" rel="noopener">🌙 鴨川</a>
           </div>
         </div>
       </div>
@@ -1030,13 +1037,13 @@
             <div class="tl-header">
               <span class="tl-time">08:30</span>
               <span class="tl-icon">🚇</span>
-              <span class="tl-title">交通｜京都車站 → 清水寺</span>
+              <span class="tl-title">交通｜京都車站 → 清水寺<span class="ja-name">京都駅→清水寺</span></span>
               <span class="tl-tag transport">交通</span>
             </div>
             <div class="tl-detail">
               <p>step-by-step 交通指引：</p>
               <ol>
-                <li>在京都車站前搭乘 <strong>206 號公車</strong>至「<strong>清水道</strong>」或「<strong>五條坂站</strong>」下车</li>
+                <li>在京都車站前搭乘 <strong>206 號公車</strong>至「<strong>清水道</strong>」或「<strong>五條坂站</strong>」下車</li>
                 <li>車程約 <strong>15 分鐘</strong></li>
                 <li>再步行約 10 分鐘上山至清水寺</li>
               </ol>
@@ -1054,7 +1061,7 @@
               <p>參拜清水舞台，順二年坂、三年坂、八坂庚申堂漫步，建議一早前往避開人潮</p>
               <p class="tl-note">📍 地址：京都市東山區清水一｜🕐 6:00-18:00｜🎫 門票 ¥500</p>
             </div>
-            <a class="map-link" href="https://maps.google.com/maps?q=%E6%B8%85%E6%B0%B4%E5%AF%BA+%E4%BA%AC%E9%83%BD" target="_blank" rel="noopener">
+            <a class="map-link" href="https://maps.google.com/maps?q=清水寺+京都" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               清水寺
             </a>
@@ -1064,7 +1071,7 @@
             <div class="tl-header">
               <span class="tl-time">11:00</span>
               <span class="tl-icon">🚇</span>
-              <span class="tl-title">交通｜清水寺 → 京都車站</span>
+              <span class="tl-title">交通｜清水寺 → 京都車站<span class="ja-name">清水寺→京都駅</span></span>
               <span class="tl-tag transport">交通</span>
             </div>
             <div class="tl-detail">
@@ -1076,7 +1083,7 @@
             <div class="tl-header">
               <span class="tl-time">11:30</span>
               <span class="tl-icon">🥩</span>
-              <span class="tl-title">固定行程｜敘敘苑 JR京都伊勢丹店</span>
+              <span class="tl-title">固定行程｜敘敘苑 JR京都伊勢丹店<span class="ja-name">叙々苑 ジェイアール京都伊勢丹店</span></span>
               <span class="tl-tag fixed">預約</span>
             </div>
             <div class="tl-detail">
@@ -1085,7 +1092,7 @@
               <p>🕐 11:00-23:00（Last Order 22:00）｜📞 075-341-8989</p>
               <p class="tl-note">⭐ 已預約 11:30 時段｜官網：<a href="https://www.jojoen.co.jp/" target="_blank" rel="noopener">www.jojoen.co.jp</a></p>
             </div>
-            <a class="map-link" href="https://maps.google.com/maps?q=%E6%95%9F%E6%95%9F%E8%8B%91+JR%E4%BA%AC%E9%83%BD%E4%BC%8A%E5%8B%9D%E4%B8%B9%E5%BA%97" target="_blank" rel="noopener">
+            <a class="map-link" href="https://maps.google.com/maps?q=叙々苑+ジェイアール京都伊勢丹店" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               敘敘苑
             </a>
@@ -1095,7 +1102,7 @@
             <div class="tl-header">
               <span class="tl-time">13:30</span>
               <span class="tl-icon">🚇</span>
-              <span class="tl-title">交通｜京都車站 → 錦市場</span>
+              <span class="tl-title">交通｜京都車站 → 錦市場<span class="ja-name">京都駅→錦市場</span></span>
               <span class="tl-tag transport">交通</span>
             </div>
             <div class="tl-detail">
@@ -1114,7 +1121,7 @@
               <p>有「京都廚房」之稱，400年歷史的商店街，品嚐在地小吃、購買特色伴手禮</p>
               <p class="tl-note">📍 地址：京都市中京區錦小路通｜🕐 10:00-18:00（店鋪各異）｜🎫 免費</p>
             </div>
-            <a class="map-link" href="https://maps.google.com/maps?q=%E9%8C%A6%E5%B8%82%E5%A0%B4+%E4%BA%AC%E9%83%BD" target="_blank" rel="noopener">
+            <a class="map-link" href="https://maps.google.com/maps?q=錦市場+京都" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               錦市場
             </a>
@@ -1124,7 +1131,7 @@
             <div class="tl-header">
               <span class="tl-time">15:30</span>
               <span class="tl-icon">🛍️</span>
-              <span class="tl-title">採購｜河原町 / 祇園商圈</span>
+              <span class="tl-title">採購｜河原町 / 祇園商圈<span class="ja-name">河原町／祇園</span></span>
               <span class="tl-tag highlight">景點</span>
             </div>
             <div class="tl-detail">
@@ -1149,10 +1156,10 @@
         <div class="day-maps">
           <h4>📍 今日相關地圖</h4>
           <div class="map-list">
-            <a class="map-chip" href="https://maps.google.com/maps?q=%E6%B8%85%E6%B0%B4%E5%AF%BA+%E4%BA%AC%E9%83%BD" target="_blank" rel="noopener">🏯 清水寺</a>
-            <a class="map-chip" href="https://maps.google.com/maps?q=%E6%95%9F%E6%95%9F%E8%8B%91+JR%E4%BA%AC%E9%83%BD%E4%BC%8A%E5%8B%9D%E4%B8%B9%E5%BA%97" target="_blank" rel="noopener">🥩 敘敘苑</a>
-            <a class="map-chip" href="https://maps.google.com/maps?q=%E9%8C%A6%E5%B8%82%E5%A0%B4+%E4%BA%AC%E9%83%BD" target="_blank" rel="noopener">🛒 錦市場</a>
-            <a class="map-chip" href="https://maps.google.com/maps?q=%E6%B2%B3%E5%8E%9F%E7%94%BA+%E4%BA%AC%E9%83%BD" target="_blank" rel="noopener">🛍️ 河原町</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=清水寺+京都" target="_blank" rel="noopener">🏯 清水寺</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=叙々苑+ジェイアール京都伊勢丹店" target="_blank" rel="noopener">🥩 敘敘苑</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=錦市場+京都" target="_blank" rel="noopener">🛒 錦市場</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=河原町+京都" target="_blank" rel="noopener">🛍️ 河原町</a>
           </div>
         </div>
       </div>
@@ -1178,7 +1185,7 @@
             <div class="tl-header">
               <span class="tl-time">09:00</span>
               <span class="tl-icon">🚶</span>
-              <span class="tl-title">退房｜飯店 → JR京都車站</span>
+              <span class="tl-title">退房｜飯店 → JR京都車站<span class="ja-name">ホテル→JR京都駅</span></span>
             </div>
             <div class="tl-detail">
               <p>飯店退房，拉著行李步行至 JR 京都車站（約 10-15 分鐘）</p>
@@ -1189,7 +1196,7 @@
             <div class="tl-header">
               <span class="tl-time">09:30</span>
               <span class="tl-icon">🚇</span>
-              <span class="tl-title">交通｜JR京都車站 → 關西國際機場</span>
+              <span class="tl-title">交通｜JR京都車站 → 關西國際機場<span class="ja-name">JR京都駅→関西国際空港</span></span>
               <span class="tl-tag transport">交通</span>
             </div>
             <div class="tl-detail">
@@ -1207,12 +1214,12 @@
             <div class="tl-header">
               <span class="tl-time">10:50</span>
               <span class="tl-icon">🛃</span>
-              <span class="tl-title">報到｜關西國際機場</span>
+              <span class="tl-title">報到｜關西國際機場<span class="ja-name">関西国際空港</span></span>
             </div>
             <div class="tl-detail">
               <p>抵達機場，辦理登機報到與行李託運手續，通過安檢與免稅店最後採購</p>
             </div>
-            <a class="map-link" href="https://maps.google.com/maps?q=%E9%97%9D%E8%A6%96%E5%9C%8B%E9%9A%9B%E6%A9%9F%E6%A9%84%E5%A0%B4" target="_blank" rel="noopener">
+            <a class="map-link" href="https://maps.google.com/maps?q=関西国際空港" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               關西國際機場
             </a>
@@ -1222,7 +1229,7 @@
             <div class="tl-header">
               <span class="tl-time">12:20</span>
               <span class="tl-icon">✈️</span>
-              <span class="tl-title">航班｜KIX 關西機場 → TPE 桃園機場</span>
+              <span class="tl-title">航班｜KIX 關西機場 → TPE 桃園機場<span class="ja-name">関西国際空港→桃園国際空港</span></span>
               <span class="tl-tag">航班</span>
             </div>
             <div class="tl-detail">
@@ -1236,14 +1243,73 @@
         <div class="day-maps">
           <h4>📍 今日相關地圖</h4>
           <div class="map-list">
-            <a class="map-chip" href="https://maps.google.com/maps?q=%E9%97%9D%E8%A6%96%E5%9C%8B%E9%9A%9B%E6%A9%9F%E6%A9%84%E5%A0%B4" target="_blank" rel="noopener">🛫 關西國際機場</a>
-            <a class="map-chip" href="https://maps.google.com/maps?q=JR%E4%BA%AC%E9%83%BD%E9%A7%9D" target="_blank" rel="noopener">🚇 JR京都車站</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=関西国際空港" target="_blank" rel="noopener">🛫 關西國際機場</a>
+            <a class="map-chip" href="https://maps.google.com/maps?q=京都駅" target="_blank" rel="noopener">🚇 JR京都車站</a>
           </div>
         </div>
       </div>
     </section>
 
   </main>
+
+  <!-- ====== 預算追蹤 ====== -->
+  <div class="container">
+    <section class="budget" id="budget">
+      <h3>💴 預算追蹤（每人）</h3>
+      <p class="budget-hint">填入你的實際花費，會自動存在這台裝置上，重開頁面不會消失。</p>
+
+      <div class="budget-row">
+        <span class="b-label">🎫 行程內已確認門票<br>
+          <small>姬路城 2,500・任天堂博物館 3,300・なにわの湯 1,000・東大寺 800・平等院 700・金閣寺 500・清水寺 500</small>
+        </span>
+        <span class="b-fixed">¥9,300</span>
+      </div>
+
+      <div class="budget-row">
+        <span class="b-label">✈️ 機票</span>
+        <span>¥</span><input type="number" min="0" step="100" id="b-flight" placeholder="0">
+      </div>
+      <div class="budget-row">
+        <span class="b-label">🏨 住宿（7 晚）</span>
+        <span>¥</span><input type="number" min="0" step="100" id="b-hotel" placeholder="0">
+      </div>
+      <div class="budget-row">
+        <span class="b-label">🚇 交通（ICOCA／近鐵特急／HARUKA）</span>
+        <span>¥</span><input type="number" min="0" step="100" id="b-transport" placeholder="0">
+      </div>
+      <div class="budget-row">
+        <span class="b-label">🍽️ 餐飲（含 Mouriya、敘敘苑）</span>
+        <span>¥</span><input type="number" min="0" step="100" id="b-food" placeholder="0">
+      </div>
+      <div class="budget-row">
+        <span class="b-label">🛍️ 購物・伴手禮</span>
+        <span>¥</span><input type="number" min="0" step="100" id="b-shopping" placeholder="0">
+      </div>
+      <div class="budget-row">
+        <span class="b-label">➕ 其他</span>
+        <span>¥</span><input type="number" min="0" step="100" id="b-other" placeholder="0">
+      </div>
+
+      <div class="budget-total-row">
+        <span>總計</span>
+        <span>
+          <span class="b-amount" id="budgetTotal">¥9,300</span>
+          <span class="b-twd" id="budgetTwd"></span>
+        </span>
+      </div>
+
+      <div class="budget-row" style="border:none;padding-top:10px;">
+        <span class="b-label">匯率 1 JPY =</span>
+        <input type="number" min="0" step="0.001" id="b-rate" placeholder="0.21" style="width:72px;">
+        <span class="b-fixed">TWD</span>
+      </div>
+
+      <button type="button" class="budget-reset" onclick="resetBudget()">清空重填</button>
+    </section>
+  </div>
+
+  <!-- ====== 離線提示 ====== -->
+  <div class="offline-badge" role="status">📴 目前離線 — 行程內容仍可正常閱讀</div>
 
   <!-- ====== FOOTER ====== -->
   <footer class="site-footer">
@@ -1258,60 +1324,140 @@
 
   <!-- ====== JAVASCRIPT ====== -->
   <script>
-    let currentDay = 1;
+  (function () {
+    'use strict';
 
-    function showDay(n) {
-      // Hide all days
-      document.querySelectorAll('.day-section').forEach(el => {
-        el.classList.remove('active');
+    // localStorage 在無痕視窗／封鎖 cookie 時會丟例外，全部包起來
+    var store = {
+      get: function (k, d) { try { var v = localStorage.getItem(k); return v === null ? d : v; } catch (e) { return d; } },
+      set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+      del: function (k) { try { localStorage.removeItem(k); } catch (e) {} }
+    };
+
+    /* ---------- 日期切換 ---------- */
+    var TOTAL_DAYS = 8;
+
+    window.showDay = function (n) {
+      n = Math.min(Math.max(parseInt(n, 10) || 1, 1), TOTAL_DAYS);
+      document.querySelectorAll('.day-section').forEach(function (el) { el.classList.remove('active'); });
+      var target = document.getElementById('day-' + n);
+      if (target) target.classList.add('active');
+
+      document.querySelectorAll('.day-nav button').forEach(function (b) {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
       });
-      // Show target day
-      const target = document.getElementById('day-' + n);
-      if (target) {
-        target.classList.add('active');
-      }
-      // Update nav
-      document.querySelectorAll('.day-nav button').forEach(btn => {
-        btn.classList.remove('active');
-      });
-      const navBtn = document.getElementById('nav-' + n);
-      if (navBtn) navBtn.classList.add('active');
-      currentDay = n;
-      // Scroll to top of page
+      var navBtn = document.getElementById('nav-' + n);
+      if (navBtn) { navBtn.classList.add('active'); navBtn.setAttribute('aria-selected', 'true'); }
+
+      store.set('lastDay', String(n));
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    /* 依當天日期自動跳到對應那一天；否則回到上次看的那天 */
+    function initDay() {
+      var today = new Date();
+      var iso = today.getFullYear() + '-' +
+                String(today.getMonth() + 1).padStart(2, '0') + '-' +
+                String(today.getDate()).padStart(2, '0');
+      var match = document.querySelector('.day-section[data-date="' + iso + '"]');
+      if (match) { window.showDay(match.id.replace('day-', '')); return; }
+      window.showDay(store.get('lastDay', '1'));
     }
 
-    // Back to top button visibility
-    window.addEventListener('scroll', function() {
-      const btn = document.getElementById('backToTop');
-      if (window.scrollY > 400) {
-        btn.classList.add('visible');
-      } else {
-        btn.classList.remove('visible');
-      }
-    });
+    /* ---------- 日文地名 ---------- */
+    window.toggleJa = function () {
+      var on = document.body.classList.toggle('show-ja');
+      var btn = document.getElementById('jaToggle');
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.textContent = on ? '🇯🇵 隱藏日文地名' : '🇯🇵 顯示日文地名';
+      store.set('showJa', on ? '1' : '0');
+    };
 
-    // Optional: sync nav highlight on scroll
-    const observer = new IntersectionObserver(function(entries) {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const dayNum = entry.target.id.replace('day-', '');
-          document.querySelectorAll('.day-nav button').forEach(btn => btn.classList.remove('active'));
-          const navBtn = document.getElementById('nav-' + dayNum);
-          if (navBtn) navBtn.classList.add('active');
-        }
+    /* ---------- 主題：自動 → 淺色 → 深色 ---------- */
+    var THEMES = ['auto', 'light', 'dark'];
+    var THEME_LABEL = { auto: '🌗 主題：自動', light: '☀️ 主題：淺色', dark: '🌙 主題：深色' };
+
+    function applyTheme(t) {
+      if (t === 'auto') { document.documentElement.removeAttribute('data-theme'); }
+      else { document.documentElement.setAttribute('data-theme', t); }
+      document.getElementById('themeToggle').textContent = THEME_LABEL[t];
+      store.set('theme', t);
+    }
+
+    window.cycleTheme = function () {
+      var cur = store.get('theme', 'auto');
+      applyTheme(THEMES[(THEMES.indexOf(cur) + 1) % THEMES.length]);
+    };
+
+    /* ---------- 預算 ---------- */
+    var FIXED_TICKETS = 9300; // 頁面內已查證的門票合計（每人，日圓）
+    var FIELDS = ['b-flight', 'b-hotel', 'b-transport', 'b-food', 'b-shopping', 'b-other'];
+
+    function recalcBudget() {
+      var sum = FIXED_TICKETS;
+      FIELDS.forEach(function (id) {
+        var v = parseFloat(document.getElementById(id).value);
+        if (isFinite(v) && v > 0) sum += v;
       });
-    }, { threshold: 0.3 });
+      document.getElementById('budgetTotal').textContent = '¥' + sum.toLocaleString('zh-TW');
 
-    document.querySelectorAll('.day-section').forEach(section => {
-      observer.observe(section);
-    });
-
-    function switchLang(lang) {
-      // Placeholder for future English version
-      document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
+      var rate = parseFloat(document.getElementById('b-rate').value);
+      var twd = document.getElementById('budgetTwd');
+      twd.textContent = (isFinite(rate) && rate > 0)
+        ? '≈ NT$' + Math.round(sum * rate).toLocaleString('zh-TW')
+        : '';
     }
+
+    function bindBudget() {
+      FIELDS.concat(['b-rate']).forEach(function (id) {
+        var el = document.getElementById(id);
+        var saved = store.get('budget.' + id, '');
+        if (saved !== '') el.value = saved;
+        el.addEventListener('input', function () {
+          store.set('budget.' + id, el.value);
+          recalcBudget();
+        });
+      });
+      recalcBudget();
+    }
+
+    window.resetBudget = function () {
+      FIELDS.concat(['b-rate']).forEach(function (id) {
+        document.getElementById(id).value = '';
+        store.del('budget.' + id);
+      });
+      recalcBudget();
+    };
+
+    /* ---------- 回到頂部 ---------- */
+    window.addEventListener('scroll', function () {
+      var btn = document.getElementById('backToTop');
+      if (window.scrollY > 400) btn.classList.add('visible');
+      else btn.classList.remove('visible');
+    }, { passive: true });
+
+    /* ---------- 離線狀態 ---------- */
+    function syncOnline() {
+      document.body.classList.toggle('is-offline', !navigator.onLine);
+    }
+    window.addEventListener('online', syncOnline);
+    window.addEventListener('offline', syncOnline);
+
+    /* ---------- 啟動 ---------- */
+    applyTheme(store.get('theme', 'auto'));
+    if (store.get('showJa', '0') === '1') window.toggleJa();
+    initDay();
+    bindBudget();
+    syncOnline();
+
+    /* Service Worker：讓整份行程可離線開啟（需 https 或 localhost） */
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js').catch(function () { /* 離線快取失敗不影響閱讀 */ });
+      });
+    }
+  })();
   </script>
 
 </body>

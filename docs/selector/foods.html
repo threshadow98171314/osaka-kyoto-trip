@@ -45,6 +45,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto
 .hidden { display: none !important; }
 .visible-grid { display: grid !important; }
 .visible-table { display: block !important; }
+
+/* 匯出結果框：預設收合，按下「匯出已選美食」才展開 */
+.result-box { display: none; }
+.result-box.show { display: block; }
 </style>
 </head>
 <body class="p-4 md:p-8">
@@ -234,13 +238,6 @@ function handleCheckboxChange(name, checked) {
 function saveSelectedToStorage() {
     const selectedData = foods.filter(f => selectedSet.has(f.name));
     localStorage.setItem('selectedFoods', JSON.stringify(selectedData));
-function exportSelected() {
-    const selected = Array.from(selectedSet);
-    const resultBox = document.getElementById('resultBox');
-    const resultText = document.getElementById('resultText');
-    const selectedData = foods.filter(f => selected.includes(f.name));
-    resultText.textContent = JSON.stringify(selectedData, null, 2);
-    resultBox.classList.add('show');
 }
 
 function showCardView() {
@@ -370,6 +367,8 @@ function handleTagChange(checkbox) {
     }
     updateTagOptions();
     filterFoods();
+}
+
 function exportSelected() {
     const selected = Array.from(selectedSet);
     const resultBox = document.getElementById('resultBox');
@@ -389,10 +388,8 @@ function copySelected() {
     });
 }
 
-document.getElementById('areaFilter').addEventListener('change', () => {
-    updateTagOptions();
-    filterFoods();
-});
+// 注意：areaFilter 的 <select> 已經有 inline onchange，
+// 這裡不要再 addEventListener，否則每次切換都會重跑兩遍
 
 // Initialize
 function loadSavedSelections() {
