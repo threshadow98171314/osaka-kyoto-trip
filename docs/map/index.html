@@ -392,6 +392,11 @@ body {
     fixed:     { label: '已預約', icon: '⭐', color: 'var(--c-fixed)' },
   };
 
+  /* 機場＝旅程的起訖點；當天最早的點若是機場，編號從 0 起算代表「抵達／出發點」 */
+  function isGateway(p) {
+    return /機場|空港|airport/i.test((p.label || '') + ' ' + (p.title || '') + ' ' + (p.query || ''));
+  }
+
   /* 依行程表的分類與標題判斷屬於哪一類 */
   function categorize(p) {
     if (p.kind === 'fixed') return 'fixed';
@@ -408,6 +413,7 @@ body {
   var activeCats = new Set(Object.keys(CATS));
   var showReco = false;  // 推薦景點預設關閉，避免一開始就太雜
   var showTimes = true;  // 行程地點旁是否常駐顯示時間
+  var showRoute = true;  // 單日檢視時是否畫出移動路線
 
   var $ = function (id) { return document.getElementById(id); };
 
@@ -427,7 +433,10 @@ body {
   /* ---------- 標記 ---------- */
   function makeIcon(cat, seq) {
     var c = CATS[cat];
-    var badge = seq ? '<i class="pin-seq" style="color:' + c.color + '">' + seq + '</i>' : '';
+    // 注意：序號 0 代表起點（機場），0 是 falsy 不能用 seq ? ... 判斷
+    var badge = (seq === undefined || seq === null)
+      ? ''
+      : '<i class="pin-seq" style="color:' + c.color + '">' + seq + '</i>';
     return L.divIcon({
       className: '',
       html: '<div style="position:relative">'
@@ -495,9 +504,11 @@ body {
     if (activeDay !== 'all') {
       var ordered = shown.filter(function (p) { return p.time; })
         .sort(function (a, b) { return a.time.localeCompare(b.time); });
-      ordered.forEach(function (p, i) { seqOf[p.query + '@' + p.time] = i + 1; });
+      // 當天最早的點若是機場，視為起點標 0，其餘依序從 1 開始
+      var offset = (ordered.length && isGateway(ordered[0])) ? 0 : 1;
+      ordered.forEach(function (p, i) { seqOf[p.query + '@' + p.time] = i + offset; });
 
-      if (ordered.length > 1) {
+      if (showRoute && ordered.length > 1) {
         routeLine = L.polyline(ordered.map(function (p) { return [p.lat, p.lon]; }), {
           color: getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#B5451B',
           weight: 3,
@@ -551,7 +562,8 @@ body {
     var label = activeDay === 'all' ? '全部行程' : ('Day ' + activeDay);
     $('status').textContent = label + '：行程 ' + shown.length + ' 點'
       + (showReco ? '／推薦 ' + recoShown.length + ' 點' : '')
-      + (routeLine ? '（虛線＝當日移動順序）' : '');
+      + (routeLine ? '（虛線＝當日移動順序）'
+                   : (activeDay !== 'all' && !showRoute ? '（路線已隱藏）' : ''));
 
     // 只依行程地點決定視野，避免被散落各地的推薦景點拉遠
     if (shown.length) {
@@ -621,6 +633,21 @@ body {
       render();
     };
     catBox.appendChild(rb);
+
+    /* 路線開關 —— 只有在單日檢視才有作用 */
+    var routeBtn = document.createElement('button');
+    routeBtn.type = 'button';
+    routeBtn.className = 'chip cat';
+    routeBtn.style.setProperty('--cat-color', 'var(--primary)');
+    routeBtn.textContent = '〰️ 移動路線';
+    routeBtn.setAttribute('aria-pressed', 'true');
+    routeBtn.title = '選擇單一天數時才會畫出路線';
+    routeBtn.onclick = function () {
+      showRoute = !showRoute;
+      routeBtn.setAttribute('aria-pressed', String(showRoute));
+      render();
+    };
+    catBox.appendChild(routeBtn);
 
     /* 時間標籤開關 */
     var tb = document.createElement('button');

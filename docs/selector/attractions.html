@@ -3,62 +3,141 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>大阪・京都景點選擇器</title>
+<title>景點選擇器｜大阪・京都之旅 2026</title>
+<link rel="stylesheet" href="../assets/base.css">
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
-* { box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans TC", sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%); min-height: 100vh; }
-
-/* Custom scrollbar */
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
-::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #a1a1a1; }
-
-/* Card animations */
-.card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-.card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px -8px rgba(0,0,0,0.15); }
-.card.selected { background: linear-gradient(135deg, #f0fff4 0%, #e8f5e9 100%); }
-
-/* Tag pill style */
-.tag-pill { display: inline-block; padding: 4px 10px; border-radius: 9999px; font-size: 12px; font-weight: 500; transition: all 0.2s; }
-.tag-pill:hover { transform: scale(1.05); }
-
-/* View toggle button */
-.view-btn { padding: 10px 24px; border-radius: 9999px; font-weight: 500; transition: all 0.2s; }
-.view-btn.active { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: white; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4); }
-.view-btn:not(.active) { background: white; color: #6b7280; }
-.view-btn:not(.active):hover { background: #f9fafb; }
-
-/* Checkbox custom */
-.custom-checkbox { width: 20px; height: 20px; cursor: pointer; accent-color: #22c55e; }
-
-/* Filter section */
-.filter-section { backdrop-filter: blur(10px); background: rgba(255,255,255,0.9); }
-
-/* Responsive grid */
-@media (max-width: 640px) {
-  .attractions-grid { grid-template-columns: 1fr !important; }
+/* === 與站內其他頁面一致的底色與元件樣式 === */
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
 }
 
-/* View display control */
+.page-body { padding: 20px 16px 48px; }
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--surface-alt); border-radius: 4px; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* 卡片 */
+.card {
+  background: var(--surface) !important;
+  border: 1px solid var(--border);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+.card.selected { border-color: #3F8F5E; box-shadow: 0 0 0 2px #3F8F5E33; }
+.card h3 a { color: var(--text); }
+.card h3 a:hover { color: #3F8F5E; }
+
+/* 視圖切換 */
+.view-btn {
+  padding: 8px 22px; border-radius: 9999px; font-weight: 600; font-size: 0.85rem;
+  font-family: var(--font); cursor: pointer; border: 1px solid var(--border);
+  background: var(--surface); color: var(--muted); transition: all 0.2s;
+}
+.view-btn.active {
+  background: #3F8F5E; border-color: #3F8F5E; color: #fff;
+  box-shadow: 0 3px 10px #3F8F5E55;
+}
+.view-btn:not(.active):hover { border-color: #3F8F5E; color: #3F8F5E; }
+
+.custom-checkbox { width: 20px; height: 20px; cursor: pointer; accent-color: #3F8F5E; }
+
+/* 篩選區 */
+.filter-section {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  backdrop-filter: none;
+}
+.filter-section label { color: var(--text); }
+.filter-section select,
+.filter-section input[type="text"] {
+  background: var(--surface); color: var(--text);
+  border: 1px solid var(--border) !important;
+  font-family: var(--font);
+}
+.filter-section select:focus,
+.filter-section input[type="text"]:focus { outline: 2px solid #3F8F5E55; outline-offset: 1px; }
+
+.stats {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--muted) !important;
+  backdrop-filter: none;
+}
+.stats span { color: var(--text) !important; }
+.stats #selectedCount, .stats #selectedCount { color: #3F8F5E !important; }
+
+/* 表格 */
+table thead tr { background: var(--surface-alt) !important; }
+table th { color: var(--text) !important; }
+table td { color: var(--text); border-bottom: 1px solid var(--border); }
+table tbody tr:hover { background: #ECF5EF !important; }
+
+/* 匯出區 */
+.export-section {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  backdrop-filter: none;
+}
+.btn-export, .btn-copy {
+  font-family: var(--font); font-weight: 600; cursor: pointer; border: none;
+  background: #3F8F5E; color: #fff;
+}
+.btn-export:hover, .btn-copy:hover { background: #2F6B49; }
+.result-box { background: var(--surface-alt) !important; }
+.result-box pre { color: var(--text) !important; }
+
+/* 頁尾 */
+.site-footer { text-align: center; padding: 26px 16px 36px; font-size: 0.76rem; color: var(--muted); }
+.site-footer a { color: var(--muted); text-decoration: none; margin: 0 8px; }
+.site-footer a:hover { color: #3F8F5E; text-decoration: underline; }
+
+/* 深色模式下覆寫 Tailwind 的硬編碼色 */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .bg-white,
+  :root:not([data-theme="light"]) .bg-gray-50 { background-color: var(--surface) !important; }
+  :root:not([data-theme="light"]) .text-gray-800,
+  :root:not([data-theme="light"]) .text-gray-700 { color: var(--text) !important; }
+  :root:not([data-theme="light"]) .text-gray-600,
+  :root:not([data-theme="light"]) .text-gray-500,
+  :root:not([data-theme="light"]) .text-gray-400 { color: var(--muted) !important; }
+  :root:not([data-theme="light"]) .border-gray-100,
+  :root:not([data-theme="light"]) .border-gray-200 { border-color: var(--border) !important; }
+}
+
+.tag-pill { display: inline-block; padding: 3px 10px; border-radius: 9999px; font-size: 12px; font-weight: 600; }
+
+/* 視圖顯示控制 */
 .hidden { display: none !important; }
 .visible-grid { display: grid !important; }
 .visible-table { display: block !important; }
 
-/* 匯出結果框：預設收合，按下「匯出已選景點」才展開 */
+/* 匯出結果框預設收合 */
 .result-box { display: none; }
 .result-box.show { display: block; }
 </style>
 </head>
-<body class="p-4 md:p-8">
-<div class="max-w-7xl mx-auto">
+<body>
 
-<nav class="mb-4">
-    <a href="../index.html" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/90 border border-gray-200 text-sm font-medium text-gray-600 hover:text-green-700 hover:border-green-400 shadow-sm transition-colors">← 回首頁</a>
-</nav>
+<header class="site-header" data-hero>
+  <div class="container">
+    <h1>🗾 景點選擇器</h1>
+    <p class="sub">大阪・京都・奈良・關西延伸｜勾選想去的地方</p>
+    <div class="toolbar">
+      <a class="tb-link" href="../index.html">← 回首頁</a>
+      <a class="tb-link" href="../final/index.html">📅 行程表</a>
+      <a class="tb-link" href="../map/index.html">🗺️ 地圖</a>
+      <a class="tb-link" href="foods.html">🍜 美食選擇器</a>
+    </div>
+  </div>
+</header>
 
-<h1 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-6">🌸 大阪・京都之旅 - 景點選擇器</h1>
+<div class="max-w-7xl mx-auto page-body">
 
 <div class="view-toggle flex justify-center gap-3 mb-6">
     <button id="cardViewBtn" class="view-btn active" onclick="showCardView()">卡片視圖</button>
@@ -131,7 +210,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto
     <div class="result-box mt-4 p-4 bg-gray-50 rounded-xl text-left max-h-48 overflow-y-auto" id="resultBox"><pre id="resultText" class="text-sm text-gray-700 whitespace-pre-wrap"></pre></div>
 </div>
 
-<footer class="text-center mt-8 text-gray-400 text-sm">
+<footer class="site-footer">
     <a href="../index.html" class="text-gray-500 hover:underline mr-4">🏠 回首頁</a>
     <a href="../final/index.html" class="text-red-600 hover:underline mr-4">📅 完整行程表</a>
     <a href="foods.html" class="text-orange-500 hover:underline">→ 前往美食選擇器</a>
@@ -281,34 +360,34 @@ function updateTagOptions() {
 }
 
 function getTagClass(tag) {
+    // 注意：key 必須與資料中 tags 陣列的實際值一致，否則會掉到灰色預設值
     const classes = {
-        'city-kyoto': { background: '#e8f5e9', color: '#2e7d32' },
-        'city-osaka': { background: '#fff3e0', color: '#e65100' },
-        'city-nara': { background: '#f3e5f5', color: '#7b1fa2' },
-        'city-kansai': { background: '#e3f2fd', color: '#1565c0' },
-        'free': { background: '#c8e6c9', color: '#2e7d32' },
-        '必去': { background: '#ffcdd2', color: '#c62828' },
-        '賞楓': { background: '#ffccbc', color: '#bf360c' },
-        '賞花': { background: '#f8bbd9', color: '#880e4f' },
-        '夜景': { background: '#e1bee7', color: '#6a1b9a' },
-        '美食': { background: '#d7f9d0', color: '#2e7d32' },
-        '購物': { background: '#fff9c4', color: '#f57f17' },
-        '神社寺院': { background: '#ffe0b2', color: '#e65100' },
-        '文化體驗': { background: '#b3e5fc', color: '#0277bd' },
-        '體驗': { background: '#c8e6c9', color: '#2e7d32' },
-        '自然': { background: '#c8e6c9', color: '#1b5e20' },
-        '免費': { background: '#c8e6c9', color: '#2e7d32' },
-        '收費': { background: '#fff3e0', color: '#e65100' },
-        '世界遺產': { background: '#ffecb3', color: '#ff6f00' },
-        '主題樂園': { background: '#e1f5fe', color: '#0277bd' },
-        'ACG/玩具': { background: '#f3e5f5', color: '#7b1fa2' },
-        '溫泉': { background: '#e0f7fa', color: '#00838f' },
-        '京都': { background: '#e8f5e9', color: '#2e7d32' },
-        '大阪': { background: '#fff3e0', color: '#e65100' },
-        '奈良': { background: '#f3e5f5', color: '#7b1fa2' },
-        '關西延伸': { background: '#e3f2fd', color: '#1565c0' }
+        // 地區
+        '京都':       { background: '#E3EFE6', color: '#2F6B49' },
+        '大阪':       { background: '#FDE8E0', color: '#A8391A' },
+        '奈良':       { background: '#EFE6F5', color: '#6B3E96' },
+        '關西延伸':   { background: '#E3EEF7', color: '#34557F' },
+        // 重要度
+        '必去':       { background: '#FBDCDC', color: '#A32828' },
+        '世界遺產':   { background: '#FEF3D8', color: '#7A4F1A' },
+        // 主題
+        '神社寺院':   { background: '#FDEBD8', color: '#96521A' },
+        '文化體驗':   { background: '#E1F1FA', color: '#1D6489' },
+        '體驗':       { background: '#E1F1FA', color: '#1D6489' },
+        '主題樂園':   { background: '#E6F0FB', color: '#2A5C8F' },
+        'ACG/玩具':   { background: '#F3E5F5', color: '#6B3E96' },
+        '自然':       { background: '#DFF0E3', color: '#2B6B41' },
+        '賞楓':       { background: '#FBE0D2', color: '#A24218' },
+        '賞花':       { background: '#FBE4EE', color: '#9B2C63' },
+        '夜景':       { background: '#E5E2F2', color: '#4B3F86' },
+        '溫泉':       { background: '#DEF1F3', color: '#1F6A73' },
+        '美食':       { background: '#FDEBD8', color: '#96521A' },
+        '購物':       { background: '#FEF6E2', color: '#8A6A1E' },
+        // 票價
+        '免費':       { background: '#DFF0E3', color: '#2B6B41' },
+        '收費':       { background: '#F2E8DA', color: '#7A5520' }
     };
-    return classes[tag] || { background: '#f5f5f5', color: '#616161' };
+    return classes[tag] || { background: '#EFEAE2', color: '#6B6255' };
 }
 
 function handleTagChange(checkbox) {
@@ -353,5 +432,7 @@ updateTagOptions();
 showCardView(); // 確保卡片視圖預設為顯示
 filterAttractions();
 </script>
+<script src="../assets/hero/hero.js"></script>
+<script>if (window.applyHero) window.applyHero('../assets/hero/');</script>
 </body>
 </html>

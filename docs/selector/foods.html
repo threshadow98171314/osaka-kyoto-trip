@@ -3,61 +3,141 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>大阪・京都美食選擇器</title>
+<title>美食選擇器｜大阪・京都之旅 2026</title>
+<link rel="stylesheet" href="../assets/base.css">
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
-* { box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans TC", sans-serif; background: linear-gradient(135deg, #fff8f0 0%, #fef3e2 100%); min-height: 100vh; }
-
-/* Custom scrollbar */
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
-::-webkit-scrollbar-thumb { background: #d1c1b1; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #b1a191; }
-
-/* Card animations */
-.card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-.card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px -8px rgba(0,0,0,0.15); }
-.card.selected { background: linear-gradient(135deg, #fff8f0 0%, #fff5eb 100%); }
-
-/* Tag pill style */
-.tag-pill { display: inline-block; padding: 4px 10px; border-radius: 9999px; font-size: 12px; font-weight: 500; transition: all 0.2s; }
-.tag-pill:hover { transform: scale(1.05); }
-
-/* View toggle button */
-.view-btn { padding: 10px 24px; border-radius: 9999px; font-weight: 500; transition: all 0.2s; }
-.view-btn.active { background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4); }
-.view-btn:not(.active) { background: white; color: #6b7280; }
-.view-btn:not(.active):hover { background: #f9fafb; }
-
-/* Checkbox custom */
-.custom-checkbox { width: 20px; height: 20px; cursor: pointer; accent-color: #f97316; }
-
-/* Filter section */
-.filter-section { backdrop-filter: blur(10px); background: rgba(255,255,255,0.9); }
-
-/* Responsive grid */
-@media (max-width: 640px) {
-  .foods-grid { grid-template-columns: 1fr !important; }
+/* === 與站內其他頁面一致的底色與元件樣式 === */
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
 }
 
-/* View display control */
+.page-body { padding: 20px 16px 48px; }
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--surface-alt); border-radius: 4px; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* 卡片 */
+.card {
+  background: var(--surface) !important;
+  border: 1px solid var(--border);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+.card.selected { border-color: #C2571C; box-shadow: 0 0 0 2px #C2571C33; }
+.card h3 a { color: var(--text); }
+.card h3 a:hover { color: #C2571C; }
+
+/* 視圖切換 */
+.view-btn {
+  padding: 8px 22px; border-radius: 9999px; font-weight: 600; font-size: 0.85rem;
+  font-family: var(--font); cursor: pointer; border: 1px solid var(--border);
+  background: var(--surface); color: var(--muted); transition: all 0.2s;
+}
+.view-btn.active {
+  background: #C2571C; border-color: #C2571C; color: #fff;
+  box-shadow: 0 3px 10px #C2571C55;
+}
+.view-btn:not(.active):hover { border-color: #C2571C; color: #C2571C; }
+
+.custom-checkbox { width: 20px; height: 20px; cursor: pointer; accent-color: #C2571C; }
+
+/* 篩選區 */
+.filter-section {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  backdrop-filter: none;
+}
+.filter-section label { color: var(--text); }
+.filter-section select,
+.filter-section input[type="text"] {
+  background: var(--surface); color: var(--text);
+  border: 1px solid var(--border) !important;
+  font-family: var(--font);
+}
+.filter-section select:focus,
+.filter-section input[type="text"]:focus { outline: 2px solid #C2571C55; outline-offset: 1px; }
+
+.stats {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--muted) !important;
+  backdrop-filter: none;
+}
+.stats span { color: var(--text) !important; }
+.stats #selectedCount, .stats #selectedCount { color: #C2571C !important; }
+
+/* 表格 */
+table thead tr { background: var(--surface-alt) !important; }
+table th { color: var(--text) !important; }
+table td { color: var(--text); border-bottom: 1px solid var(--border); }
+table tbody tr:hover { background: #FDF0E6 !important; }
+
+/* 匯出區 */
+.export-section {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  backdrop-filter: none;
+}
+.btn-export, .btn-copy {
+  font-family: var(--font); font-weight: 600; cursor: pointer; border: none;
+  background: #C2571C; color: #fff;
+}
+.btn-export:hover, .btn-copy:hover { background: #9C4415; }
+.result-box { background: var(--surface-alt) !important; }
+.result-box pre { color: var(--text) !important; }
+
+/* 頁尾 */
+.site-footer { text-align: center; padding: 26px 16px 36px; font-size: 0.76rem; color: var(--muted); }
+.site-footer a { color: var(--muted); text-decoration: none; margin: 0 8px; }
+.site-footer a:hover { color: #C2571C; text-decoration: underline; }
+
+/* 深色模式下覆寫 Tailwind 的硬編碼色 */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .bg-white,
+  :root:not([data-theme="light"]) .bg-gray-50 { background-color: var(--surface) !important; }
+  :root:not([data-theme="light"]) .text-gray-800,
+  :root:not([data-theme="light"]) .text-gray-700 { color: var(--text) !important; }
+  :root:not([data-theme="light"]) .text-gray-600,
+  :root:not([data-theme="light"]) .text-gray-500,
+  :root:not([data-theme="light"]) .text-gray-400 { color: var(--muted) !important; }
+  :root:not([data-theme="light"]) .border-gray-100,
+  :root:not([data-theme="light"]) .border-gray-200 { border-color: var(--border) !important; }
+}
+
+.tag-pill { display: inline-block; padding: 3px 10px; border-radius: 9999px; font-size: 12px; font-weight: 600; }
+
+/* 視圖顯示控制 */
 .hidden { display: none !important; }
 .visible-grid { display: grid !important; }
 .visible-table { display: block !important; }
 
-/* 匯出結果框：預設收合，按下「匯出已選美食」才展開 */
+/* 匯出結果框預設收合 */
 .result-box { display: none; }
 .result-box.show { display: block; }
 </style>
 </head>
-<body class="p-4 md:p-8">
-<div class="max-w-7xl mx-auto">
-<nav class="mb-4">
-    <a href="../index.html" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/90 border border-gray-200 text-sm font-medium text-gray-600 hover:text-orange-600 hover:border-orange-400 shadow-sm transition-colors">← 回首頁</a>
-</nav>
+<body>
 
-<h1 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-6">🍜 大阪・京都美食選擇器</h1>
+<header class="site-header" data-hero>
+  <div class="container">
+    <h1>🍜 美食選擇器</h1>
+    <p class="sub">大阪・神戶・奈良・宇治・京都｜勾選想吃的店家</p>
+    <div class="toolbar">
+      <a class="tb-link" href="../index.html">← 回首頁</a>
+      <a class="tb-link" href="../final/index.html">📅 行程表</a>
+      <a class="tb-link" href="../map/index.html">🗺️ 地圖</a>
+      <a class="tb-link" href="attractions.html">🗾 景點選擇器</a>
+    </div>
+  </div>
+</header>
+
+<div class="max-w-7xl mx-auto page-body">
 
 <div class="view-toggle flex justify-center gap-3 mb-6">
     <button id="cardViewBtn" class="view-btn active" onclick="showCardView()">卡片視圖</button>
@@ -71,8 +151,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto
             <select id="areaFilter" onchange="updateTagOptions(); filterFoods()" class="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500">
             <option value="all">全部</option>
             <option value="大阪">大阪</option>
-            <option value="京都">京都</option>
+            <option value="神戶">神戶</option>
             <option value="奈良">奈良</option>
+            <option value="宇治">宇治</option>
+            <option value="京都">京都</option>
         </select>
         </div>
         <div class="filter-group flex items-center gap-2">
@@ -128,7 +210,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto
     <div class="result-box mt-4 p-4 bg-gray-50 rounded-xl text-left max-h-48 overflow-y-auto" id="resultBox"><pre id="resultText" class="text-sm text-gray-700 whitespace-pre-wrap"></pre></div>
 </div>
 
-<footer class="text-center mt-8 text-gray-400 text-sm">
+<footer class="site-footer">
     <a href="../index.html" class="text-gray-500 hover:underline mr-4">🏠 回首頁</a>
     <a href="../final/index.html" class="text-red-600 hover:underline mr-4">📅 完整行程表</a>
     <a href="attractions.html" class="text-green-600 hover:underline">← 景點選擇器</a>
@@ -137,58 +219,978 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto
 
 <script>
 const foods = [
-    // 大阪・道頓堀
-    { id: "tako", name: "たこ家道頓堀くくる本店", area: "大阪", location: "道頓堀", type: ["章魚燒", "local"], price: "¥500-700", hours: "11:00-22:00", address: "大阪市中央區道頓堀1-2-4", features: "外酥內嫩、漉出高湯", link: "https://www.kukuru.co.jp/" },
-    { id: "tako-acchi", name: "元祖章魚燒あっちち本舖", area: "大阪", location: "道頓堀", type: ["章魚燒", "local"], price: "¥400-600", hours: "11:00-24:00", address: "大阪市中央區道頓堀", features: "傳統口味、外脆內軟" },
-    { id: "kairori", name: "蟹道樂", area: "大阪", location: "道頓堀", type: ["螃蟹", "seafood"], price: "¥3,000-8,000", hours: "11:00-23:00", address: "大阪市中央區道頓堀1-6-4", features: "螃蟹料理、蒸烤焗", link: "https://www.kairori.co.jp/" },
-    { id: "yaege", name: "八重勝", area: "大阪", location: "道頓堀", type: ["串炸", "local"], price: "¥500-1,000", hours: "11:00-22:00", address: "大阪市西城區新世界2-2-9", features: "蓬萊麵衣、傳統串炸" },
-    { id: "daruma", name: "串炸Daruma", area: "大阪", location: "道頓堀", type: ["串炸", "local"], price: "¥500-1,200", hours: "11:00-22:00", address: "大阪市東區道頓堀2-2-32", features: "外脆內嫩、蘸醬一次", link: "https://www.kushikubodaruma.com/" },
-    { id: "kiji", name: "きじ", area: "大阪", location: "道頓堀", type: ["大阪燒", "local"], price: "¥800-1,200", hours: "11:30-21:00", address: "大阪市北區天神橋筋5", features: "現地人愛店、道地", link: "https://www.okonomiyakikiji.com/" },
-    { id: "chobo", name: "千房", area: "大阪", location: "道頓堀", type: ["大阪燒", "local"], price: "¥800-1,200", hours: "11:00-23:00", address: "大阪市江區道頓堀1-5-2", features: "口感多元、選擇多樣" },
-    { id: "goldragon", name: "金龍拉麵", area: "大阪", location: "道頓堀", type: ["拉麵", "ramen"], price: "¥600-900", hours: "24小時", address: "大阪市江區道頓堀1-7-24", features: "豚骨湯底、24小時營業" },
-    { id: "kam座", name: "神座拉麵", area: "大阪", location: "道頓堀", type: ["拉麵", "ramen"], price: "¥700-1,000", hours: "11:00-23:00", address: "大阪市江區道頓堀1-4-15", features: "白菜豚骨、批評屋" },
-    { id: "unari", name: "うまい屋", area: "大阪", location: "道頓堀", type: ["拉麵", "ramen"], price: "¥700-900", hours: "11:30-22:30", address: "大阪市江區道頓堀1-5-11", features: "濃郁豚骨湯頭" },
-    { id: "gyozada", name: "御霊花", area: "大阪", location: "道頓堀", type: ["甜點", "sweets"], price: "¥300-500", hours: "10:00-21:00", address: "大阪市中央區道頓堀1-5-3", features: "網美店、拍照打卡" },
-
-    // 大阪・心齋橋
-    { id: "hokkyokusei", name: "北極星", area: "大阪", location: "心齋橋", type: ["蛋包飯", "local"], price: "¥900-1,500", hours: "11:00-22:00", address: "大阪市中央區心齋橋筋2-3", features: "百年歷史、創始店", link: "https://www.hokkyokusei.com/" },
-    { id: "musou", name: "燒肉無雙武藏", area: "大阪", location: "心齋橋", type: ["燒肉", "meat"], price: "¥2,000-5,000", hours: "17:00-24:00", address: "大阪市中央區心齋橋筋2-2-22", features: "和牛燒肉、高cp值" },
-    { id: "elk", name: "ELK Pancake Cafe", area: "大阪", location: "心齋橋", type: ["鬆餅", "sweets"], price: "¥700-1,200", hours: "10:00-20:00", address: "大阪市中央區南船場3-11-25", features: "厚餅、水果" },
-    { id: "tables", name: "TABLES CAFE", area: "大阪", location: "心齋橋", type: ["鬆餅", "sweets"], price: "¥800-1,300", hours: "10:00-21:00", address: "大阪市中央區南船場2-2-22", features: "水果鬆餅、復古氛圍" },
-    { id: "pablo", name: "PABLO", area: "大阪", location: "心齋橋", type: ["甜點", "sweets"], price: "¥600-1,000", hours: "10:00-22:00", address: "大阪市中央區心齋橋筋1-3-3", features: "半熟起司塔", link: "https://www.pablo3.com/" },
-    { id: "rikuro", name: "rikuro's 爺爺起司蛋糕", area: "大阪", location: "心齋橋", type: ["甜點", "sweets"], price: "¥600-800", hours: "10:00-20:00", address: "大阪市北區天神橋筋6-4-17", features: "現烤起司蛋糕、冷熱皆美味" },
-
-    // 大阪・黑門市場
-    { id: "kuromon-main", name: "黑門市場", area: "大阪", location: "黑門市場", type: ["海鮮", "seafood", "local"], price: "¥500-2,000", hours: "9:00-18:00", address: "大阪市中央區日本橋2-3", features: "大阪人的廚房、海鮮現場吃" },
-    { id: "fugu", name: "河豚火鍋套餐", area: "大阪", location: "黑門市場", type: ["河豚", "seafood"], price: "¥3,000-8,000", hours: "店鋪各異", address: "黑門市場內", features: "專業處理、河豚刺身" },
-    { id: "daikisuisan", name: "大起水產", area: "大阪", location: "臨空城", type: ["壽司", "seafood"], price: "¥800-2,000", hours: "11:00-22:00", address: "臨空城SEACLE 3樓", features: "迴轉壽司、新鮮", link: "https://www.daikisuisan.com/" },
-
-    // 大阪・其他
-    { id: "daiichi", name: "本家第一旭", area: "大阪", location: "大阪", type: ["拉麵", "ramen"], price: "¥600-900", hours: "24小時", address: "大阪市北區天神橋5", features: "久留米豚骨、24小時" },
-    { id: "matsubaru", name: "이블松", area: "大阪", location: "大阪", type: ["豬排", "meat"], price: "¥1,000-2,000", hours: "11:00-21:00", address: "大阪市北區天神橋5", features: "炸豬排、Lunch" },
-    { id: "atsu mono", name: "あつもの小松", area: "大阪", location: "道頓堀", type: ["鰻魚飯", "local"], price: "¥2,000-5,000", hours: "11:00-20:00", address: "大阪市江區道頓堀1-2-3", features: "蒲燒鰻魚飯、關西口味" },
-
-    // 京都・祇園／四條
-    { id: "kyoyakiniku", name: "京燒肉弘", area: "京都", location: "祇園", type: ["燒肉", "meat"], price: "¥3,000-10,000", hours: "17:00-24:00", address: "京都市中區四條祇園町北側", features: "和牛燒肉、品格", link: "https://www.yakinikukou.co.jp/" },
-    { id: "wagyutoku", name: "和牛燒肉徳", area: "京都", location: "祇園", type: ["燒肉", "meat"], price: "¥4,000-12,000", hours: "17:00-24:00", address: "京都市中區四條祇園", features: "A5和牛、單點" },
-    { id: "mokubei", name: "杢兵衛", area: "京都", location: "祇園", type: ["京料理", "local"], price: "¥5,000-15,000", hours: "12:00-14:00；17:00-22:00", address: "京都市中區四條祇園", features: "創作料理、京料理", link: "https://www.mokubei.com/" },
-    { id: "unagi", name: "祇園鰻川藤", area: "京都", location: "祇園", type: ["鰻魚飯", "local"], price: "¥2,000-6,000", hours: "11:30-20:00", address: "京都市東區祇園町南側", features: "關西style蒲燒" },
-    { id: "smartcoffee", name: "Smart Coffee", area: "京都", location: "祇園", type: ["咖啡", "sweets"], price: "¥600-1,200", hours: "8:00-19:00", address: "京都市中區三條87", features: "經典土司、咖啡", link: "https://www.smartcoffee.jp/" },
-    { id: "yojiya", name: "Yojiya Cafe", area: "京都", location: "祇園", type: ["抹茶", "sweets"], price: "¥500-1,200", hours: "10:00-18:00", address: "京都市東區祇園町", features: "抹茶奶油蛋糕捲、抹茶拿鐵", link: "https://www.yojiya.co.jp/" },
-    { id: "gyodontsuya", name: "ぎおん徳屋", area: "京都", location: "祇園", type: ["甜點", "sweets"], price: "¥800-1,500", hours: "12:00-18:00", address: "京都市東區祇園町", features: "德屋本蕨餅、花見こもち", link: "https://www.yachiyo.co.jp/" },
-
-    // 京都・嵐山
-    { id: "obuu", name: "嵐山OBUU", area: "京都", location: "嵐山", type: ["抹茶", "sweets"], price: "¥500-1,000", hours: "10:00-17:00", address: "京都市右京區嵯峨嵐山町", features: "抹茶甜點、名物" },
-    { id: "arabica", name: "% Arabica", area: "京都", location: "嵐山", type: ["咖啡"], price: "¥400-700", hours: "9:00-18:00", address: "京都市右京區嵯峨天龍寺車道町1", features: "咖啡拉花、桂川河景", link: "https://percent-coffee.com/" },
-    { id: "arashiyama-tako", name: "嵐山太郎", area: "京都", location: "嵐山", type: ["章魚燒", "local"], price: "¥400-600", hours: "10:00-19:00", address: "京都市右京區嵯峨嵐山町", features: "嵐山名物、觀光客最愛" },
-
-    // 京都・其他
-    { id: "nihonbarai", name: "日本橋拉麵", area: "京都", location: "京都", type: ["拉麵", "ramen"], price: "¥700-1,000", hours: "11:00-22:00", address: "京都市下京區烏丸五條", features: "久留米豚骨、久留米風" },
-    { id: "tengu", name: "天狗", area: "京都", location: "京都", type: ["拉麵", "ramen"], price: "¥800-1,000", hours: "11:30-14:00；18:00-23:00", address: "京都市下京區四條寺町", features: "雞白湯、沾麵" },
-    { id: "taku", name: "たく", area: "京都", location: "京都", type: ["燒肉", "meat"], price: "¥3,000-8,000", hours: "17:00-23:00", address: "京都市中區木屋町", features: "和牛燒肉、氣氛佳" },
-
-    // 奈良
-    { id: "mochi", name: "奈良老街柿葉壽司", area: "奈良", location: "奈良", type: ["壽司", "local"], price: "¥500-1,000", hours: "店鋪各異", address: "奈良市元和林町", features: "傳統建築、柿葉壽司" }
+  {
+    "id": "atsu mono",
+    "name": "あつもの小松",
+    "area": "大阪",
+    "location": "道頓堀",
+    "type": [
+      "大阪",
+      "鰻魚飯",
+      "在地名物"
+    ],
+    "price": "¥2,000-5,000",
+    "hours": "11:00-20:00",
+    "address": "大阪市江區道頓堀1-2-3",
+    "features": "蒲燒鰻魚飯、關西口味"
+  },
+  {
+    "id": "chobo",
+    "name": "千房",
+    "area": "大阪",
+    "location": "道頓堀",
+    "type": [
+      "大阪",
+      "大阪燒",
+      "在地名物"
+    ],
+    "price": "¥800-1,200",
+    "hours": "11:00-23:00",
+    "address": "大阪市江區道頓堀1-5-2",
+    "features": "口感多元、選擇多樣"
+  },
+  {
+    "id": "daiichi",
+    "name": "本家第一旭",
+    "area": "大阪",
+    "location": "大阪",
+    "type": [
+      "大阪",
+      "拉麵"
+    ],
+    "price": "¥600-900",
+    "hours": "24小時",
+    "address": "大阪市北區天神橋5",
+    "features": "久留米豚骨、24小時"
+  },
+  {
+    "id": "daikisuisan",
+    "name": "大起水產",
+    "area": "大阪",
+    "location": "臨空城",
+    "type": [
+      "大阪",
+      "壽司",
+      "海鮮"
+    ],
+    "price": "¥800-2,000",
+    "hours": "11:00-22:00",
+    "address": "臨空城SEACLE 3樓",
+    "features": "迴轉壽司、新鮮",
+    "link": "https://www.daikisuisan.com/"
+  },
+  {
+    "id": "daruma",
+    "name": "串炸Daruma",
+    "area": "大阪",
+    "location": "道頓堀",
+    "type": [
+      "大阪",
+      "串炸",
+      "在地名物"
+    ],
+    "price": "¥500-1,200",
+    "hours": "11:00-22:00",
+    "address": "大阪市東區道頓堀2-2-32",
+    "features": "外脆內嫩、蘸醬一次",
+    "link": "https://www.kushikubodaruma.com/"
+  },
+  {
+    "id": "daruma-shinsekai",
+    "name": "串カツだるま 新世界總本店",
+    "area": "大阪",
+    "location": "新世界",
+    "type": [
+      "大阪",
+      "串炸",
+      "在地名物"
+    ],
+    "price": "每串約 ¥130-300",
+    "hours": "",
+    "address": "大阪市浪速區恵美須東2-3-9",
+    "features": "1929 年創業的串炸元祖名店，現炸淋秘傳醬汁，高麗菜免費無限續。醬汁禁止二次沾取",
+    "link": ""
+  },
+  {
+    "id": "elk",
+    "name": "ELK Pancake Cafe",
+    "area": "大阪",
+    "location": "心齋橋",
+    "type": [
+      "大阪",
+      "鬆餅",
+      "甜點"
+    ],
+    "price": "¥700-1,200",
+    "hours": "10:00-20:00",
+    "address": "大阪市中央區南船場3-11-25",
+    "features": "厚餅、水果"
+  },
+  {
+    "id": "fugu",
+    "name": "河豚火鍋套餐",
+    "area": "大阪",
+    "location": "黑門市場",
+    "type": [
+      "大阪",
+      "河豚",
+      "海鮮"
+    ],
+    "price": "¥3,000-8,000",
+    "hours": "店鋪各異",
+    "address": "黑門市場內",
+    "features": "專業處理、河豚刺身"
+  },
+  {
+    "id": "goldragon",
+    "name": "金龍拉麵",
+    "area": "大阪",
+    "location": "道頓堀",
+    "type": [
+      "大阪",
+      "拉麵"
+    ],
+    "price": "¥600-900",
+    "hours": "24小時",
+    "address": "大阪市江區道頓堀1-7-24",
+    "features": "豚骨湯底、24小時營業"
+  },
+  {
+    "id": "gyozada",
+    "name": "御霊花",
+    "area": "大阪",
+    "location": "道頓堀",
+    "type": [
+      "大阪",
+      "甜點"
+    ],
+    "price": "¥300-500",
+    "hours": "10:00-21:00",
+    "address": "大阪市中央區道頓堀1-5-3",
+    "features": "網美店、拍照打卡"
+  },
+  {
+    "id": "hokkyokusei",
+    "name": "北極星",
+    "area": "大阪",
+    "location": "心齋橋",
+    "type": [
+      "大阪",
+      "蛋包飯",
+      "在地名物"
+    ],
+    "price": "¥900-1,500",
+    "hours": "11:00-22:00",
+    "address": "大阪市中央區心齋橋筋2-3",
+    "features": "百年歷史、創始店",
+    "link": "https://www.hokkyokusei.com/"
+  },
+  {
+    "id": "ittoku-shinsekai",
+    "name": "新世界 串カツ いっとく",
+    "area": "大阪",
+    "location": "新世界",
+    "type": [
+      "大阪",
+      "串炸"
+    ],
+    "price": "",
+    "hours": "",
+    "address": "大阪市浪速區恵美須東",
+    "features": "在地人愛的平價串炸，黃金炸串與土手燒為招牌",
+    "link": ""
+  },
+  {
+    "id": "kairori",
+    "name": "蟹道樂",
+    "area": "大阪",
+    "location": "道頓堀",
+    "type": [
+      "大阪",
+      "螃蟹",
+      "海鮮"
+    ],
+    "price": "¥3,000-8,000",
+    "hours": "11:00-23:00",
+    "address": "大阪市中央區道頓堀1-6-4",
+    "features": "螃蟹料理、蒸烤焗",
+    "link": "https://www.kairori.co.jp/"
+  },
+  {
+    "id": "kam座",
+    "name": "神座拉麵",
+    "area": "大阪",
+    "location": "道頓堀",
+    "type": [
+      "大阪",
+      "拉麵"
+    ],
+    "price": "¥700-1,000",
+    "hours": "11:00-23:00",
+    "address": "大阪市江區道頓堀1-4-15",
+    "features": "白菜豚骨、批評屋"
+  },
+  {
+    "id": "kiji",
+    "name": "きじ",
+    "area": "大阪",
+    "location": "道頓堀",
+    "type": [
+      "大阪",
+      "大阪燒",
+      "在地名物"
+    ],
+    "price": "¥800-1,200",
+    "hours": "11:30-21:00",
+    "address": "大阪市北區天神橋筋5",
+    "features": "現地人愛店、道地",
+    "link": "https://www.okonomiyakikiji.com/"
+  },
+  {
+    "id": "kuromon-main",
+    "name": "黑門市場",
+    "area": "大阪",
+    "location": "黑門市場",
+    "type": [
+      "大阪",
+      "海鮮",
+      "在地名物"
+    ],
+    "price": "¥500-2,000",
+    "hours": "9:00-18:00",
+    "address": "大阪市中央區日本橋2-3",
+    "features": "大阪人的廚房、海鮮現場吃"
+  },
+  {
+    "id": "matsubaru",
+    "name": "이블松",
+    "area": "大阪",
+    "location": "大阪",
+    "type": [
+      "大阪",
+      "豬排",
+      "肉料理"
+    ],
+    "price": "¥1,000-2,000",
+    "hours": "11:00-21:00",
+    "address": "大阪市北區天神橋5",
+    "features": "炸豬排、Lunch"
+  },
+  {
+    "id": "musou",
+    "name": "燒肉無雙武藏",
+    "area": "大阪",
+    "location": "心齋橋",
+    "type": [
+      "大阪",
+      "燒肉",
+      "肉料理"
+    ],
+    "price": "¥2,000-5,000",
+    "hours": "17:00-24:00",
+    "address": "大阪市中央區心齋橋筋2-2-22",
+    "features": "和牛燒肉、高cp值"
+  },
+  {
+    "id": "pablo",
+    "name": "PABLO",
+    "area": "大阪",
+    "location": "心齋橋",
+    "type": [
+      "大阪",
+      "甜點"
+    ],
+    "price": "¥600-1,000",
+    "hours": "10:00-22:00",
+    "address": "大阪市中央區心齋橋筋1-3-3",
+    "features": "半熟起司塔",
+    "link": "https://www.pablo3.com/"
+  },
+  {
+    "id": "rikuro",
+    "name": "rikuro's 爺爺起司蛋糕",
+    "area": "大阪",
+    "location": "心齋橋",
+    "type": [
+      "大阪",
+      "甜點"
+    ],
+    "price": "¥600-800",
+    "hours": "10:00-20:00",
+    "address": "大阪市北區天神橋筋6-4-17",
+    "features": "現烤起司蛋糕、冷熱皆美味"
+  },
+  {
+    "id": "tables",
+    "name": "TABLES CAFE",
+    "area": "大阪",
+    "location": "心齋橋",
+    "type": [
+      "大阪",
+      "鬆餅",
+      "甜點"
+    ],
+    "price": "¥800-1,300",
+    "hours": "10:00-21:00",
+    "address": "大阪市中央區南船場2-2-22",
+    "features": "水果鬆餅、復古氛圍"
+  },
+  {
+    "id": "tako",
+    "name": "たこ家道頓堀くくる本店",
+    "area": "大阪",
+    "location": "道頓堀",
+    "type": [
+      "大阪",
+      "章魚燒",
+      "在地名物"
+    ],
+    "price": "¥500-700",
+    "hours": "11:00-22:00",
+    "address": "大阪市中央區道頓堀1-2-4",
+    "features": "外酥內嫩、漉出高湯",
+    "link": "https://www.kukuru.co.jp/"
+  },
+  {
+    "id": "tako-acchi",
+    "name": "元祖章魚燒あっちち本舖",
+    "area": "大阪",
+    "location": "道頓堀",
+    "type": [
+      "大阪",
+      "章魚燒",
+      "在地名物"
+    ],
+    "price": "¥400-600",
+    "hours": "11:00-24:00",
+    "address": "大阪市中央區道頓堀",
+    "features": "傳統口味、外脆內軟"
+  },
+  {
+    "id": "unari",
+    "name": "うまい屋",
+    "area": "大阪",
+    "location": "道頓堀",
+    "type": [
+      "大阪",
+      "拉麵"
+    ],
+    "price": "¥700-900",
+    "hours": "11:30-22:30",
+    "address": "大阪市江區道頓堀1-5-11",
+    "features": "濃郁豚骨湯頭"
+  },
+  {
+    "id": "yaege",
+    "name": "八重勝",
+    "area": "大阪",
+    "location": "道頓堀",
+    "type": [
+      "大阪",
+      "串炸",
+      "在地名物"
+    ],
+    "price": "¥500-1,000",
+    "hours": "11:00-22:00",
+    "address": "大阪市西城區新世界2-2-9",
+    "features": "蓬萊麵衣、傳統串炸"
+  },
+  {
+    "id": "yaekatsu",
+    "name": "串炸 八重勝",
+    "area": "大阪",
+    "location": "新世界",
+    "type": [
+      "大阪",
+      "串炸",
+      "排隊名店"
+    ],
+    "price": "",
+    "hours": "",
+    "address": "大阪市浪速區恵美須東3-4-13",
+    "features": "新世界本通商店街的排隊名店，日本人也愛，麵衣薄、外酥內多汁",
+    "link": ""
+  },
+  {
+    "id": "ca-marche",
+    "name": "Ça Marche",
+    "area": "神戶",
+    "location": "北野",
+    "type": [
+      "神戶",
+      "麵包"
+    ],
+    "price": "",
+    "hours": "",
+    "address": "神戶市中央區北野",
+    "features": "日本麵包大師西川功晃於 2010 年獨立開設，最推薦用米粉製作的法棍",
+    "link": ""
+  },
+  {
+    "id": "comme-chinois",
+    "name": "コム・シノワ（comme chinois）",
+    "area": "神戶",
+    "location": "三宮",
+    "type": [
+      "神戶",
+      "麵包",
+      "排隊名店"
+    ],
+    "price": "",
+    "hours": "",
+    "address": "JR 神戶三宮車站前",
+    "features": "深受在地人喜愛，蟬聯多年 Tabelog 百大麵包名店榜",
+    "link": ""
+  },
+  {
+    "id": "ishida-kobe",
+    "name": "神戸牛ステーキ Ishida",
+    "area": "神戶",
+    "location": "三宮",
+    "type": [
+      "神戶",
+      "肉料理",
+      "鐵板燒"
+    ],
+    "price": "",
+    "hours": "",
+    "address": "神戶市中央區（三宮車站附近）",
+    "features": "高品質神戶牛排，油花細緻、鐵板現煎。Day3 已訂 Mouriya，此為備案",
+    "link": ""
+  },
+  {
+    "id": "nishimura-coffee",
+    "name": "にしむら珈琲店 中山手本店",
+    "area": "神戶",
+    "location": "三宮",
+    "type": [
+      "神戶",
+      "咖啡",
+      "早餐"
+    ],
+    "price": "",
+    "hours": "",
+    "address": "神戶市中央區中山手通1-26-3",
+    "features": "開業近 80 年，傳統木屋建築，手沖咖啡搭配伊萬里燒杯具與鬆餅，經典的神戶下午茶",
+    "link": ""
+  },
+  {
+    "id": "roshoki",
+    "name": "老祥記",
+    "area": "神戶",
+    "location": "南京町",
+    "type": [
+      "神戶",
+      "在地名物",
+      "排隊名店"
+    ],
+    "price": "",
+    "hours": "",
+    "address": "神戶市中央區元町通2-1-14",
+    "features": "1915 年創業的百年老店，招牌豚まん（豬肉包）外皮厚薄適中有嚼勁、肉餡鮮甜多汁，南京町的排隊名物",
+    "link": ""
+  },
+  {
+    "id": "tooth-tooth",
+    "name": "TOOTH TOOTH 本店",
+    "area": "神戶",
+    "location": "三宮",
+    "type": [
+      "神戶",
+      "甜點",
+      "洋食"
+    ],
+    "price": "",
+    "hours": "",
+    "address": "神戶市中央區",
+    "features": "精緻西式餐點與甜點聖代，英式下午茶套餐頗受歡迎",
+    "link": ""
+  },
+  {
+    "id": "daibutsu-pudding",
+    "name": "大佛布丁（まほろば大仏プリン）",
+    "area": "奈良",
+    "location": "近鐵奈良站",
+    "type": [
+      "奈良",
+      "甜點",
+      "伴手禮"
+    ],
+    "price": "",
+    "hours": "",
+    "address": "奈良市（近鐵奈良站等處設點）",
+    "features": "瓶蓋印著大佛臉的人氣布丁，奈良必買伴手禮代表",
+    "link": ""
+  },
+  {
+    "id": "hiraso-nara",
+    "name": "平宗 柿葉壽司 奈良店",
+    "area": "奈良",
+    "location": "奈良町",
+    "type": [
+      "奈良",
+      "壽司",
+      "在地名物"
+    ],
+    "price": "",
+    "hours": "",
+    "address": "奈良市今御門町30-1",
+    "features": "逾 150 年的老字號。鯛魚、鯖魚、鮭魚醃漬後包柿葉，香氣融入壽司。附設餐廳，可在興福寺鐘聲中用餐",
+    "link": ""
+  },
+  {
+    "id": "housekibako",
+    "name": "ほうせき箱",
+    "area": "奈良",
+    "location": "奈良町",
+    "type": [
+      "奈良",
+      "甜點",
+      "排隊名店"
+    ],
+    "price": "",
+    "hours": "",
+    "address": "奈良市餅飯殿町47",
+    "features": "奈良知名刨冰店，綿密細雪般的冰搭配季節醬汁，需線上排隊",
+    "link": ""
+  },
+  {
+    "id": "mentouan",
+    "name": "麵鬪庵",
+    "area": "奈良",
+    "location": "近鐵奈良站商店街",
+    "type": [
+      "奈良",
+      "烏龍麵"
+    ],
+    "price": "",
+    "hours": "",
+    "address": "奈良市橋本町",
+    "features": "商店街內人氣烏龍麵店，招牌是裝在大福袋裡的巾着きつね",
+    "link": ""
+  },
+  {
+    "id": "mochi",
+    "name": "奈良老街柿葉壽司",
+    "area": "奈良",
+    "location": "奈良",
+    "type": [
+      "奈良",
+      "壽司",
+      "在地名物"
+    ],
+    "price": "¥500-1,000",
+    "hours": "店鋪各異",
+    "address": "奈良市元和林町",
+    "features": "傳統建築、柿葉壽司"
+  },
+  {
+    "id": "nakatanidou",
+    "name": "中谷堂",
+    "area": "奈良",
+    "location": "近鐵奈良站商店街",
+    "type": [
+      "奈良",
+      "甜點",
+      "在地名物",
+      "排隊名店"
+    ],
+    "price": "",
+    "hours": "",
+    "address": "奈良市橋本町29",
+    "features": "高速搗麻糬表演爆紅的名店，艾草紅豆麻糬軟嫩帶草香。2018 年起五年獲食べログ百名店。想吃現搗熱麻糬，最佳時機是中午過後～下午 3、4 點",
+    "link": ""
+  },
+  {
+    "id": "shizuka-nara",
+    "name": "志津香 釜飯",
+    "area": "奈良",
+    "location": "奈良公園周邊",
+    "type": [
+      "奈良",
+      "釜飯",
+      "排隊名店"
+    ],
+    "price": "",
+    "hours": "",
+    "address": "奈良市",
+    "features": "Tabelog 奈良美食排行前段的釜飯名店，現點現炊需等候",
+    "link": ""
+  },
+  {
+    "id": "tengyokudo",
+    "name": "吉野本葛 天極堂",
+    "area": "奈良",
+    "location": "奈良公園周邊",
+    "type": [
+      "奈良",
+      "甜點",
+      "在地名物"
+    ],
+    "price": "",
+    "hours": "",
+    "address": "奈良市押上町1-6",
+    "features": "吉野本葛專門店，現做葛餅透明滑順，只能當場吃",
+    "link": ""
+  },
+  {
+    "id": "itohkyuemon",
+    "name": "伊藤久右衛門 宇治站前店",
+    "area": "宇治",
+    "location": "JR宇治站前",
+    "type": [
+      "宇治",
+      "抹茶",
+      "甜點"
+    ],
+    "price": "",
+    "hours": "茶房 10:00-18:00",
+    "address": "宇治市宇治",
+    "features": "1832 年創立。抹茶拉麵、抹茶蕎麥麵、抹茶咖哩等鹹食，以及招牌抹茶芭菲",
+    "link": "https://www.itohkyuemon.co.jp/"
+  },
+  {
+    "id": "nakamura-tokichi",
+    "name": "中村藤吉 本店",
+    "area": "宇治",
+    "location": "JR宇治站前",
+    "type": [
+      "宇治",
+      "抹茶",
+      "甜點",
+      "排隊名店"
+    ],
+    "price": "",
+    "hours": "10:00-17:30",
+    "address": "宇治市宇治壹番十番地",
+    "features": "1854 年創業、逾 170 年。竹筒裝「まるとパフェ抹茶」與「生茶ゼリイ抹茶」僅本店供應，不可預約、現場抽號，常提早售罄",
+    "link": "https://tokichi.jp/"
+  },
+  {
+    "id": "tsujiri-uji",
+    "name": "辻利 本店",
+    "area": "宇治",
+    "location": "宇治橋通",
+    "type": [
+      "宇治",
+      "抹茶",
+      "甜點"
+    ],
+    "price": "",
+    "hours": "10:00-18:00（週一、二公休）",
+    "address": "宇治市宇治",
+    "features": "宇治四大茶舖之一。注意週一、二公休，排行程要避開",
+    "link": ""
+  },
+  {
+    "id": "tsuuen",
+    "name": "通圓",
+    "area": "宇治",
+    "location": "宇治橋東側",
+    "type": [
+      "宇治",
+      "抹茶",
+      "在地名物"
+    ],
+    "price": "",
+    "hours": "",
+    "address": "宇治市宇治東內1",
+    "features": "宇治橋旁的老舖茶屋，與中村藤吉、辻利、伊藤久右衛門並列宇治四大茶舖",
+    "link": ""
+  },
+  {
+    "id": "arabica",
+    "name": "% Arabica",
+    "area": "京都",
+    "location": "嵐山",
+    "type": [
+      "京都",
+      "咖啡"
+    ],
+    "price": "¥400-700",
+    "hours": "9:00-18:00",
+    "address": "京都市右京區嵯峨天龍寺車道町1",
+    "features": "咖啡拉花、桂川河景",
+    "link": "https://percent-coffee.com/"
+  },
+  {
+    "id": "arashiyama-tako",
+    "name": "嵐山太郎",
+    "area": "京都",
+    "location": "嵐山",
+    "type": [
+      "京都",
+      "章魚燒",
+      "在地名物"
+    ],
+    "price": "¥400-600",
+    "hours": "10:00-19:00",
+    "address": "京都市右京區嵯峨嵐山町",
+    "features": "嵐山名物、觀光客最愛"
+  },
+  {
+    "id": "francois",
+    "name": "フランソア喫茶室（Francois）",
+    "area": "京都",
+    "location": "河原町",
+    "type": [
+      "京都",
+      "咖啡",
+      "早餐"
+    ],
+    "price": "",
+    "hours": "",
+    "address": "京都市下京區西木屋町通四条下ル",
+    "features": "近 90 年的巴洛克風格老喫茶店，必點厚蛋三明治與起司蛋糕",
+    "link": ""
+  },
+  {
+    "id": "gyodontsuya",
+    "name": "ぎおん徳屋",
+    "area": "京都",
+    "location": "祇園",
+    "type": [
+      "京都",
+      "甜點"
+    ],
+    "price": "¥800-1,500",
+    "hours": "12:00-18:00",
+    "address": "京都市東區祇園町",
+    "features": "德屋本蕨餅、花見こもち",
+    "link": "https://www.yachiyo.co.jp/"
+  },
+  {
+    "id": "ichikawaya",
+    "name": "市川屋珈琲",
+    "area": "京都",
+    "location": "清水寺周邊",
+    "type": [
+      "京都",
+      "咖啡",
+      "早餐",
+      "排隊名店"
+    ],
+    "price": "",
+    "hours": "",
+    "address": "京都市東山區鐘鑄町396-2",
+    "features": "200 年町家老屋改造，法蘭絨濾布手沖咖啡，隨季節變換的水果三明治。Tabelog 百名店",
+    "link": ""
+  },
+  {
+    "id": "inoda-coffee",
+    "name": "INODA COFFEE 本店",
+    "area": "京都",
+    "location": "京都市中心",
+    "type": [
+      "京都",
+      "咖啡",
+      "早餐"
+    ],
+    "price": "",
+    "hours": "",
+    "address": "京都市中京區堺町通三条下ル道祐町140",
+    "features": "京都代表性的老派喫茶店，早餐「京の朝食」為經典選擇",
+    "link": ""
+  },
+  {
+    "id": "kyoyakiniku",
+    "name": "京燒肉弘",
+    "area": "京都",
+    "location": "祇園",
+    "type": [
+      "京都",
+      "燒肉",
+      "肉料理"
+    ],
+    "price": "¥3,000-10,000",
+    "hours": "17:00-24:00",
+    "address": "京都市中區四條祇園町北側",
+    "features": "和牛燒肉、品格",
+    "link": "https://www.yakinikukou.co.jp/"
+  },
+  {
+    "id": "miki-keiran",
+    "name": "三木雞卵",
+    "area": "京都",
+    "location": "錦市場",
+    "type": [
+      "京都",
+      "在地名物"
+    ],
+    "price": "",
+    "hours": "約 09:00-18:00",
+    "address": "京都市中京區錦小路通富小路西入",
+    "features": "錦市場的玉子燒名店，口感細緻滑嫩、蛋香濃郁充滿高湯鮮味。錦市場禁止邊走邊吃，請在店家指定區域食用",
+    "link": ""
+  },
+  {
+    "id": "mokubei",
+    "name": "杢兵衛",
+    "area": "京都",
+    "location": "祇園",
+    "type": [
+      "京都",
+      "京料理",
+      "在地名物"
+    ],
+    "price": "¥5,000-15,000",
+    "hours": "12:00-14:00；17:00-22:00",
+    "address": "京都市中區四條祇園",
+    "features": "創作料理、京料理",
+    "link": "https://www.mokubei.com/"
+  },
+  {
+    "id": "nihonbarai",
+    "name": "日本橋拉麵",
+    "area": "京都",
+    "location": "京都",
+    "type": [
+      "京都",
+      "拉麵"
+    ],
+    "price": "¥700-1,000",
+    "hours": "11:00-22:00",
+    "address": "京都市下京區烏丸五條",
+    "features": "久留米豚骨、久留米風"
+  },
+  {
+    "id": "obuu",
+    "name": "嵐山OBUU",
+    "area": "京都",
+    "location": "嵐山",
+    "type": [
+      "京都",
+      "抹茶",
+      "甜點"
+    ],
+    "price": "¥500-1,000",
+    "hours": "10:00-17:00",
+    "address": "京都市右京區嵯峨嵐山町",
+    "features": "抹茶甜點、名物"
+  },
+  {
+    "id": "ogawa-sakaimachi",
+    "name": "小川咖啡 堺町錦店",
+    "area": "京都",
+    "location": "錦市場",
+    "type": [
+      "京都",
+      "咖啡",
+      "早餐"
+    ],
+    "price": "早餐約 ¥2,200",
+    "hours": "",
+    "address": "京都市中京區堺町通錦小路",
+    "features": "2022 年開幕。人氣早餐是煙燻鮭魚與自製鷹嘴豆泥沙拉拼盤搭配炭烤吐司",
+    "link": ""
+  },
+  {
+    "id": "smartcoffee",
+    "name": "Smart Coffee",
+    "area": "京都",
+    "location": "祇園",
+    "type": [
+      "京都",
+      "咖啡",
+      "甜點"
+    ],
+    "price": "¥600-1,200",
+    "hours": "8:00-19:00",
+    "address": "京都市中區三條87",
+    "features": "經典土司、咖啡",
+    "link": "https://www.smartcoffee.jp/"
+  },
+  {
+    "id": "takagi-coffee",
+    "name": "高木珈琲",
+    "area": "京都",
+    "location": "河原町",
+    "type": [
+      "京都",
+      "咖啡",
+      "早餐"
+    ],
+    "price": "",
+    "hours": "",
+    "address": "京都市",
+    "features": "1976 年營運至今，早餐套餐 CP 值高：厚切吐司配炒蛋、熱狗與黑咖啡",
+    "link": ""
+  },
+  {
+    "id": "taku",
+    "name": "たく",
+    "area": "京都",
+    "location": "京都",
+    "type": [
+      "京都",
+      "燒肉",
+      "肉料理"
+    ],
+    "price": "¥3,000-8,000",
+    "hours": "17:00-23:00",
+    "address": "京都市中區木屋町",
+    "features": "和牛燒肉、氣氛佳"
+  },
+  {
+    "id": "tengu",
+    "name": "天狗",
+    "area": "京都",
+    "location": "京都",
+    "type": [
+      "京都",
+      "拉麵"
+    ],
+    "price": "¥800-1,000",
+    "hours": "11:30-14:00；18:00-23:00",
+    "address": "京都市下京區四條寺町",
+    "features": "雞白湯、沾麵"
+  },
+  {
+    "id": "unagi",
+    "name": "祇園鰻川藤",
+    "area": "京都",
+    "location": "祇園",
+    "type": [
+      "京都",
+      "鰻魚飯",
+      "在地名物"
+    ],
+    "price": "¥2,000-6,000",
+    "hours": "11:30-20:00",
+    "address": "京都市東區祇園町南側",
+    "features": "關西style蒲燒"
+  },
+  {
+    "id": "wagyutoku",
+    "name": "和牛燒肉徳",
+    "area": "京都",
+    "location": "祇園",
+    "type": [
+      "京都",
+      "燒肉",
+      "肉料理"
+    ],
+    "price": "¥4,000-12,000",
+    "hours": "17:00-24:00",
+    "address": "京都市中區四條祇園",
+    "features": "A5和牛、單點"
+  },
+  {
+    "id": "yojiya",
+    "name": "Yojiya Cafe",
+    "area": "京都",
+    "location": "祇園",
+    "type": [
+      "京都",
+      "抹茶",
+      "甜點"
+    ],
+    "price": "¥500-1,200",
+    "hours": "10:00-18:00",
+    "address": "京都市東區祇園町",
+    "features": "抹茶奶油蛋糕捲、抹茶拿鐵",
+    "link": "https://www.yojiya.co.jp/"
+  }
 ];
 
 let currentView = 'card';
@@ -196,25 +1198,45 @@ const selectedSet = new Set();
 const selectedTags = new Set();
 
 function getTagClass(tag) {
+    // 注意：key 必須與資料中 type 陣列的實際值一致，否則會掉到灰色預設值
     const classes = {
-        'city-osaka': { background: '#fff3e0', color: '#e65100' },
-        'city-kyoto': { background: '#e8f5e9', color: '#2e7d32' },
-        'city-nara': { background: '#f3e5f5', color: '#7b1fa2' },
-        'area-dotonbori': { background: '#ffcdd2', color: '#c62828' },
-        'area-shinsaibashi': { background: '#f8bbd9', color: '#880e4f' },
-        'area-kuromon': { background: '#e1bee7', color: '#6a1b9a' },
-        'area-gion': { background: '#d7f9d0', color: '#2e7d32' },
-        'area-arashiyama': { background: '#fff9c4', color: '#f57f17' },
-        'type-ramen': { background: '#ffe0b2', color: '#e65100' },
-        'type-seafood': { background: '#b3e5fc', color: '#0277bd' },
-        'type-meat': { background: '#f3e5f5', color: '#7b1fa2' },
-        'type-sweets': { background: '#f8bbd9', color: '#880e4f' },
-        'type-local': { background: '#ffccbc', color: '#bf360c' },
-        'price-low': { background: '#c8e6c9', color: '#2e7d32' },
-        'price-med': { background: '#fff9c4', color: '#f57f17' },
-        'price-high': { background: '#ffcdd2', color: '#c62828' }
+        // 地區
+        '大阪':   { background: '#FDE8E0', color: '#A8391A' },
+        '京都':   { background: '#E3EFE6', color: '#2F6B49' },
+        '奈良':   { background: '#EFE6F5', color: '#6B3E96' },
+        '神戶':   { background: '#E3EEF7', color: '#34557F' },
+        '宇治':   { background: '#E6F2EA', color: '#2E7D57' },
+        // 類型
+        '拉麵':   { background: '#FEF0DC', color: '#8A5A15' },
+        '壽司':   { background: '#E1F1FA', color: '#1D6489' },
+        '海鮮':   { background: '#E1F1FA', color: '#1D6489' },
+        '燒肉':   { background: '#FBE3E3', color: '#9E2B2B' },
+        '肉料理': { background: '#FBE3E3', color: '#9E2B2B' },
+        '鐵板燒': { background: '#FBE3E3', color: '#9E2B2B' },
+        '串炸':   { background: '#FDEBD8', color: '#96521A' },
+        '大阪燒': { background: '#FDEBD8', color: '#96521A' },
+        '章魚燒': { background: '#FDEBD8', color: '#96521A' },
+        '河豚':   { background: '#E1F1FA', color: '#1D6489' },
+        '螃蟹':   { background: '#E1F1FA', color: '#1D6489' },
+        '鰻魚飯': { background: '#F2E8DA', color: '#7A5520' },
+        '豬排':   { background: '#F2E8DA', color: '#7A5520' },
+        '蛋包飯': { background: '#FEF3D8', color: '#7A4F1A' },
+        '釜飯':   { background: '#F2E8DA', color: '#7A5520' },
+        '烏龍麵': { background: '#FEF0DC', color: '#8A5A15' },
+        '京料理': { background: '#E3EFE6', color: '#2F6B49' },
+        '洋食':   { background: '#EFE6F5', color: '#6B3E96' },
+        '甜點':   { background: '#FBE4EE', color: '#9B2C63' },
+        '鬆餅':   { background: '#FBE4EE', color: '#9B2C63' },
+        '抹茶':   { background: '#DFF0E3', color: '#2B6B41' },
+        '咖啡':   { background: '#EDE3D8', color: '#6B4A2C' },
+        '麵包':   { background: '#F7EAD5', color: '#8A6222' },
+        '早餐':   { background: '#FEF6E2', color: '#8A6A1E' },
+        // 屬性
+        '在地名物': { background: '#FDE0D4', color: '#9C3C14' },
+        '排隊名店': { background: '#FBDCDC', color: '#A32828' },
+        '伴手禮':   { background: '#EFE6F5', color: '#6B3E96' }
     };
-    return classes[tag] || { background: '#f5f5f5', color: '#616161' };
+    return classes[tag] || { background: '#EFEAE2', color: '#6B6255' };
 }
 
 function getPriceClass(price) {
@@ -404,5 +1426,7 @@ updateTagOptions();
 showCardView(); // 確保卡片視圖預設為顯示
 filterFoods();
 </script>
+<script src="../assets/hero/hero.js"></script>
+<script>if (window.applyHero) window.applyHero('../assets/hero/');</script>
 </body>
 </html>
