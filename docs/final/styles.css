@@ -193,6 +193,22 @@ img {
   border-bottom-color: var(--primary);
 }
 
+/* 今天那一天：小圓點標記，旅途中一眼看到自己在第幾天 */
+.day-nav button.is-today {
+  position: relative;
+}
+
+.day-nav button.is-today::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
 /* === Main Content === */
 main {
   padding: 16px 0 40px;
@@ -485,6 +501,19 @@ main {
   text-decoration: none;
 }
 
+/* 連往地圖頁的 chip，跟 Google Maps 的地點 chip 區隔開 */
+.day-maps .map-chip-primary {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+.day-maps .map-chip-primary:hover {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
+  color: #fff;
+}
+
 /* === Footer === */
 .site-footer {
   background: var(--text-dark);
@@ -586,7 +615,8 @@ main {
   flex-wrap: wrap;
 }
 
-.toolbar button {
+.toolbar button,
+.toolbar .tb-link {
   background: rgba(255,255,255,0.18);
   border: 1px solid rgba(255,255,255,0.42);
   color: white;
@@ -594,13 +624,22 @@ main {
   border-radius: 20px;
   font-size: 0.78rem;
   font-family: var(--font-noto);
+  line-height: 1.5;
   cursor: pointer;
   transition: background 0.2s;
 }
 
+.toolbar .tb-link {
+  text-decoration: none;
+  display: inline-block;
+}
+
 .toolbar button:hover,
+.toolbar .tb-link:hover,
 .toolbar button[aria-pressed="true"] {
   background: rgba(255,255,255,0.36);
+  color: white;
+  text-decoration: none;
 }
 
 /* 日文地名（預設隱藏，切換後顯示於中文名下一行） */

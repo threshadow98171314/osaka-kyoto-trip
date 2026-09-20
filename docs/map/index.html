@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>行程地圖｜大阪・京都之旅 2026</title>
+<meta name="description" content="2026 關西 8天7夜行程地圖 — 依日期檢視每天的移動路線與景點">
+<meta name="theme-color" content="#B5451B">
+
+<!-- Leaflet：開源地圖元件，圖資來自 OpenStreetMap，不需 API key -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+<style>
+:root {
+  --primary: #B5451B;
+  --primary-dark: #8C2E0A;
+  --primary-light: #D4652F;
+  --secondary: #4A6FA5;
+  --accent: #C49A3C;
+  --bg: #FAF8F5;
+  --surface: #FFFFFF;
+  --surface-alt: #F1F4F8;
+  --text: #2C2416;
+  --muted: #7A6E5D;
+  --border: #E0D8CC;
+  --shadow: 0 2px 8px rgba(44,36,22,0.10);
+  --font: 'Noto Sans TC', 'PingFang TC', 'Hiragino Sans', 'Microsoft JhengHei',
+          'Yu Gothic UI', system-ui, -apple-system, sans-serif;
+
+  --c-spot: #B5451B;
+  --c-food: #C2571C;
+  --c-transport: #4A6FA5;
+  --c-hotel: #6B4E9B;
+  --c-fixed: #B8901F;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --primary: #E8825A;
+    --primary-dark: #C4603A;
+    --primary-light: #F0A181;
+    --secondary: #8FB3DE;
+    --accent: #D9B463;
+    --bg: #17140F;
+    --surface: #221E17;
+    --surface-alt: #1C2430;
+    --text: #EDE6DA;
+    --muted: #A69A88;
+    --border: #3A332A;
+    --shadow: 0 2px 8px rgba(0,0,0,0.5);
+    --c-spot: #E8825A;
+    --c-food: #E09048;
+    --c-transport: #8FB3DE;
+    --c-hotel: #A68BD4;
+    --c-fixed: #D9B463;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  flex-direction: column;
+}
+
+/* === 頂部列 === */
+.topbar {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary) 60%, var(--primary-light));
+  color: #fff;
+  padding: 10px 14px;
+  flex-shrink: 0;
+}
+
+.topbar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.topbar h1 { font-size: 1rem; font-weight: 700; flex: 1; min-width: 0; }
+
+.tb-link {
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.42);
+  color: #fff;
+  text-decoration: none;
+  padding: 4px 11px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.tb-link:hover { background: rgba(255,255,255,0.36); }
+
+/* === 篩選列 === */
+.filters {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.filter-scroll {
+  display: flex;
+  gap: 6px;
+  padding: 8px 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.filter-scroll::-webkit-scrollbar { display: none; }
+
+.chip {
+  flex: 0 0 auto;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-family: var(--font);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 5px 13px;
+  border-radius: 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+
+.chip:hover { border-color: var(--primary); color: var(--primary); }
+
+.chip[aria-pressed="true"] {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+.cat-row {
+  display: flex;
+  gap: 6px;
+  padding: 0 12px 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.cat-row::-webkit-scrollbar { display: none; }
+
+.chip.cat[aria-pressed="true"] {
+  background: var(--cat-color);
+  border-color: var(--cat-color);
+  color: #fff;
+}
+
+.chip.cat[aria-pressed="false"] { opacity: 0.45; }
+
+/* === 地圖 === */
+#map {
+  flex: 1;
+  min-height: 320px;
+  background: var(--surface-alt);
+  z-index: 1;
+}
+
+/* 自訂標記 */
+.pin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50% 50% 50% 4px;
+  transform: rotate(-45deg);
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+  font-size: 15px;
+}
+
+.pin > span { transform: rotate(45deg); }
+
+.pin-seq {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  background: #fff;
+  color: #222;
+  border: 1.5px solid currentColor;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 15px;
+  text-align: center;
+  transform: rotate(45deg);
+}
+
+/* 彈窗 */
+.leaflet-popup-content-wrapper {
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.leaflet-popup-tip { background: var(--surface); }
+.leaflet-popup-content { margin: 12px 14px; font-family: var(--font); line-height: 1.55; }
+
+.pop-day {
+  display: inline-block;
+  font-size: 0.66rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: var(--surface-alt);
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+
+.pop-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 2px; }
+.pop-ja { font-size: 0.78rem; color: var(--muted); margin-bottom: 5px; }
+.pop-note { font-size: 0.76rem; color: var(--muted); margin-bottom: 8px; }
+
+.pop-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.pop-actions a {
+  font-size: 0.74rem;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  color: var(--secondary);
+  background: var(--surface-alt);
+}
+
+.pop-actions a:hover { border-color: var(--secondary); }
+
+/* === 底部狀態列 === */
+.statusbar {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 7px 14px;
+  font-size: 0.74rem;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.statusbar a { color: var(--muted); }
+
+.locate-btn {
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 4px 11px;
+  border-radius: 20px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.locate-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+.me-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #2E7CF6;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px rgba(46,124,246,0.4);
+}
+
+.loading {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+@media (min-width: 640px) {
+  .topbar h1 { font-size: 1.15rem; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-row">
+    <h1>🗺️ 行程地圖</h1>
+    <a class="tb-link" href="../index.html">← 回首頁</a>
+    <a class="tb-link" href="../final/index.html">📅 行程表</a>
+  </div>
+</header>
+
+<div class="filters">
+  <div class="filter-scroll" id="dayChips"></div>
+  <div class="cat-row" id="catChips"></div>
+</div>
+
+<div id="map"><p class="loading">地圖載入中…</p></div>
+
+<div class="statusbar">
+  <span id="status">—</span>
+  <button class="locate-btn" id="locateBtn" type="button">📍 我的位置</button>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var CATS = {
+    spot:      { label: '景點',   icon: '📍', color: 'var(--c-spot)' },
+    food:      { label: '美食',   icon: '🍽️', color: 'var(--c-food)' },
+    transport: { label: '交通',   icon: '🚇', color: 'var(--c-transport)' },
+    hotel:     { label: '住宿',   icon: '🏨', color: 'var(--c-hotel)' },
+    fixed:     { label: '已預約', icon: '⭐', color: 'var(--c-fixed)' },
+  };
+
+  /* 依行程表的分類與標題判斷屬於哪一類 */
+  function categorize(p) {
+    if (p.kind === 'fixed') return 'fixed';
+    if (/入住|飯店|退房/.test(p.title)) return 'hotel';
+    if (p.kind === 'transport' || /駅|車站|機場|空港|步行｜|交通｜/.test(p.title)) return 'transport';
+    if (/早餐|午餐|晚餐|美食|市場/.test(p.title)) return 'food';
+    return 'spot';
+  }
+
+  var map, layer, routeLine, meMarker;
+  var places = [];
+  var activeDay = 'all';
+  var activeCats = new Set(Object.keys(CATS));
+
+  var $ = function (id) { return document.getElementById(id); };
+
+  /* ---------- 建立地圖 ---------- */
+  function initMap() {
+    $('map').innerHTML = '';
+    map = L.map('map', { zoomControl: true, scrollWheelZoom: true });
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map);
+    layer = L.layerGroup().addTo(map);
+  }
+
+  /* ---------- 標記 ---------- */
+  function makeIcon(cat, seq) {
+    var c = CATS[cat];
+    var badge = seq ? '<i class="pin-seq" style="color:' + c.color + '">' + seq + '</i>' : '';
+    return L.divIcon({
+      className: '',
+      html: '<div style="position:relative">'
+          + '<div class="pin" style="background:' + c.color + '"><span>' + c.icon + '</span></div>'
+          + badge + '</div>',
+      iconSize: [32, 32],
+      iconAnchor: [16, 30],
+      popupAnchor: [0, -28],
+    });
+  }
+
+  function popupHtml(p) {
+    var gmaps = 'https://maps.google.com/maps?q=' + encodeURIComponent(p.query);
+    var parts = [];
+    parts.push('<span class="pop-day">Day ' + p.day + (p.time ? '　' + p.time : '') + '</span>');
+    parts.push('<div class="pop-title">' + p.icon + ' ' + p.label + '</div>');
+    if (p.ja) parts.push('<div class="pop-ja">' + p.ja + '</div>');
+    if (p.title && p.title !== p.label) parts.push('<div class="pop-ja">' + p.title + '</div>');
+    if (p.note) parts.push('<div class="pop-note">' + p.note + '</div>');
+    parts.push('<div class="pop-actions">'
+      + '<a href="' + gmaps + '" target="_blank" rel="noopener">在 Google Maps 開啟</a>'
+      + '<a href="../final/index.html#day-' + p.day + '">看這天的行程</a>'
+      + '</div>');
+    return parts.join('');
+  }
+
+  /* ---------- 重繪 ---------- */
+  function render() {
+    layer.clearLayers();
+    if (routeLine) { map.removeLayer(routeLine); routeLine = null; }
+
+    var shown = places.filter(function (p) {
+      if (p.lat == null) return false;
+      if (activeDay !== 'all' && p.day !== activeDay) return false;
+      return activeCats.has(categorize(p));
+    });
+
+    // 單日檢視時依時間排序並編號、連成路線
+    var seqOf = {};
+    if (activeDay !== 'all') {
+      var ordered = shown.filter(function (p) { return p.time; })
+        .sort(function (a, b) { return a.time.localeCompare(b.time); });
+      ordered.forEach(function (p, i) { seqOf[p.query + '@' + p.time] = i + 1; });
+
+      if (ordered.length > 1) {
+        routeLine = L.polyline(ordered.map(function (p) { return [p.lat, p.lon]; }), {
+          color: getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#B5451B',
+          weight: 3,
+          opacity: 0.7,
+          dashArray: '7 6',
+        }).addTo(map);
+      }
+    }
+
+    shown.forEach(function (p) {
+      L.marker([p.lat, p.lon], { icon: makeIcon(categorize(p), seqOf[p.query + '@' + p.time]) })
+        .bindPopup(popupHtml(p))
+        .addTo(layer);
+    });
+
+    var label = activeDay === 'all' ? '全部行程' : ('Day ' + activeDay);
+    $('status').textContent = label + '：' + shown.length + ' 個地點'
+      + (routeLine ? '（虛線為當日移動順序）' : '');
+
+    if (shown.length) {
+      map.fitBounds(L.latLngBounds(shown.map(function (p) { return [p.lat, p.lon]; })),
+        { padding: [45, 45], maxZoom: 15 });
+    }
+  }
+
+  /* ---------- 篩選鈕 ---------- */
+  function buildChips() {
+    var days = [...new Set(places.map(function (p) { return p.day; }))].sort(function (a, b) { return a - b; });
+    var dayBox = $('dayChips');
+
+    function dayChip(value, text) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'chip';
+      b.textContent = text;
+      b.setAttribute('aria-pressed', String(activeDay === value));
+      b.onclick = function () {
+        activeDay = value;
+        dayBox.querySelectorAll('.chip').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
+        b.setAttribute('aria-pressed', 'true');
+        render();
+      };
+      dayBox.appendChild(b);
+    }
+
+    dayChip('all', '全部');
+    days.forEach(function (d) {
+      var date = (places.find(function (p) { return p.day === d; }) || {}).date || '';
+      dayChip(d, 'Day' + d + ' ' + date.slice(5).replace('-', '/'));
+    });
+
+    var catBox = $('catChips');
+    Object.keys(CATS).forEach(function (key) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'chip cat';
+      b.style.setProperty('--cat-color', CATS[key].color);
+      b.textContent = CATS[key].icon + ' ' + CATS[key].label;
+      b.setAttribute('aria-pressed', 'true');
+      b.onclick = function () {
+        var on = b.getAttribute('aria-pressed') === 'true';
+        if (on) { activeCats.delete(key); } else { activeCats.add(key); }
+        b.setAttribute('aria-pressed', String(!on));
+        render();
+      };
+      catBox.appendChild(b);
+    });
+  }
+
+  /* ---------- 目前位置 ---------- */
+  $('locateBtn').onclick = function () {
+    if (!navigator.geolocation) {
+      $('status').textContent = '這個瀏覽器不支援定位';
+      return;
+    }
+    $('status').textContent = '定位中…';
+    navigator.geolocation.getCurrentPosition(function (pos) {
+      var ll = [pos.coords.latitude, pos.coords.longitude];
+      if (meMarker) map.removeLayer(meMarker);
+      meMarker = L.marker(ll, {
+        icon: L.divIcon({ className: '', html: '<div class="me-dot"></div>', iconSize: [16, 16], iconAnchor: [8, 8] }),
+        zIndexOffset: 1000,
+      }).bindPopup('你在這裡').addTo(map);
+      map.setView(ll, 15);
+      $('status').textContent = '已標出你目前的位置';
+    }, function (err) {
+      $('status').textContent = err.code === 1 ? '定位權限被拒絕' : '無法取得位置';
+    }, { enableHighAccuracy: true, timeout: 10000 });
+  };
+
+  /* ---------- 載入資料 ---------- */
+  fetch('places.json')
+    .then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(function (data) {
+      places = (data.places || []).filter(function (p) { return p.lat != null; });
+      if (!places.length) throw new Error('places.json 沒有任何含座標的地點');
+      initMap();
+      buildChips();
+
+      // 網址帶 ?day=3 時直接開那一天
+      var want = new URLSearchParams(location.search).get('day');
+      if (want && places.some(function (p) { return String(p.day) === want; })) {
+        activeDay = +want;
+        $('dayChips').querySelectorAll('.chip').forEach(function (b) {
+          b.setAttribute('aria-pressed', String(b.textContent.indexOf('Day' + want + ' ') === 0));
+        });
+      }
+      render();
+    })
+    .catch(function (e) {
+      $('map').innerHTML = '<p class="loading">地圖資料載入失敗：' + e.message
+        + '<br><br>這一頁需要透過網頁伺服器開啟（例如 GitHub Pages），'
+        + '直接用瀏覽器開啟本機檔案會因瀏覽器安全限制而無法讀取 places.json。</p>';
+    });
+})();
+</script>
+</body>
+</html>

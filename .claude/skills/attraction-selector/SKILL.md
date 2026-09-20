@@ -20,7 +20,7 @@ attraction_selector_output/
 └── attractions.csv       ← CSV 輸出
 
 docs/selector/
-└── attractions.html, foods.html, candidates.html  ← 互動式選擇器（GitHub Pages）
+└── attractions.html, foods.html  ← 互動式選擇器（GitHub Pages）
 ```
 
 ## 工作流程

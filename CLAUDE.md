@@ -39,13 +39,35 @@
 ## 主要檔案
 
 ### 網站入口 docs/
-- `docs/index.html` - 網站首頁，連往行程表與各規劃工具（GitHub Pages 根路徑）
+- `docs/index.html` - 網站首頁，連往行程表、地圖與各規劃工具（GitHub Pages 根路徑）
 - `docs/final/index.html` - **正式行程表**（逐日時間軸）
 - `docs/final/styles.css` - 行程表樣式（含深色模式）
 - `docs/final/sw.js` / `manifest.json` / `icon.svg` - PWA，讓行程可離線閱讀
+- `docs/map/index.html` - **行程地圖**（Leaflet + OpenStreetMap）
+- `docs/map/places.json` - 地圖資料，**由腳本產生，不要手動編輯**
+
+> 每個頁面都必須有回首頁的連結（行程表與地圖在頂部工具列，選擇器在頁首與頁尾）。
+
+### docs/map/ 行程地圖
+- 技術：Leaflet 1.9.4（CDN）+ OpenStreetMap 圖磚，**不需 API key、不需信用卡**
+- 功能：依日期篩選、當日移動路線虛線與順序編號、類別開關（景點／美食／交通／住宿／已預約）、彈窗詳情、瀏覽器定位
+- 網址參數 `?day=N` 可直接開啟某一天
+- 彈窗可跳回行程表對應日期（`../final/index.html#day-N`）
+
+**資料產生流程**：`docs/final/index.html` 是唯一事實來源。改完行程後執行
+```bash
+node scripts/build-places.js          # 沿用已查過的座標
+node scripts/build-places.js --refresh # 全部重查
+```
+腳本會解析行程表的地圖連結，透過 OpenStreetMap Nominatim 查經緯度，寫入 `docs/map/places.json`。
+Nominatim 對少數地點解析不佳，腳本內 `QUERY_OVERRIDE` 可指定替代查詢字串。
+**請遵守 Nominatim 使用規範**：每秒至多 1 次請求、帶可識別的 User-Agent（腳本已處理）。
 
 ### docs/final/index.html 功能說明（請勿移除）
-- **逐日切換**：`showDay(n)` 一次只顯示一天；出發當天會依系統日期自動跳到對應那天，否則沿用上次瀏覽的日期（localStorage `lastDay`）
+- **逐日切換**：`showDay(n)` 一次只顯示一天。初始顯示順序為：網址 `#day-N` > 今天的日期 > 上次瀏覽的日期（localStorage `lastDay`）
+- **切換方式**：日期列點擊、鍵盤左右方向鍵、手機左右滑動（橫向位移 >70px 且明顯大於縱向才觸發，避免干擾上下捲動）
+- **今日標記**：日期列上「今天」那一格右上角有金色圓點
+- **複製這天行程**：`copyDay()` 匯出純文字（含日文地名）貼給旅伴；Clipboard API 失敗時退回 `execCommand`
 - **日文地名**：`.ja-name` 標註日文寫法，僅在繁中與日文寫法不同時才加；切換狀態存於 localStorage `showJa`；**列印時一律顯示**，方便在當地出示給站務人員
 - **主題**：自動／淺色／深色三段循環，存於 localStorage `theme`
 - **預算追蹤**：各分類金額存於 localStorage `budget.*`，固定門票小計 `FIXED_TICKETS` 定義在 script 內，改動票價時要一併更新
@@ -68,7 +90,10 @@
 這些 HTML 檔案使用 Tailwind CSS CDN 引入樣式，無需 build step：
 - `docs/selector/attractions.html` - 景點選擇器（綠色主題）
 - `docs/selector/foods.html` - 美食選擇器（橙色主題）
-- `docs/selector/candidates.html` - 候選清單彙整
+
+> 選擇器是出發前在家規劃用的工具，**不需要做離線版本**；依賴 Tailwind CDN 是可接受的取捨。
+> 需要離線的是行程表與地圖。
+> `candidates.html`（候選清單）已於 2026-09-20 依需求移除。
 
 **attractions.html 功能說明（請勿移除）**：
 - 資料來源：景點資料內嵌於 HTML 中的 JavaScript `attractions` 陣列
@@ -90,15 +115,6 @@
 - 地圖連結：表格檢視有 Google Maps 📍 欄位
 - localStorage：選擇會自動保存到 localStorage，跨分頁可見
 - UI樣式：Tailwind CSS CDN，響應式設計，暖色漸層背景
-- 重要：修改 HTML 時請勿移除這些功能的核心 JavaScript 邏輯
-
-**candidates.html 功能說明（請勿移除）**：
-- 資料來源：從 attractions.html 和 foods.html 的 localStorage 讀取已選項目
-- 顯示類別：景點（綠色邊框）和美食（橙色邊框）混合顯示
-- 篩選功能：按類別（全部/僅景點/僅美食）、按城市/地區
-- 移除功能：可單獨移除不需要的項目，或清除全部
-- 匯出功能：可匯出 JSON 格式的完整清單（含匯出時間）
-- UI樣式：Tailwind CSS CDN
 - 重要：修改 HTML 時請勿移除這些功能的核心 JavaScript 邏輯
 
 ### 資料目錄 data/
@@ -212,4 +228,6 @@ crawler.crawl_batch(['https://example.com/page1', 'https://example.com/page2'])
 ### 檔案位置
 - 景點選擇器：`docs/selector/attractions.html`
 - 美食選擇器：`docs/selector/foods.html`
-- 候選清單：`docs/selector/candidates.html`
+
+## 建置腳本 scripts/
+- `scripts/build-places.js` - 從行程表產生地圖資料（見上方「docs/map/ 行程地圖」）
