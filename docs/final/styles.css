@@ -956,27 +956,24 @@ body.is-offline .offline-badge {
 }
 
 /* === 方案輪播 === */
+/* 只顯示目前選中的方案，容器高度自然貼合內容 —— 不需要用 JS 量高度，
+   因此在 display:none 的分頁裡也不會出錯 */
 .plans { margin-top: 2px; }
 
-.plans-viewport {
-  overflow: hidden;
-  border-radius: var(--radius-sm);
-  /* 高度由 JS 依目前方案設定，避免被最長的方案撐出一大片空白 */
-  transition: height 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+.plans-viewport { /* 保留結構層，不再裁切內容 */ }
+
+.plans-track { display: block; }
+
+.plan { display: none; }
+
+.plan.is-active {
+  display: block;
+  animation: planIn 0.22s ease;
 }
 
-.plans-track {
-  display: flex;
-  /* 預設 stretch 會把所有方案拉成一樣高，量不到各自的真實高度 */
-  align-items: flex-start;
-  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;
-}
-
-.plan {
-  flex: 0 0 100%;
-  min-width: 0;
-  padding: 2px 1px;
+@keyframes planIn {
+  from { opacity: 0; transform: translateX(6px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
 .plan-head {
@@ -1003,7 +1000,8 @@ body.is-offline .offline-badge {
   flex-shrink: 0;
 }
 
-.plan:first-child .plan-tag { background: var(--primary); }
+/* 方案 A（原訂行程）用主色，和推薦方案區隔 */
+.plan[data-i="0"] .plan-tag { background: var(--primary); }
 
 .plan-body { font-size: 0.85rem; line-height: 1.65; }
 .plan-body > p { margin-bottom: 6px; color: var(--on-surface-muted); }
@@ -1050,10 +1048,10 @@ body.is-offline .offline-badge {
   background: none;
   border: 1px solid var(--border);
   color: var(--on-surface-muted);
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
-  font-size: 0.95rem;
+  font-size: 1rem;
   line-height: 1;
   cursor: pointer;
   font-family: var(--font-noto);
@@ -1067,13 +1065,13 @@ body.is-offline .offline-badge {
 .plan-dots { display: flex; gap: 5px; }
 
 .plan-dot {
-  min-width: 22px;
-  height: 22px;
-  border-radius: 11px;
+  min-width: 26px;
+  height: 26px;
+  border-radius: 13px;
   border: 1px solid var(--border);
   background: var(--surface);
   color: var(--on-surface-muted);
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   font-weight: 800;
   font-family: var(--font-noto);
   cursor: pointer;
@@ -1092,6 +1090,7 @@ body.is-offline .offline-badge {
   background: var(--primary);
   border-color: var(--primary);
 }
+
 
 /* 圖例 */
 .kind-legend {
@@ -1113,8 +1112,6 @@ body.is-offline .offline-badge {
 
 /* 列印時把所有方案攤平顯示，不要只印出目前那一個 */
 @media print {
-  .plans-viewport { overflow: visible; }
-  .plans-track { display: block; transform: none !important; }
-  .plan { break-inside: avoid; margin-bottom: 8px; }
+  .plan { display: block !important; animation: none !important; break-inside: avoid; margin-bottom: 8px; }
   .plans-nav { display: none; }
 }

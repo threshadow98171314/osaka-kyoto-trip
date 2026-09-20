@@ -116,8 +116,10 @@ Nominatim 對少數地點解析不佳，腳本內 `QUERY_OVERRIDE` 可指定替�
   - 目前為 45 主行程 / 16 彈性，**不應有未標示的項目**
 - **方案輪播 `.plans`**：方案 A 一律是原訂行程，B／C 為替代方案（共 32 個）
   - 切換方式：圓點、左右箭頭、**區塊內左右滑動**（門檻 40px）
-  - `.plans-viewport` 的高度由 JS 依目前方案設定；`.plans-track` 必須保持
-    `align-items: flex-start`，否則 flex 會把所有方案拉成等高，量不到各自的真實高度
+  - **切換方式是 display 顯示／隱藏，不要改回 transform + 量高度。**
+    非 active 的方案為 `display:none`，容器高度自然貼合目前那一張。
+    曾因為 `initPlans()` 在 `initDay()` 之前執行、當下所有 `.day-section` 都是
+    `display:none`，量到的 `offsetHeight` 為 0，導致容器高度被鎖成 0px、內容全被裁掉
   - **頁面層級的日期滑動會略過起點落在 `.plans` 內的手勢**，兩種滑動才不會打架
   - 方案中引用的店家／景點資料一律來自已查證的資料庫（`docs/selector/foods.html` 的
     `foods`、`data/attractions.json`），**不要在方案裡手寫未查證的票價或營業時間**
