@@ -932,6 +932,12 @@ body.is-offline .offline-badge {
   border-left-color: var(--secondary);
 }
 
+/* 交通：左側點線＋灰色，視覺上比主行程與彈性都更輕 */
+.timeline-item.is-move {
+  border-left-style: dotted;
+  border-left-color: var(--on-surface-muted);
+}
+
 .tl-kind {
   font-size: 0.62rem;
   font-weight: 800;
@@ -954,6 +960,39 @@ body.is-offline .offline-badge {
   color: var(--secondary);
   border: 1px dashed var(--secondary);
 }
+
+/* 交通：不是「行程」而是兩個行程之間的移動，所以既不實線也不虛線，
+   用低調的點線與灰字，讓視線可以直接跳過 */
+.tl-kind.move {
+  background: transparent;
+  color: var(--on-surface-muted);
+  border: 1px dotted var(--on-surface-muted);
+  font-weight: 700;
+}
+
+/* 目前顯示的是哪個方案（A / B / C），和方案輪播的 plan-tag 同一套顏色語言 */
+.tl-plan {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 5px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.64rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 1px;
+}
+
+/* 換到 B／C 時改用次色，一眼看出「現在看的不是原訂行程」 */
+.tl-plan.is-alt { background: var(--secondary); }
+
+/* 方案自己的標題：平常只給 JS 讀，不佔版面；列印時攤平顯示才需要看到 */
+.plan-title[hidden] { display: none; }
 
 /* === 方案輪播 === */
 /* 只顯示目前選中的方案，容器高度自然貼合內容 —— 不需要用 JS 量高度，
@@ -1033,15 +1072,24 @@ body.is-offline .offline-badge {
 
 .pr-map:hover { text-decoration: none; background: #C0D3E3; }
 
-/* 導覽列 */
+/* 導覽列：放在輪播「上方」。
+   放下方的話，A／B／C 內容長度不同會讓整排按鈕上下跳 84～230px，
+   按鈕才 26px 高，桌機連點兩下第二下必定落空 —— 不要搬回去。 */
 .plans-nav {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin-top: 8px;
-  padding-top: 7px;
-  border-top: 1px dashed var(--border);
+  margin-bottom: 8px;
+  padding-bottom: 7px;
+  border-bottom: 1px dashed var(--border);
+}
+
+.plans-hint {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--on-surface-muted);
+  letter-spacing: 0.5px;
 }
 
 .plan-arrow {
@@ -1092,6 +1140,9 @@ body.is-offline .offline-badge {
 }
 
 
+/* 頁尾臨時墊片：切換方案時若捲動位置被夾住，暫時撐開以補回位移 */
+.scroll-slack { height: 0; pointer-events: none; }
+
 /* 圖例 */
 .kind-legend {
   display: flex;
@@ -1114,4 +1165,13 @@ body.is-offline .offline-badge {
 @media print {
   .plan { display: block !important; animation: none !important; break-inside: avoid; margin-bottom: 8px; }
   .plans-nav { display: none; }
+
+  /* 列印時所有方案都攤開，各自的標題要顯示出來才分得清誰是誰 */
+  .plan-title[hidden] {
+    display: block !important;
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: var(--on-surface);
+    margin-bottom: 3px;
+  }
 }

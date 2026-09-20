@@ -79,12 +79,16 @@ function extract() {
       const item = raw.split('<div class="day-maps')[0];
       const isTransport = /^[^>]*\btransport\b/.test(item);
 
-      const titleRaw = (item.match(/<span class="tl-title">([\s\S]*?)<\/span>\s*(?:<span class="tl-tag|<\/div>)/) || [])[1] || '';
+      // 標題後面可能接 .tl-tag／.tl-kind／.tl-plan，或直接收尾；
+      // 少列一個就會把那個 span 的文字吃進標題裡
+      const titleRaw = (item.match(/<span class="tl-title">([\s\S]*?)<\/span>\s*(?:<span class="tl-(?:tag|kind|plan)|<\/div>)/) || [])[1] || '';
       const ja = strip((titleRaw.match(/<span class="ja-name">([\s\S]*?)<\/span>/) || [])[1] || '');
       const title = strip(titleRaw.replace(/<span class="ja-name">[\s\S]*?<\/span>/, ''));
 
       const tagMatch = item.match(/<span class="tl-tag([^"]*)">([^<]*)<\/span>/);
-      const tag = tagMatch ? tagMatch[2].trim() : '';
+      // 交通項目沒有 .tl-tag（那會和 .tl-kind 的「交通」重複顯示），改用分類標籤當後備
+      const kindMatch = item.match(/<span class="tl-kind[^"]*">([^<]*)<\/span>/);
+      const tag = tagMatch ? tagMatch[2].trim() : (kindMatch ? kindMatch[1].trim() : '');
       const isFixed = tagMatch ? /\bfixed\b/.test(tagMatch[1]) : false;
 
       const time = strip((item.match(/<span class="tl-time">([^<]*)<\/span>/) || [])[1] || '');

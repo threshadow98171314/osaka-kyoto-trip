@@ -109,21 +109,37 @@ Nominatim 對少數地點解析不佳，腳本內 `QUERY_OVERRIDE` 可指定替�
 - **逐日切換**：`showDay(n)` 一次只顯示一天。初始顯示順序為：網址 `#day-N` > 今天的日期 > 上次瀏覽的日期（localStorage `lastDay`）
 - **切換方式**：日期列點擊、鍵盤左右方向鍵、手機左右滑動（橫向位移 >70px 且明顯大於縱向才觸發，避免干擾上下捲動）
 - **今日標記**：日期列上「今天」那一格右上角有金色圓點
-- **主行程 / 彈性行程**（2026-09-21 起）：每個 `.timeline-item` 都必須有 `.tl-kind` 標示
-  - `.is-main` ＋ `主行程`：航班、**所有交通移動**、住宿 check-in/out、5 個已預約項目，
+- **三種項目分類**（2026-09-21 起）：每個 `.timeline-item` 都必須有 `.tl-kind` 標示
+  - `.is-main` ＋ `主行程`：航班、住宿 check-in/out、5 個已預約項目、報到與退房，
     以及 8 個大景點（大阪城、姬路城、奈良公園、伏見稻荷、平等院、金閣寺、嵐山、清水寺）。左側為實線邊
+  - `.is-move` ＋ `交通`：**所有移動與過關**。交通不是「行程」而是兩個行程之間的過程，
+    所以獨立成一類，左側為灰色點線、標籤是灰字外框，讓視線可以直接跳過
   - `.is-flex` ＋ `彈性`：其餘餐飲、購物、機動景點。左側為虛線邊，內含方案輪播
-  - 目前為 45 主行程 / 16 彈性，**不應有未標示的項目**
+  - 目前為 **20 主行程 / 25 交通 / 16 彈性**（共 61），**不應有未標示的項目**
+  - 交通項目**不再另外掛 `.tl-tag.transport`「交通」pill**，那會和分類標籤重複顯示同一個字
 - **方案輪播 `.plans`**：方案 A 一律是原訂行程，B／C 為替代方案（共 32 個）
-  - 切換方式：圓點、左右箭頭、**區塊內左右滑動**（門檻 40px）
+  - 切換方式：圓點、左右箭頭、**區塊內左右滑動**（門檻 40px）、桌機滑鼠拖曳
   - **切換方式是 display 顯示／隱藏，不要改回 transform + 量高度。**
     非 active 的方案為 `display:none`，容器高度自然貼合目前那一張。
     曾因為 `initPlans()` 在 `initDay()` 之前執行、當下所有 `.day-section` 都是
     `display:none`，量到的 `offsetHeight` 為 0，導致容器高度被鎖成 0px、內容全被裁掉
+  - **導覽列 `.plans-nav` 必須在輪播「上方」，不要搬回下方。**
+    A／B／C 的內容長度差到 224px，導覽列放下方時換一次方案整排按鈕就上下跳
+    84～230px，而按鈕只有 26px 高 —— 桌機連點兩次「›」第二下必定落空，
+    使用者看到的就是「網頁版根本不能切換」
+  - **每個方案自己帶標題與 emoji**：`.plan` 上的 `data-icon`，以及 `.plan` 內第一個
+    `<span class="plan-title" hidden>`。`go()` 會把它們寫進 `.tl-title`／`.tl-icon`，
+    並更新 header 上的 `.tl-plan` 指示（A 用主色、B／C 用次色）。
+    **不可以只換內文不換標題** —— 否則會出現「標題寫木津市場、內容是黑門市場」。
+    方案 A 的 `plan-title` 就是原本的標題（含 `.ja-name`）；B／C 只寫繁中，
+    未經查證的日文寫法一律不寫
+  - `go()` 會把導覽列**釘回原本的螢幕位置**：方案長短不同會改變整份文件的高度，
+    使用者若正捲在頁尾，瀏覽器會夾住捲動位置、整頁往下位移。捲不動時會撐開
+    `.scroll-slack`（頁尾臨時墊片）補回距離，使用者一捲動就收掉
   - **頁面層級的日期滑動會略過起點落在 `.plans` 內的手勢**，兩種滑動才不會打架
   - 方案中引用的店家／景點資料一律來自已查證的資料庫（`docs/selector/foods.html` 的
     `foods`、`data/attractions.json`），**不要在方案裡手寫未查證的票價或營業時間**
-  - 列印時所有方案會攤平顯示，不會只印出目前那一個
+  - 列印時所有方案會攤平顯示（連同各自的標題），不會只印出目前那一個
 - **複製這天行程**：`copyDay()` 匯出純文字（含日文地名）貼給旅伴；Clipboard API 失敗時退回 `execCommand`
 - **日期列置中**：`.day-nav-inner` 用 `width: fit-content` + `margin: 0 auto` 達成寬螢幕置中；`min-width: max-content` 會讓 `justify-content` 失效，**不要改回去**。560px 以下改為靠左並可橫向捲動
   - `.tip.warn` — **會撲空／會關門的警告**（例如木津市場週日公休）
@@ -134,7 +150,13 @@ Nominatim 對少數地點解析不佳，腳本內 `QUERY_OVERRIDE` 可指定替�
 - **主題**：自動／淺色／深色三段循環，存於 localStorage `theme`
 - **預算追蹤已移出本頁**，改為獨立的 `docs/budget/`（依 Day 分開記帳，localStorage `budget2.*`）
 - **離線**：Service Worker 快取行程本體；字體採非阻塞載入，CDN 失效時退回系統中日文字型
+  - `sw.js` 對同源請求一律 **network-first**（見檔案內註解），改版時把 `CACHE` 版本號 +1
+  - 頁面另外監聽 `controllerchange`，**新版 SW 接手後會自動重新整理一次**。
+    沒有這段的話，改版當下已開著舊頁面的人會停在「新 HTML ＋ 舊 CSS／JS」的半舊狀態
 - **地圖連結**：`?q=` 一律使用**明文日文地名**，不要改回 percent-encoding（歷史上曾因編碼轉換導致 17 個連結指向錯誤地點）
+  - 方案小卡的 `.pr-map` 也一樣。這些連結原本是「店名 ＋ 資料庫的分類欄位」拼出來的，
+    出現過「八坂神社 定番」「錦市場 文化體驗」「神戶港塔 關西延伸」這種查不到的字串，
+    已於 2026-09-21 全部改為查證過的日文正式名稱
 
 ### 審核目錄 audit/
 - `audit/records/` - 審核記錄（按日期存放）
@@ -150,8 +172,14 @@ Nominatim 對少數地點解析不佳，腳本內 `QUERY_OVERRIDE` 可指定替�
 
 ### docs/selector/ -HTML選擇器（GitHub Pages顯示用）
 這些 HTML 檔案使用 Tailwind CSS CDN 引入樣式，無需 build step：
-- `docs/selector/attractions.html` - 景點選擇器（綠色主題，110 筆）
+- `docs/selector/attractions.html` - 景點選擇器（綠色主題，111 筆）
 - `docs/selector/foods.html` - 美食選擇器（橙色主題，63 筆）
+
+> ⚠️ 首頁 `docs/index.html` 的卡片上有筆數 badge，**改完資料陣列後要同步**：
+> ```bash
+> node scripts/sync-counts.js
+> ```
+> 手寫的筆數沒人記得改 —— 曾經美食實際有 63 筆、首頁還寫 37 筆。
 
 > **兩個選擇器已於 2026-09-21 改用 `docs/assets/base.css` 的設計語彙**（同樣的頁首、
 > 隨機風景照、工具列與色票），與站內其他頁面一致，並支援深色模式。
@@ -301,3 +329,8 @@ crawler.crawl_batch(['https://example.com/page1', 'https://example.com/page2'])
 
 ## 建置腳本 scripts/
 - `scripts/build-places.js` - 從行程表產生地圖資料（見上方「docs/map/ 行程地圖」）
+  - 解析標題的正規表示式必須列出標題後面可能出現的所有 span
+    （`.tl-tag`／`.tl-kind`／`.tl-plan`）。少列一個，那個 span 的文字就會被吃進標題，
+    地圖上會出現「入住｜一難波南2號店 主行程」這種標題
+- `scripts/sync-counts.js` - 把首頁的選擇器筆數 badge 同步成實際資料筆數
+- `scripts/fetch-hero-photos.js` - 重新抓取頁首背景照片（見上方「頁首背景照片」）
