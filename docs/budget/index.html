@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>預算追蹤｜大阪・京都之旅 2026</title>
+<meta name="description" content="關西 8天7夜每日花費記帳與總預算換算">
+<meta name="theme-color" content="#B5451B">
+<link rel="stylesheet" href="../assets/base.css">
+<style>
+/* === 每日面板 === */
+.day-panel .panel-head { cursor: pointer; user-select: none; }
+.day-panel .panel-head .caret { color: var(--muted); font-size: 0.8rem; transition: transform 0.2s; }
+.day-panel.open .panel-head .caret { transform: rotate(90deg); }
+.day-panel .panel-body { display: none; }
+.day-panel.open .panel-body { display: block; }
+
+.day-badge {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; font-weight: 800;
+  flex-shrink: 0;
+}
+
+.day-sum { font-size: 0.86rem; font-weight: 700; color: var(--primary); white-space: nowrap; }
+
+/* === 金額列 === */
+.row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 0.84rem;
+}
+
+.row:last-child { border-bottom: none; }
+.row .label { flex: 1; min-width: 0; }
+.row .label small { display: block; color: var(--muted); font-size: 0.72rem; line-height: 1.45; }
+.row .yen { color: var(--muted); }
+
+.row input[type="number"] {
+  width: 96px;
+  padding: 5px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 0.84rem;
+  text-align: right;
+}
+
+.row input[type="number"]:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.row.fixed .amount {
+  width: 96px;
+  text-align: right;
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+/* === 總計 === */
+.total-card {
+  position: sticky;
+  bottom: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--primary);
+  border-radius: var(--radius) var(--radius) 0 0;
+  box-shadow: var(--shadow-lg);
+  padding: 14px 16px;
+  margin-top: 18px;
+  z-index: 10;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.total-row .t-label { font-size: 0.86rem; font-weight: 700; }
+.total-row .t-jpy { font-size: 1.45rem; font-weight: 800; color: var(--primary); }
+.total-row .t-twd { font-size: 0.8rem; color: var(--muted); }
+
+.breakdown {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+}
+
+.breakdown span {
+  font-size: 0.7rem;
+  padding: 3px 9px;
+  border-radius: 20px;
+  background: var(--surface-alt);
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.rate-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 10px;
+}
+
+.rate-row input {
+  width: 78px;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 0.8rem;
+  text-align: right;
+}
+</style>
+</head>
+<body>
+
+<header class="site-header" data-hero>
+  <div class="container">
+    <h1>💴 預算追蹤</h1>
+    <p class="sub">2026年 9月26日 → 10月3日｜8天7夜｜每人</p>
+    <div class="toolbar">
+      <a class="tb-link" href="../index.html">← 回首頁</a>
+      <a class="tb-link" href="../final/index.html">📅 行程表</a>
+      <a class="tb-link" href="../map/index.html">🗺️ 地圖</a>
+      <button type="button" id="expandBtn" onclick="toggleAll()">展開全部</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <p class="hint">
+      填入實際花費，資料只存在這台裝置的瀏覽器裡，重開頁面不會消失。
+      標示「已確認」的門票金額取自行程表中已查證的票價，會自動計入。
+    </p>
+
+    <h3 class="section-title">共同支出（不分日）</h3>
+    <div class="panel">
+      <div class="panel-body" id="sharedBody"></div>
+    </div>
+
+    <h3 class="section-title">每日花費</h3>
+    <div id="days"></div>
+
+    <div class="total-card">
+      <div class="total-row">
+        <span class="t-label">整趟總計</span>
+        <span>
+          <span class="t-jpy" id="grandJpy">¥0</span>
+          <span class="t-twd" id="grandTwd"></span>
+        </span>
+      </div>
+      <div class="breakdown" id="breakdown"></div>
+      <div class="rate-row">
+        <span>匯率 1 JPY =</span>
+        <input type="number" id="rate" min="0" step="0.001" placeholder="0.21">
+        <span>TWD</span>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" type="button" onclick="copySummary()" id="copyBtn">📋 複製明細</button>
+      <button class="btn" type="button" onclick="resetAll()">🗑️ 清空重填</button>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <p>門票金額查證於 2026-09-20，詳見 <a href="https://github.com/threshadow98171314/osaka-kyoto-trip/blob/main/audit/records/2026-09-20.md" target="_blank" rel="noopener">審核記錄</a></p>
+</footer>
+
+<script src="../assets/hero/hero.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  /* localStorage 在無痕視窗／封鎖 cookie 時會丟例外，全部包起來 */
+  var store = {
+    get: function (k, d) { try { var v = localStorage.getItem(k); return v === null ? d : v; } catch (e) { return d; } },
+    set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+    del: function (k) { try { localStorage.removeItem(k); } catch (e) {} }
+  };
+
+  var CATS = [
+    { key: 'transport', label: '🚇 交通' },
+    { key: 'food',      label: '🍽️ 餐飲' },
+    { key: 'ticket',    label: '🎫 門票・入場' },
+    { key: 'shopping',  label: '🛍️ 購物' },
+    { key: 'other',     label: '➕ 其他' },
+  ];
+
+  var SHARED = [
+    { key: 'flight', label: '✈️ 機票（來回）' },
+    { key: 'hotel',  label: '🏨 住宿（7 晚）' },
+    { key: 'pass',   label: '🎟️ 交通票券（ICOCA 儲值／JR Pass 等）' },
+    { key: 'insure', label: '🛡️ 旅遊平安險' },
+    { key: 'esim',   label: '📶 網路（eSIM／WiFi 機）' },
+  ];
+
+  /* 行程表中已查證的固定門票（每人・日圓），合計 ¥9,300 */
+  var DAYS = [
+    { n: 1, date: '9/26（六）', title: '抵達大阪', fixed: [] },
+    { n: 2, date: '9/27（日）', title: '大阪經典巡禮', fixed: [
+        { name: 'なにわの湯（週日價）', amount: 1000 } ] },
+    { n: 3, date: '9/28（一）', title: '姬路城與神戶牛', fixed: [
+        { name: '姬路城（2026/3 起調漲）', amount: 2500 } ] },
+    { n: 4, date: '9/29（二）', title: '奈良與 teamLab', fixed: [
+        { name: '東大寺大佛殿', amount: 800 } ] },
+    { n: 5, date: '9/30（三）', title: '伏見稻荷與任天堂', fixed: [
+        { name: '平等院（庭園＋鳳翔館）', amount: 700 },
+        { name: '任天堂博物館', amount: 3300 } ] },
+    { n: 6, date: '10/1（四）', title: '金閣寺與嵐山', fixed: [
+        { name: '金閣寺', amount: 500 } ] },
+    { n: 7, date: '10/2（五）', title: '清水寺與河原町', fixed: [
+        { name: '清水寺', amount: 500 } ] },
+    { n: 8, date: '10/3（六）', title: '返程', fixed: [] },
+  ];
+
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var yen = function (n) { return '¥' + Math.round(n).toLocaleString('zh-TW'); };
+
+  function val(id) {
+    var el = document.getElementById(id);
+    if (!el) return 0;
+    var v = parseFloat(el.value);
+    return (isFinite(v) && v > 0) ? v : 0;
+  }
+
+  function fixedTotal(day) {
+    return day.fixed.reduce(function (s, f) { return s + f.amount; }, 0);
+  }
+
+  /* ---------- 建立畫面 ---------- */
+  function amountRow(id, label, sub) {
+    return '<div class="row">'
+      + '<span class="label">' + label + (sub ? '<small>' + sub + '</small>' : '') + '</span>'
+      + '<span class="yen">¥</span>'
+      + '<input type="number" id="' + id + '" min="0" step="100" placeholder="0" inputmode="numeric">'
+      + '</div>';
+  }
+
+  function build() {
+    $('#sharedBody').innerHTML = SHARED.map(function (s) {
+      return amountRow('s-' + s.key, s.label);
+    }).join('');
+
+    $('#days').innerHTML = DAYS.map(function (d) {
+      var fixedRows = d.fixed.map(function (f) {
+        return '<div class="row fixed">'
+          + '<span class="label">🎫 ' + f.name + '<small>已確認票價，自動計入</small></span>'
+          + '<span class="amount">' + yen(f.amount) + '</span></div>';
+      }).join('');
+
+      var inputRows = CATS.map(function (c) {
+        return amountRow('d' + d.n + '-' + c.key, c.label);
+      }).join('');
+
+      return '<section class="panel day-panel" id="panel-' + d.n + '">'
+        + '<div class="panel-head" onclick="togglePanel(' + d.n + ')">'
+        +   '<span class="day-badge">' + d.n + '</span>'
+        +   '<h2>Day ' + d.n + '　' + d.date + '<br><small style="font-weight:400;color:var(--muted);font-size:0.76rem">' + d.title + '</small></h2>'
+        +   '<span class="day-sum" id="sum-' + d.n + '">' + yen(fixedTotal(d)) + '</span>'
+        +   '<span class="caret">▶</span>'
+        + '</div>'
+        + '<div class="panel-body">' + fixedRows + inputRows + '</div>'
+        + '</section>';
+    }).join('');
+  }
+
+  /* ---------- 計算 ---------- */
+  function dayTotal(d) {
+    return fixedTotal(d) + CATS.reduce(function (s, c) {
+      return s + val('d' + d.n + '-' + c.key);
+    }, 0);
+  }
+
+  function recalc() {
+    var sharedSum = SHARED.reduce(function (s, x) { return s + val('s-' + x.key); }, 0);
+    var daySum = 0;
+
+    DAYS.forEach(function (d) {
+      var t = dayTotal(d);
+      daySum += t;
+      var el = document.getElementById('sum-' + d.n);
+      if (el) el.textContent = yen(t);
+    });
+
+    var grand = sharedSum + daySum;
+    $('#grandJpy').textContent = yen(grand);
+
+    var rate = parseFloat($('#rate').value);
+    $('#grandTwd').textContent = (isFinite(rate) && rate > 0)
+      ? '≈ NT$' + Math.round(grand * rate).toLocaleString('zh-TW') : '';
+
+    /* 分類小計（含每日各分類 + 共同支出） */
+    var byCat = {};
+    CATS.forEach(function (c) {
+      byCat[c.label] = DAYS.reduce(function (s, d) { return s + val('d' + d.n + '-' + c.key); }, 0);
+    });
+    byCat['🎫 門票・入場'] += DAYS.reduce(function (s, d) { return s + fixedTotal(d); }, 0);
+
+    var chips = [];
+    chips.push('共同支出 ' + yen(sharedSum));
+    chips.push('每日合計 ' + yen(daySum));
+    Object.keys(byCat).forEach(function (k) {
+      if (byCat[k] > 0) chips.push(k + ' ' + yen(byCat[k]));
+    });
+    $('#breakdown').innerHTML = chips.map(function (c) { return '<span>' + c + '</span>'; }).join('');
+  }
+
+  /* ---------- 儲存 ---------- */
+  function allInputIds() {
+    var ids = SHARED.map(function (s) { return 's-' + s.key; });
+    DAYS.forEach(function (d) {
+      CATS.forEach(function (c) { ids.push('d' + d.n + '-' + c.key); });
+    });
+    ids.push('rate');
+    return ids;
+  }
+
+  function bind() {
+    allInputIds().forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      var saved = store.get('budget2.' + id, '');
+      if (saved !== '') el.value = saved;
+      el.addEventListener('input', function () {
+        store.set('budget2.' + id, el.value);
+        recalc();
+      });
+    });
+  }
+
+  /* ---------- 互動 ---------- */
+  window.togglePanel = function (n) {
+    var p = document.getElementById('panel-' + n);
+    p.classList.toggle('open');
+    store.set('budget2.open.' + n, p.classList.contains('open') ? '1' : '0');
+  };
+
+  window.toggleAll = function () {
+    var panels = document.querySelectorAll('.day-panel');
+    var anyClosed = [].some.call(panels, function (p) { return !p.classList.contains('open'); });
+    [].forEach.call(panels, function (p, i) {
+      p.classList.toggle('open', anyClosed);
+      store.set('budget2.open.' + (i + 1), anyClosed ? '1' : '0');
+    });
+    $('#expandBtn').textContent = anyClosed ? '收合全部' : '展開全部';
+  };
+
+  window.resetAll = function () {
+    if (!confirm('確定要清空所有已填入的金額嗎？此動作無法復原。')) return;
+    allInputIds().forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.value = '';
+      store.del('budget2.' + id);
+    });
+    recalc();
+  };
+
+  window.copySummary = function () {
+    var rate = parseFloat($('#rate').value);
+    var lines = ['【關西 8天7夜 預算明細（每人）】', ''];
+
+    var sharedSum = 0;
+    lines.push('◆ 共同支出');
+    SHARED.forEach(function (s) {
+      var v = val('s-' + s.key);
+      sharedSum += v;
+      if (v > 0) lines.push('　' + s.label.replace(/^\S+\s*/, '') + '：' + yen(v));
+    });
+    lines.push('　小計：' + yen(sharedSum), '');
+
+    DAYS.forEach(function (d) {
+      var t = dayTotal(d);
+      if (t === 0) return;
+      lines.push('◆ Day ' + d.n + '　' + d.date + '　' + d.title + '：' + yen(t));
+      d.fixed.forEach(function (f) { lines.push('　' + f.name + '：' + yen(f.amount)); });
+      CATS.forEach(function (c) {
+        var v = val('d' + d.n + '-' + c.key);
+        if (v > 0) lines.push('　' + c.label.replace(/^\S+\s*/, '') + '：' + yen(v));
+      });
+      lines.push('');
+    });
+
+    var grand = sharedSum + DAYS.reduce(function (s, d) { return s + dayTotal(d); }, 0);
+    lines.push('━━━━━━━━━━━━');
+    lines.push('總計：' + yen(grand)
+      + ((isFinite(rate) && rate > 0) ? '　≈ NT$' + Math.round(grand * rate).toLocaleString('zh-TW') : ''));
+
+    var text = lines.join('\n');
+    var btn = $('#copyBtn');
+    var done = function (ok) {
+      btn.textContent = ok ? '✅ 已複製' : '⚠️ 複製失敗';
+      setTimeout(function () { btn.textContent = '📋 複製明細'; }, 2000);
+    };
+
+    function legacyCopy() {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, text.length);
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      document.body.removeChild(ta);
+      return ok;
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { done(true); }).catch(function () { done(legacyCopy()); });
+    } else {
+      done(legacyCopy());
+    }
+  };
+
+  /* ---------- 啟動 ---------- */
+  build();
+  bind();
+
+  // 還原展開狀態；第一次進來預設全部收合，只展開有固定門票的那幾天
+  DAYS.forEach(function (d) {
+    var saved = store.get('budget2.open.' + d.n, null);
+    var open = saved === null ? false : saved === '1';
+    document.getElementById('panel-' + d.n).classList.toggle('open', open);
+  });
+
+  recalc();
+  if (window.applyHero) window.applyHero('../assets/hero/');
+})();
+</script>
+
+</body>
+</html>

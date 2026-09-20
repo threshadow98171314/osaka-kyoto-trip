@@ -39,20 +39,57 @@
 ## 主要檔案
 
 ### 網站入口 docs/
-- `docs/index.html` - 網站首頁，連往行程表、地圖與各規劃工具（GitHub Pages 根路徑）
+- `docs/index.html` - 網站首頁（GitHub Pages 根路徑）
 - `docs/final/index.html` - **正式行程表**（逐日時間軸）
 - `docs/final/styles.css` - 行程表樣式（含深色模式）
 - `docs/final/sw.js` / `manifest.json` / `icon.svg` - PWA，讓行程可離線閱讀
 - `docs/map/index.html` - **行程地圖**（Leaflet + OpenStreetMap）
 - `docs/map/places.json` - 地圖資料，**由腳本產生，不要手動編輯**
+- `docs/budget/index.html` - **預算追蹤**（依 Day 分開記帳）
+- `docs/checklist/index.html` - **行前 Check List**
+- `docs/assets/base.css` - 預算與 Check List 共用樣式
+- `docs/assets/hero/` - 頁首背景照片，**由腳本產生，不要手動編輯**
 
-> 每個頁面都必須有回首頁的連結（行程表與地圖在頂部工具列，選擇器在頁首與頁尾）。
+> **每個頁面都必須有回首頁的連結。** 行程表、地圖、預算、Check List 在頂部工具列；選擇器在頁首與頁尾。
+
+### 頁首背景照片 docs/assets/hero/
+- 來源：**Wikimedia Commons，僅收自由授權**（CC0／PD／CC-BY／CC-BY-SA），作者與授權標示於頁首下方
+- 每次載入隨機挑一張；`object-fit: cover` 讓直式照片也能適應手機與桌機
+- 照片上方壓一層暗色漸層罩，確保白字在任何照片上都可讀
+- 照片未載入或離線時，頁首自動退回原本的漸層底色
+
+```bash
+node scripts/fetch-hero-photos.js   # 重新抓圖並產生 hero.js 與 credits.json
+```
+`WANTED` 陣列可調整地標清單；`FREE` 正規表示式把關授權，**不要放寬**。
+
+### 預算追蹤 docs/budget/
+- 依 Day1～Day8 分別記帳，每天有交通／餐飲／門票／購物／其他五類
+- 另有「共同支出」區（機票、住宿、交通票券、保險、網路）
+- 行程表中<b>已查證的門票</b>寫死在 `DAYS[].fixed`，自動計入當日小計；**改動票價時這裡要一併更新**
+- 資料存於 localStorage `budget2.*`
+
+### 行前 Check List docs/checklist/
+- 7 大類 36 項，勾選狀態存於 localStorage `chk.*`
+- 內容經 2026-09-20 查證，來源記於 `audit/records/2026-09-20.md`
+- 時效性高的項目（免稅制度、入境規定）**出發前需重新查證**
 
 ### docs/map/ 行程地圖
 - 技術：Leaflet 1.9.4（CDN）+ OpenStreetMap 圖磚，**不需 API key、不需信用卡**
-- 功能：依日期篩選、當日移動路線虛線與順序編號、類別開關（景點／美食／交通／住宿／已預約）、彈窗詳情、瀏覽器定位
-- 網址參數 `?day=N` 可直接開啟某一天
-- 彈窗可跳回行程表對應日期（`../final/index.html#day-N`）
+- 網址參數 `?day=N` 可直接開啟某一天；彈窗可跳回行程表（`../final/index.html#day-N`）
+
+**兩種標記必須在視覺上明確區分（請勿合併）**：
+
+| | 行程地點 | 推薦景點 |
+|---|---|---|
+| 來源 | `places`（行程表） | `recommended`（`data/attractions.json`） |
+| 外觀 | 橘色水滴大頭針＋emoji | 青綠小圓點（`必去` 標籤為較大的★） |
+| 時間標籤 | 常駐顯示（`.time-tip`），可由「🕐 顯示時間」開關 | 無 |
+| 預設 | 顯示 | **隱藏**，由「💡 推薦景點」開關 |
+| 圖層 | `layer`（上層，`zIndexOffset: 500`） | `recoLayer`（下層） |
+
+- 視野（`fitBounds`）**只依行程地點計算**，避免被散落各地的推薦景點拉遠
+- 類別開關：景點／美食／交通／住宿／已預約
 
 **資料產生流程**：`docs/final/index.html` 是唯一事實來源。改完行程後執行
 ```bash
@@ -68,6 +105,13 @@ Nominatim 對少數地點解析不佳，腳本內 `QUERY_OVERRIDE` 可指定替�
 - **切換方式**：日期列點擊、鍵盤左右方向鍵、手機左右滑動（橫向位移 >70px 且明顯大於縱向才觸發，避免干擾上下捲動）
 - **今日標記**：日期列上「今天」那一格右上角有金色圓點
 - **複製這天行程**：`copyDay()` 匯出純文字（含日文地名）貼給旅伴；Clipboard API 失敗時退回 `execCommand`
+- **日期列置中**：`.day-nav-inner` 用 `width: fit-content` + `margin: 0 auto` 達成寬螢幕置中；`min-width: max-content` 會讓 `justify-content` 失效，**不要改回去**。560px 以下改為靠左並可橫向捲動
+- **補充資訊 `.tl-tips`**：每個行程 block 下方的注意事項，四種樣式各有用途，請維持語意：
+  - `.tip.warn` — **會撲空／會關門的警告**（例如木津市場週日公休）
+  - `.tip.book` — 需預約、有時限
+  - `.tip.near` — 附近推薦、替代方案
+  - `.tip.info` — 營業時間、交通等實務資訊
+- **預算追蹤已移出**本頁，改為獨立的 `docs/budget/`
 - **日文地名**：`.ja-name` 標註日文寫法，僅在繁中與日文寫法不同時才加；切換狀態存於 localStorage `showJa`；**列印時一律顯示**，方便在當地出示給站務人員
 - **主題**：自動／淺色／深色三段循環，存於 localStorage `theme`
 - **預算追蹤**：各分類金額存於 localStorage `budget.*`，固定門票小計 `FIXED_TICKETS` 定義在 script 內，改動票價時要一併更新

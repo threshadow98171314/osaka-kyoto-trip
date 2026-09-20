@@ -79,14 +79,62 @@ img {
   padding: 0 16px;
 }
 
-/* === Header === */
+/* === Header（底圖為隨機關西風景照） === */
 .site-header {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  /* 照片還沒載入、或離線讀不到時，維持原本的漸層底色 */
   background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
   color: white;
-  padding: 24px 16px;
+  padding: 28px 16px 24px;
   text-align: center;
   box-shadow: var(--shadow);
 }
+
+.site-header .hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;         /* 直式照片也能填滿橫幅而不變形 */
+  object-position: center 38%;
+  z-index: -2;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.site-header .hero-img.is-loaded { opacity: 1; }
+
+/* 壓在照片上的暗色罩，確保白字在任何照片上都讀得清楚 */
+.site-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg,
+    rgba(90, 30, 10, 0.72) 0%,
+    rgba(90, 30, 10, 0.55) 45%,
+    rgba(60, 20, 8, 0.78) 100%);
+}
+
+.site-header .hero-credit {
+  display: block;
+  margin-top: 12px;
+  font-size: 0.62rem;
+  color: rgba(255,255,255,0.62);
+  text-decoration: none;
+  letter-spacing: 0.2px;
+}
+
+.site-header .hero-credit:hover {
+  color: rgba(255,255,255,0.9);
+  text-decoration: underline;
+}
+
+.site-header h1,
+.site-header .trip-dates,
+.site-header .toolbar { position: relative; }
 
 .site-header h1 {
   font-size: 1.4rem;
@@ -166,7 +214,19 @@ img {
 .day-nav-inner {
   display: flex;
   padding: 0 8px;
-  min-width: max-content;
+  /* 寬螢幕時置中；窄螢幕放不下就靠左並可橫向捲動
+     （min-width:max-content 會讓 justify-content 失效，所以改用 width:fit-content + margin auto） */
+  width: fit-content;
+  min-width: 100%;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+@media (max-width: 560px) {
+  .day-nav-inner {
+    justify-content: flex-start;
+    min-width: max-content;
+  }
 }
 
 .day-nav button {
@@ -454,6 +514,69 @@ main {
   font-style: italic;
 }
 
+/* === 補充資訊（注意事項／附近推薦／預約） === */
+.tl-tips {
+  margin-top: 9px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tip {
+  display: flex;
+  gap: 7px;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  padding: 7px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-alt);
+  border-left: 3px solid var(--border);
+}
+
+.tip .tip-ico { flex-shrink: 0; line-height: 1.5; }
+.tip .tip-body { min-width: 0; }
+.tip b { color: var(--primary); }
+.tip a { color: var(--secondary); }
+
+/* 會撲空、會關門 —— 最需要被看到的那種 */
+.tip.warn {
+  background: #FDECE4;
+  border-left-color: #C4562C;
+  color: #6E2A12;
+}
+
+.tip.warn b { color: #A8391A; }
+
+/* 需要預約／有時限 */
+.tip.book {
+  background: #FEF6E2;
+  border-left-color: var(--accent);
+}
+
+/* 附近推薦 */
+.tip.near {
+  background: #ECF3EE;
+  border-left-color: #4E8C7A;
+}
+
+/* 營業時間、實務提醒 */
+.tip.info {
+  background: var(--surface-alt);
+  border-left-color: var(--secondary);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .tip.warn { background: #432114; border-left-color: #C4562C; color: #F3C4AE; }
+  :root:not([data-theme="light"]) .tip.warn b { color: #FF9E75; }
+  :root:not([data-theme="light"]) .tip.book { background: #3B2F14; }
+  :root:not([data-theme="light"]) .tip.near { background: #1B2F26; }
+}
+
+:root[data-theme="dark"] .tip.warn { background: #432114; border-left-color: #C4562C; color: #F3C4AE; }
+:root[data-theme="dark"] .tip.warn b { color: #FF9E75; }
+:root[data-theme="dark"] .tip.book { background: #3B2F14; }
+:root[data-theme="dark"] .tip.near { background: #1B2F26; }
+
 /* === Section Divider === */
 .section-divider {
   border: none;
@@ -656,99 +779,42 @@ body.show-ja .ja-name {
   display: block;
 }
 
-/* === 預算追蹤 === */
-.budget {
-  margin: 20px 0 8px;
+/* === 延伸連結（預算、Check List、地圖） === */
+.more-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  margin: 22px 0 8px;
+}
+
+.more-links a {
+  display: block;
   background: var(--surface);
   border: 1px solid var(--border);
+  border-left: 4px solid var(--primary);
   border-radius: var(--radius);
-  padding: 14px 16px;
+  padding: 13px 15px;
   box-shadow: var(--shadow);
-}
-
-.budget h3 {
-  font-size: 0.95rem;
-  color: var(--primary);
-  margin-bottom: 4px;
-}
-
-.budget .budget-hint {
-  font-size: 0.74rem;
-  color: var(--on-surface-muted);
-  margin-bottom: 10px;
-}
-
-.budget-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 0;
-  border-bottom: 1px dashed var(--border);
-  font-size: 0.82rem;
-}
-
-.budget-row:last-of-type {
-  border-bottom: none;
-}
-
-.budget-row .b-label {
-  flex: 1;
-  min-width: 0;
-}
-
-.budget-row .b-fixed {
-  color: var(--on-surface-muted);
-  white-space: nowrap;
-}
-
-.budget-row input[type="number"] {
-  width: 84px;
-  padding: 4px 7px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--surface);
   color: var(--on-surface);
-  font-family: var(--font-noto);
-  font-size: 0.82rem;
-  text-align: right;
-}
-
-.budget-total-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-top: 12px;
-  padding-top: 10px;
-  border-top: 2px solid var(--primary);
+  text-decoration: none;
+  font-size: 0.88rem;
   font-weight: 700;
+  transition: transform 0.15s, border-left-color 0.15s;
 }
 
-.budget-total-row .b-amount {
-  font-size: 1.25rem;
-  color: var(--primary);
+.more-links a:hover {
+  transform: translateY(-2px);
+  border-left-color: var(--accent);
+  text-decoration: none;
+  color: var(--on-surface);
 }
 
-.budget-total-row .b-twd {
-  font-size: 0.76rem;
-  font-weight: 500;
-  color: var(--on-surface-muted);
-}
-
-.budget-reset {
-  margin-top: 10px;
-  background: none;
-  border: 1px solid var(--border);
-  color: var(--on-surface-muted);
-  border-radius: 20px;
-  padding: 4px 12px;
+.more-links a small {
+  display: block;
+  margin-top: 3px;
   font-size: 0.74rem;
-  font-family: var(--font-noto);
-  cursor: pointer;
-}
-
-.budget-reset:hover {
-  border-color: var(--primary);
-  color: var(--primary);
+  font-weight: 400;
+  color: var(--on-surface-muted);
 }
 
 /* === 離線提示 === */

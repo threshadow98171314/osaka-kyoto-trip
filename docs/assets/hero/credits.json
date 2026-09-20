@@ -1,0 +1,138 @@
+{
+  "generatedAt": "2026-09-20",
+  "source": "Wikimedia Commons",
+  "photos": [
+    {
+      "slug": "osaka-castle",
+      "caption": "大阪城天守閣",
+      "file": "osaka-castle.jpg",
+      "sourceTitle": "File:Osaka Castle 02bs3200.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Osaka_Castle_02bs3200.jpg",
+      "author": "663highland",
+      "license": "CC BY 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.5",
+      "bytes": 409035
+    },
+    {
+      "slug": "dotonbori",
+      "caption": "道頓堀",
+      "file": "dotonbori.jpg",
+      "sourceTitle": "File:Dotonbori, Osaka, at night, November 2016.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dotonbori,_Osaka,_at_night,_November_2016.jpg",
+      "author": "Martin Falbisoner",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "bytes": 568769
+    },
+    {
+      "slug": "kiyomizudera",
+      "caption": "清水寺",
+      "file": "kiyomizudera.jpg",
+      "sourceTitle": "File:Kiyomizu-dera in Kyoto-r.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kiyomizu-dera_in_Kyoto-r.jpg",
+      "author": "Oilstreet",
+      "license": "CC BY 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.5",
+      "bytes": 402290
+    },
+    {
+      "slug": "fushimi-inari",
+      "caption": "伏見稻荷大社 千本鳥居",
+      "file": "fushimi-inari.jpg",
+      "sourceTitle": "File:Fushimi Inari-taisha senbon-torii, August 2019.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Fushimi_Inari-taisha_senbon-torii,_August_2019.jpg",
+      "author": "Jason Zhang",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "bytes": 653637
+    },
+    {
+      "slug": "kinkakuji",
+      "caption": "金閣寺（鹿苑寺）",
+      "file": "kinkakuji.jpg",
+      "sourceTitle": "File:Kinkaku-ji in November 2016 -02.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kinkaku-ji_in_November_2016_-02.jpg",
+      "author": "Martin Falbisoner",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "bytes": 828062
+    },
+    {
+      "slug": "arashiyama",
+      "caption": "嵐山 竹林之道",
+      "file": "arashiyama.jpg",
+      "sourceTitle": "File:Arashiyama Bamboo Grove.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Arashiyama_Bamboo_Grove.jpg",
+      "author": "Mitchwandrew",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "bytes": 1048060
+    },
+    {
+      "slug": "himeji-castle",
+      "caption": "姬路城",
+      "file": "himeji-castle.jpg",
+      "sourceTitle": "File:Himeji Castle The Keep Towers.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Himeji_Castle_The_Keep_Towers.jpg",
+      "author": "by ja:User:Reggaeman",
+      "license": "Public domain",
+      "licenseUrl": "",
+      "bytes": 340831
+    },
+    {
+      "slug": "todaiji",
+      "caption": "奈良 東大寺",
+      "file": "todaiji.jpg",
+      "sourceTitle": "File:The Great Buddha Hall of Tōdai-ji, Nara, November 2016.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Great_Buddha_Hall_of_T%C5%8Ddai-ji,_Nara,_November_2016.jpg",
+      "author": "Martin Falbisoner",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "bytes": 373567
+    },
+    {
+      "slug": "byodoin",
+      "caption": "宇治 平等院鳳凰堂",
+      "file": "byodoin.jpg",
+      "sourceTitle": "File:Byodo-in Uji03bs2640.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Byodo-in_Uji03bs2640.jpg",
+      "author": "663highland",
+      "license": "CC BY 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.5",
+      "bytes": 298295
+    },
+    {
+      "slug": "nara-deer",
+      "caption": "奈良公園 鹿",
+      "file": "nara-deer.jpg",
+      "sourceTitle": "File:Deer in Nara Park.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Deer_in_Nara_Park.jpg",
+      "author": "Christophe95",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "bytes": 632681
+    },
+    {
+      "slug": "kamogawa",
+      "caption": "京都 鴨川",
+      "file": "kamogawa.jpg",
+      "sourceTitle": "File:Kamo River Kyoto.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kamo_River_Kyoto.jpg",
+      "author": "Tomomarusan",
+      "license": "CC BY 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.5",
+      "bytes": 137265
+    },
+    {
+      "slug": "umeda-night",
+      "caption": "大阪 梅田夜景",
+      "file": "umeda-night.jpg",
+      "sourceTitle": "File:20100715 Osaka Umeda Sky Building escalator 1855.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:20100715_Osaka_Umeda_Sky_Building_escalator_1855.jpg",
+      "author": "Jakub Hałun",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "bytes": 182144
+    }
+  ]
+}

@@ -8,7 +8,7 @@
  *
  * 改版時把 CACHE 的版本號 +1，舊快取會在 activate 時清掉。
  */
-const CACHE = 'kansai-2026-v1';
+const CACHE = 'kansai-2026-v2';
 
 const PRECACHE = [
   './',
@@ -16,7 +16,11 @@ const PRECACHE = [
   './styles.css',
   './manifest.json',
   './icon.svg',
+  '../assets/hero/hero.js',
 ];
+
+/* hero 照片（約 5.6MB）不預先快取，改在使用者實際看到時才存下來，
+   避免第一次開頁就吃掉大量流量。 */
 
 self.addEventListener('install', (event) => {
   event.waitUntil(

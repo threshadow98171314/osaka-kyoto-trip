@@ -32,6 +32,11 @@
   --c-transport: #4A6FA5;
   --c-hotel: #6B4E9B;
   --c-fixed: #B8901F;
+  /* 推薦景點用低彩度的青綠，和行程地點的暖色系明顯區隔 */
+  --c-reco: #4E8C7A;
+  --c-reco-must: #2F7A62;
+  --chip-border: #C0D3E3;
+  --shadow: 0 2px 8px rgba(44,36,22,0.10);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -53,6 +58,10 @@
     --c-transport: #8FB3DE;
     --c-hotel: #A68BD4;
     --c-fixed: #D9B463;
+    --c-reco: #6FB8A2;
+    --c-reco-must: #8FD4BB;
+    --chip-border: #35485C;
+    --shadow: 0 2px 8px rgba(0,0,0,0.5);
   }
 }
 
@@ -167,7 +176,7 @@ body {
   z-index: 1;
 }
 
-/* 自訂標記 */
+/* === 行程地點：水滴狀大頭針 === */
 .pin {
   display: flex;
   align-items: center;
@@ -199,6 +208,62 @@ body {
   text-align: center;
   transform: rotate(45deg);
 }
+
+/* === 推薦景點：小圓點，明顯比行程地點低調 === */
+.dot {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--c-reco);
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  opacity: 0.88;
+}
+
+.dot-star {
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: var(--c-reco-must);
+  border: 2px solid #fff;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  line-height: 1;
+}
+
+/* === 行程地點旁浮現的時間標籤 === */
+.leaflet-tooltip.time-tip {
+  background: var(--primary);
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  color: #fff;
+  font-family: var(--font);
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  white-space: nowrap;
+}
+
+.leaflet-tooltip.time-tip::before { display: none; }   /* 拿掉小箭頭 */
+
+/* 推薦景點的名稱標籤（hover 才出現） */
+.leaflet-tooltip.reco-tip {
+  background: var(--surface);
+  color: var(--on-surface, var(--text));
+  border: 1px solid var(--chip-border);
+  border-radius: 6px;
+  font-family: var(--font);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 7px;
+  box-shadow: var(--shadow);
+}
+
+.leaflet-tooltip.reco-tip::before { display: none; }
 
 /* 彈窗 */
 .leaflet-popup-content-wrapper {
@@ -336,10 +401,13 @@ body {
     return 'spot';
   }
 
-  var map, layer, routeLine, meMarker;
-  var places = [];
+  var map, layer, recoLayer, routeLine, meMarker;
+  var places = [];       // 行程表上的地點
+  var recos = [];        // data/attractions.json 的推薦景點
   var activeDay = 'all';
   var activeCats = new Set(Object.keys(CATS));
+  var showReco = false;  // 推薦景點預設關閉，避免一開始就太雜
+  var showTimes = true;  // 行程地點旁是否常駐顯示時間
 
   var $ = function (id) { return document.getElementById(id); };
 
@@ -351,6 +419,8 @@ body {
       maxZoom: 19,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
+    // 推薦景點放在下層，行程地點永遠蓋在上面
+    recoLayer = L.layerGroup().addTo(map);
     layer = L.layerGroup().addTo(map);
   }
 
@@ -384,9 +454,34 @@ body {
     return parts.join('');
   }
 
+  /* 推薦景點的彈窗：資料欄位與行程地點不同 */
+  function recoPopupHtml(r) {
+    var gmaps = r.link || ('https://maps.google.com/maps?q=' + encodeURIComponent(r.query));
+    var parts = [];
+    parts.push('<span class="pop-day">💡 推薦景點・' + r.city + '</span>');
+    parts.push('<div class="pop-title">' + r.name + '</div>');
+    if (r.features) parts.push('<div class="pop-note">' + r.features + '</div>');
+
+    var facts = [];
+    if (r.price)     facts.push('🎫 ' + r.price);
+    if (r.duration)  facts.push('⏱ ' + r.duration);
+    if (r.hours)     facts.push('🕐 ' + r.hours);
+    if (r.transport) facts.push('🚇 ' + r.transport);
+    if (facts.length) parts.push('<div class="pop-note">' + facts.join('<br>') + '</div>');
+
+    parts.push('<div class="pop-actions">'
+      + '<a href="' + gmaps + '" target="_blank" rel="noopener">'
+      + (r.link ? '官方網站' : '在 Google Maps 開啟') + '</a>'
+      + (r.link ? '<a href="https://maps.google.com/maps?q=' + encodeURIComponent(r.query)
+                + '" target="_blank" rel="noopener">Google Maps</a>' : '')
+      + '</div>');
+    return parts.join('');
+  }
+
   /* ---------- 重繪 ---------- */
   function render() {
     layer.clearLayers();
+    recoLayer.clearLayers();
     if (routeLine) { map.removeLayer(routeLine); routeLine = null; }
 
     var shown = places.filter(function (p) {
@@ -412,16 +507,53 @@ body {
       }
     }
 
+    /* --- 行程地點 --- */
     shown.forEach(function (p) {
-      L.marker([p.lat, p.lon], { icon: makeIcon(categorize(p), seqOf[p.query + '@' + p.time]) })
-        .bindPopup(popupHtml(p))
-        .addTo(layer);
+      var m = L.marker([p.lat, p.lon], {
+        icon: makeIcon(categorize(p), seqOf[p.query + '@' + p.time]),
+        zIndexOffset: 500,          // 永遠蓋在推薦景點之上
+      }).bindPopup(popupHtml(p));
+
+      // 時間直接浮在標記旁邊，不用點開也看得到
+      if (showTimes && p.time) {
+        m.bindTooltip(p.time, {
+          permanent: true,
+          direction: 'right',
+          offset: [10, -12],
+          className: 'time-tip',
+        });
+      }
+      m.addTo(layer);
     });
 
-    var label = activeDay === 'all' ? '全部行程' : ('Day ' + activeDay);
-    $('status').textContent = label + '：' + shown.length + ' 個地點'
-      + (routeLine ? '（虛線為當日移動順序）' : '');
+    /* --- 推薦景點 --- */
+    var recoShown = [];
+    if (showReco) {
+      recoShown = recos.filter(function (r) { return r.lat != null; });
+      recoShown.forEach(function (r) {
+        var must = (r.tags || []).indexOf('必去') !== -1;
+        L.marker([r.lat, r.lon], {
+          icon: L.divIcon({
+            className: '',
+            html: must ? '<div class="dot-star">★</div>' : '<div class="dot"></div>',
+            iconSize: must ? [19, 19] : [15, 15],
+            iconAnchor: must ? [9, 9] : [7, 7],
+            popupAnchor: [0, -10],
+          }),
+          zIndexOffset: 0,
+        })
+          .bindTooltip(r.name, { direction: 'top', offset: [0, -8], className: 'reco-tip' })
+          .bindPopup(recoPopupHtml(r))
+          .addTo(recoLayer);
+      });
+    }
 
+    var label = activeDay === 'all' ? '全部行程' : ('Day ' + activeDay);
+    $('status').textContent = label + '：行程 ' + shown.length + ' 點'
+      + (showReco ? '／推薦 ' + recoShown.length + ' 點' : '')
+      + (routeLine ? '（虛線＝當日移動順序）' : '');
+
+    // 只依行程地點決定視野，避免被散落各地的推薦景點拉遠
     if (shown.length) {
       map.fitBounds(L.latLngBounds(shown.map(function (p) { return [p.lat, p.lon]; })),
         { padding: [45, 45], maxZoom: 15 });
@@ -470,6 +602,39 @@ body {
       };
       catBox.appendChild(b);
     });
+
+    /* 分隔線，強調以下兩個開關和上面的「行程分類」性質不同 */
+    var sep = document.createElement('span');
+    sep.style.cssText = 'flex:0 0 auto;width:1px;background:var(--border);margin:4px 3px;';
+    catBox.appendChild(sep);
+
+    /* 推薦景點開關 */
+    var rb = document.createElement('button');
+    rb.type = 'button';
+    rb.className = 'chip cat';
+    rb.style.setProperty('--cat-color', 'var(--c-reco)');
+    rb.textContent = '💡 推薦景點 ' + recos.filter(function (r) { return r.lat != null; }).length;
+    rb.setAttribute('aria-pressed', 'false');
+    rb.onclick = function () {
+      showReco = !showReco;
+      rb.setAttribute('aria-pressed', String(showReco));
+      render();
+    };
+    catBox.appendChild(rb);
+
+    /* 時間標籤開關 */
+    var tb = document.createElement('button');
+    tb.type = 'button';
+    tb.className = 'chip cat';
+    tb.style.setProperty('--cat-color', 'var(--primary)');
+    tb.textContent = '🕐 顯示時間';
+    tb.setAttribute('aria-pressed', 'true');
+    tb.onclick = function () {
+      showTimes = !showTimes;
+      tb.setAttribute('aria-pressed', String(showTimes));
+      render();
+    };
+    catBox.appendChild(tb);
   }
 
   /* ---------- 目前位置 ---------- */
@@ -501,6 +666,7 @@ body {
     })
     .then(function (data) {
       places = (data.places || []).filter(function (p) { return p.lat != null; });
+      recos = (data.recommended || []).filter(function (r) { return r.lat != null; });
       if (!places.length) throw new Error('places.json 沒有任何含座標的地點');
       initMap();
       buildChips();

@@ -547,25 +547,6 @@
       ]
     },
     {
-      "id": "hieizan",
-      "name": "比叡山延慶寺",
-      "city": "京都",
-      "area": "私房秘境",
-      "category": "秘境景點",
-      "features": "天下不可能嶺、錠戶關",
-      "price": "¥1,000",
-      "duration": "3小時",
-      "address": "京都市左京區日吉山下",
-      "hours": "8:30-17:00",
-      "transport": "睿山電鐵「八瀨比合理性前駅」纜車",
-      "link": "https://www.hieizan.ne.jp/",
-      "tags": [
-        "京都",
-        "神社寺院",
-        "自然"
-      ]
-    },
-    {
       "id": "hieizan-enryakuji",
       "name": "比叡山延曆寺",
       "city": "京都",

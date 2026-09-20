@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>行前 Check List｜大阪・京都之旅 2026</title>
+<meta name="description" content="赴日旅遊行前準備確認清單 — 證件、入境、保險、網路、預約、打包">
+<meta name="theme-color" content="#B5451B">
+<link rel="stylesheet" href="../assets/base.css">
+<style>
+.summary {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 14px 16px;
+  margin-bottom: 18px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 9px;
+}
+
+.summary-row strong { font-size: 1.05rem; }
+.summary-row .pct { font-size: 1.35rem; font-weight: 800; color: var(--ok); }
+
+.group-head .meta.done { color: var(--ok); font-weight: 700; }
+
+/* === 項目 === */
+.item {
+  display: flex;
+  gap: 11px;
+  padding: 11px 0;
+  border-bottom: 1px dashed var(--border);
+}
+
+.item:last-child { border-bottom: none; }
+
+.item input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  accent-color: var(--ok);
+  cursor: pointer;
+}
+
+.item .body { flex: 1; min-width: 0; }
+
+.item .t {
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.item.checked .t { text-decoration: line-through; color: var(--muted); }
+
+.item .d {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-top: 3px;
+}
+
+.item .d a { color: var(--secondary); }
+
+.tagline {
+  display: inline-block;
+  font-size: 0.66rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-left: 6px;
+  vertical-align: 1px;
+  white-space: nowrap;
+}
+
+.tagline.must  { background: #FDE8E0; color: #A8391A; }
+.tagline.rec   { background: #E3EEF7; color: #34557F; }
+.tagline.when  { background: #FEF3D8; color: #7A4F1A; }
+.tagline.info  { background: #E8F0E9; color: #2F6B49; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .tagline.must { background: #4E2A1C; color: #F5B79B; }
+  :root:not([data-theme="light"]) .tagline.rec  { background: #1E3A52; color: #A8CBEC; }
+  :root:not([data-theme="light"]) .tagline.when { background: #4A3A18; color: #F0D9A0; }
+  :root:not([data-theme="light"]) .tagline.info { background: #22402F; color: #9AD9B5; }
+}
+
+.callout {
+  background: var(--surface-alt);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 10px 13px;
+  margin: 10px 0 2px;
+  font-size: 0.78rem;
+  line-height: 1.65;
+  color: var(--text);
+}
+
+.callout b { color: var(--primary); }
+</style>
+</head>
+<body>
+
+<header class="site-header" data-hero>
+  <div class="container">
+    <h1>✅ 行前 Check List</h1>
+    <p class="sub">2026年 9月26日 → 10月3日｜關西 8天7夜</p>
+    <div class="toolbar">
+      <a class="tb-link" href="../index.html">← 回首頁</a>
+      <a class="tb-link" href="../final/index.html">📅 行程表</a>
+      <a class="tb-link" href="../budget/index.html">💴 預算</a>
+      <button type="button" onclick="window.print()">🖨️ 列印</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <div class="summary">
+      <div class="summary-row">
+        <strong>完成進度</strong>
+        <span><span class="pct" id="pct">0%</span> <span style="font-size:0.78rem;color:var(--muted)" id="count"></span></span>
+      </div>
+      <div class="progress"><span id="bar" style="width:0%"></span></div>
+      <p class="hint" style="margin:10px 0 0">
+        勾選狀態存在這台裝置的瀏覽器裡。已經做完的項目直接打勾就好。
+      </p>
+    </div>
+
+    <div id="groups"></div>
+
+    <div class="btn-row">
+      <button class="btn" type="button" onclick="uncheckAll()">↺ 全部取消勾選</button>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <p>資訊查證於 2026-09-20．出發前請再次確認官方最新規定</p>
+</footer>
+
+<script src="../assets/hero/hero.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var store = {
+    get: function (k, d) { try { var v = localStorage.getItem(k); return v === null ? d : v; } catch (e) { return d; } },
+    set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+    del: function (k) { try { localStorage.removeItem(k); } catch (e) {} }
+  };
+
+  /* tag: must=必辦 / rec=建議 / when=時程提醒 / info=須知 */
+  var GROUPS = [
+    {
+      id: 'doc', title: '🛂 證件與入境', note: '建議出發前 1 個月完成',
+      items: [
+        { id: 'passport', t: '護照效期確認', tag: 'must',
+          d: '台灣旅客赴日免簽、可停留 90 天。日本要求護照效期涵蓋停留期間，但實務上建議保留 <b>6 個月以上</b>效期，以免在航空公司報到時被刁難。' },
+        { id: 'vjw', t: '登錄 Visit Japan Web，產生入境 QR Code', tag: 'rec',
+          d: '整合「入境審查」與「海關申報」的線上登錄。<b>非強制</b>（現場仍可填紙本），但能大幅縮短排隊時間。關西機場已啟用 Joint Kiosk 自助機，可用 QR Code 一次完成入境審查＋海關。<a href="https://services.digital.go.jp/en/visit-japan-web/" target="_blank" rel="noopener">官方網站</a>' },
+        { id: 'vjw-save', t: 'QR Code 截圖存在手機相簿', tag: 'rec',
+          d: '機場網路不一定穩，別只靠現場開網頁。同行家人可在同一組帳號下一起登錄。' },
+        { id: 'egate', t: '台灣端 e-Gate 自動查驗通關註冊', tag: 'rec',
+          d: '年滿 <b>10 歲、身高 120cm 以上</b>的有戶籍國民即可辦，<b>免費、不必事先線上申請</b>。直接到機場 e-Gate 閘道用護照掃描、錄存臉部影像即可，約 30 秒完成。註冊後<b>永久有效</b>，換新護照也不必重辦。' },
+        { id: 'copy', t: '護照影本／電子檔備份', tag: 'rec',
+          d: '護照遺失時補辦所需。建議存雲端一份、印一份紙本分開放。' },
+      ]
+    },
+    {
+      id: 'insure', title: '🛡️ 保險與金流',
+      items: [
+        { id: 'travel-ins', t: '旅遊平安險（含海外醫療）', tag: 'must',
+          d: '日本醫療費用昂貴，自費就醫動輒數萬日圓起跳。投保時確認<b>海外突發疾病醫療</b>額度，這是自動理賠健保之外最關鍵的一項。' },
+        { id: 'delay-ins', t: '旅遊不便險（班機延誤／行李延誤）', tag: 'rec',
+          d: '9 月下旬仍在<b>颱風季</b>，關西機場受影響機率不低。部分信用卡刷機票即附贈，先確認自己的卡有沒有、理賠門檻是幾小時。' },
+        { id: 'card', t: '信用卡開通海外交易、確認回饋', tag: 'rec',
+          d: '出發前確認海外刷卡功能已開通、額度足夠。日本多數店家可刷卡，但小店、屋台仍以現金為主。' },
+        { id: 'cash', t: '換日圓現金', tag: 'rec',
+          d: '建議每人先換 <b>¥20,000～30,000</b>。黑門市場、錦市場的部分攤販、小型食堂只收現金。' },
+        { id: 'icoca', t: 'ICOCA 交通卡（或確認手機可綁）', tag: 'rec',
+          d: '行程中大量使用地鐵與 JR。可在關西機場或大阪／京都車站購買，押金 ¥500 可退。iPhone 可直接在錢包 App 加入 ICOCA。' },
+      ]
+    },
+    {
+      id: 'net', title: '📶 網路與 App',
+      items: [
+        { id: 'esim', t: 'eSIM 或 WiFi 分享器', tag: 'must',
+          d: '整份行程表與地圖雖然可離線閱讀，但查即時電車班次、Google Maps 導航仍需網路。eSIM 需在出發前先安裝設定檔。' },
+        { id: 'offline-map', t: 'Google Maps 下載關西離線地圖', tag: 'rec',
+          d: '在 Google Maps 搜尋「大阪」→ 點選地區 → 下載離線地圖，涵蓋大阪、京都、神戶、奈良。地下鐵收訊差時很有用。' },
+        { id: 'apps', t: '安裝乘換案內（Japan Transit Planner）', tag: 'rec',
+          d: '查日本電車轉乘比 Google Maps 精準，會標出月台號碼與車廂位置。' },
+        { id: 'pwa', t: '把行程表加到手機主畫面', tag: 'info',
+          d: '用手機瀏覽器開<a href="../final/index.html">行程表</a>，選「加入主畫面」，即可像 App 一樣開啟並<b>離線閱讀</b>。' },
+      ]
+    },
+    {
+      id: 'booked', title: '📌 已預約項目確認', note: '出發前一週再確認一次',
+      items: [
+        { id: 'flight-out', t: '去程 CI 158　9/26（六）15:15 TPE → 19:00 KIX', tag: 'info',
+          d: '建議起飛前 3 小時抵達桃園機場。' },
+        { id: 'flight-back', t: '回程 CI 159　10/3（六）12:20 KIX → 14:15 TPE', tag: 'info',
+          d: '行程表安排 09:30 從京都站搭 HARUKA，約 80 分鐘到關西機場。' },
+        { id: 'hotel1', t: '大阪住宿　9/26 16:00 in ～ 9/29 10:00 out', tag: 'info',
+          d: '一難波南2號店（Apartment Hotel 11 Namba Minami Shin-Imamiya II），新今宮站步行 5-8 分鐘。' },
+        { id: 'hotel2', t: '京都住宿　9/29 15:00 in ～ 10/3 11:00 out', tag: 'info',
+          d: '京都蘭多爾公寓套房飯店，京都車站八条口步行約 10 分鐘。' },
+        { id: 'mouriya', t: 'Mouriya 三宮店　9/28（一）14:00', tag: 'info',
+          d: '神戶牛鐵板燒。<a href="https://www.mouriya.co.jp/" target="_blank" rel="noopener">官網</a>｜📞 +81 78-321-1990' },
+        { id: 'teamlab', t: 'teamLab Biovortex Kyoto　9/29（二）18:00-18:30 入場', tag: 'info',
+          d: '最終入場 19:30。飯店步行約 15 分鐘可達。' },
+        { id: 'nintendo', t: '任天堂博物館　9/30（三）15:30-16:00 入場', tag: 'info',
+          d: '採事前抽選預約制，成人 ¥3,300。<b>每週二休館</b>，9/30 為週三正常開館。' },
+        { id: 'jojoen', t: '敘敘苑 JR京都伊勢丹店　10/2（五）11:30', tag: 'info',
+          d: '伊勢丹百貨 7 樓。📞 075-341-8989' },
+      ]
+    },
+    {
+      id: 'optional', title: '🎫 可考慮加訂',
+      items: [
+        { id: 'torokko', t: '嵐山小火車（嵯峨野觀光鐵道）', tag: 'when',
+          d: '官方票券於<b>乘車日前 1 個月的日本時間 00:00 開賣</b>，秋季非常搶手。行程表 Day6（10/1）在嵐山，若要搭需在 <b>9/1 前後</b>就下手。<br>另外：官方已公告現行復古車廂將於 2026 年底退役，2027 春季換新車，<b>2026 年是搭到經典車廂的最後一年</b>。<a href="https://www.sagano-kanko.co.jp/tc/" target="_blank" rel="noopener">官網</a>' },
+        { id: 'kintetsu', t: '近鐵特急劃位（9/29 奈良 → 京都）', tag: 'when',
+          d: '行程表 Day4 14:15 由近鐵奈良站搭特急至京都站，<b>需事先劃位</b>。可線上或現場購票，但連假前後建議提早。' },
+        { id: 'byodoin-in', t: '平等院鳳凰堂「內部參拜」', tag: 'info',
+          d: '庭園＋鳳翔館 ¥700 之外，內部參拜另加 ¥300，<b>現場排隊分梯次</b>入場，無法事先預約。想看阿彌陀如來坐像要預留時間。' },
+      ]
+    },
+    {
+      id: 'pack', title: '🧳 打包與穿著', note: '9/26～10/3 以 9 月下旬天氣為主',
+      items: [
+        { id: 'clothes', t: '衣物：以「殘暑」為準，不是深秋', tag: 'info',
+          d: '9 月下旬的大阪・京都仍有<b>殘暑</b>，白天偏熱（月均約 26～28°C），但早晚明顯轉涼。建議以短袖／七分袖為主，<b>外加一件薄外套或薄針織</b>早晚穿脫。<br>⚠️ 專案裡的 <a href="../01_overview/天氣.md">天氣.md</a> 是以 10 月為基準，對這趟前段會偏冷。' },
+        { id: 'shoes', t: '好走的鞋', tag: 'must',
+          d: '行程含伏見稻荷、清水寺周邊坡道、嵐山、姬路城，單日步行量大。' },
+        { id: 'umbrella', t: '摺疊傘 / 輕便雨衣', tag: 'rec',
+          d: '9 月下旬仍在颱風季，且日本秋季多雨。' },
+        { id: 'meds', t: '常備藥（含個人處方藥）', tag: 'rec',
+          d: '處方藥建議攜帶處方箋或英文診斷證明。一般成藥日本藥妝店都買得到。' },
+        { id: 'plug', t: '轉接頭確認', tag: 'info',
+          d: '日本為 <b>A 型插座、100V</b>，台灣插頭可直接使用，不需轉接頭。但日本電壓較低，部分電器充電會較慢。' },
+        { id: 'bag', t: '可折疊購物袋', tag: 'rec',
+          d: '日本商店普遍塑膠袋收費。行程含黑門市場、錦市場、心齋橋、河原町等大量採買點。' },
+      ]
+    },
+    {
+      id: 'know', title: '💡 當地須知',
+      items: [
+        { id: 'taxfree', t: '免稅制度：這趟適用「店內直接免稅」舊制', tag: 'info',
+          d: '日本自 <b>2026/11/1</b> 起改為「先付含稅價、離境時再退稅」的新制。你們的行程是 <b>9/26～10/3</b>，<b>仍適用現行制度</b>：在免稅店出示護照即可當場扣除消費稅，不必在機場排隊退稅。<br>網路上大量「日本退稅新制」的文章講的是 11 月以後的事，這趟不適用。' },
+        { id: 'taxfree-doc', t: '免稅購物要帶「護照正本」', tag: 'must',
+          d: '影本、照片都不行。單一店家同日消費滿一定金額才能免稅。' },
+        { id: 'cash-only', t: '預期部分店家只收現金', tag: 'info',
+          d: '黑門市場、錦市場攤販、小型食堂、部分神社授與所常見。' },
+        { id: 'trash', t: '街上幾乎沒有垃圾桶', tag: 'info',
+          d: '邊走邊吃後的垃圾多半要自己帶著，建議隨身帶小塑膠袋。超商與車站有垃圾桶。' },
+        { id: 'nintendo-tue', t: '留意「週二休館」與寺院關門時間', tag: 'info',
+          d: '任天堂博物館每週二休館。多數寺院 16:30～17:00 就停止受理入場，行程表上已標明各景點的最終入場時間，安排當天請留意。' },
+      ]
+    },
+  ];
+
+  var $ = function (s) { return document.querySelector(s); };
+  var KEY = function (g, i) { return 'chk.' + g + '.' + i; };
+
+  function build() {
+    $('#groups').innerHTML = GROUPS.map(function (g) {
+      var items = g.items.map(function (it) {
+        var id = 'cb-' + g.id + '-' + it.id;
+        return '<div class="item" id="item-' + g.id + '-' + it.id + '">'
+          + '<input type="checkbox" id="' + id + '" data-g="' + g.id + '" data-i="' + it.id + '">'
+          + '<div class="body">'
+          +   '<label class="t" for="' + id + '">' + it.t
+          +     '<span class="tagline ' + it.tag + '">' + tagLabel(it.tag) + '</span>'
+          +   '</label>'
+          +   (it.d ? '<div class="d">' + it.d + '</div>' : '')
+          + '</div></div>';
+      }).join('');
+
+      return '<section class="panel">'
+        + '<div class="panel-head group-head">'
+        +   '<h2>' + g.title + '</h2>'
+        +   '<span class="meta" id="meta-' + g.id + '"></span>'
+        + '</div>'
+        + '<div class="panel-body">'
+        +   (g.note ? '<p class="hint">' + g.note + '</p>' : '')
+        +   items
+        + '</div></section>';
+    }).join('');
+  }
+
+  function tagLabel(tag) {
+    return { must: '必辦', rec: '建議', when: '有時限', info: '須知' }[tag] || tag;
+  }
+
+  function refresh() {
+    var total = 0, done = 0;
+
+    GROUPS.forEach(function (g) {
+      var gt = g.items.length, gd = 0;
+      g.items.forEach(function (it) {
+        var cb = document.getElementById('cb-' + g.id + '-' + it.id);
+        if (cb && cb.checked) gd++;
+      });
+      total += gt; done += gd;
+
+      var meta = document.getElementById('meta-' + g.id);
+      meta.textContent = gd + ' / ' + gt;
+      meta.classList.toggle('done', gd === gt);
+    });
+
+    var pct = total ? Math.round(done / total * 100) : 0;
+    $('#pct').textContent = pct + '%';
+    $('#count').textContent = '（' + done + ' / ' + total + '）';
+    $('#bar').style.width = pct + '%';
+  }
+
+  function bind() {
+    GROUPS.forEach(function (g) {
+      g.items.forEach(function (it) {
+        var cb = document.getElementById('cb-' + g.id + '-' + it.id);
+        if (!cb) return;
+        cb.checked = store.get(KEY(g.id, it.id), '0') === '1';
+        document.getElementById('item-' + g.id + '-' + it.id)
+          .classList.toggle('checked', cb.checked);
+
+        cb.addEventListener('change', function () {
+          store.set(KEY(g.id, it.id), cb.checked ? '1' : '0');
+          document.getElementById('item-' + g.id + '-' + it.id)
+            .classList.toggle('checked', cb.checked);
+          refresh();
+        });
+      });
+    });
+  }
+
+  window.uncheckAll = function () {
+    if (!confirm('確定要取消所有勾選嗎？')) return;
+    GROUPS.forEach(function (g) {
+      g.items.forEach(function (it) {
+        var cb = document.getElementById('cb-' + g.id + '-' + it.id);
+        if (cb) cb.checked = false;
+        store.del(KEY(g.id, it.id));
+        document.getElementById('item-' + g.id + '-' + it.id).classList.remove('checked');
+      });
+    });
+    refresh();
+  };
+
+  build();
+  bind();
+  refresh();
+  if (window.applyHero) window.applyHero('../assets/hero/');
+})();
+</script>
+
+</body>
+</html>

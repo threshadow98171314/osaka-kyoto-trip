@@ -16,6 +16,7 @@ const fs = require('fs');
 const path = require('path');
 
 const SRC = path.join('docs', 'final', 'index.html');
+const RECO_SRC = path.join('data', 'attractions.json');
 const OUT = path.join('docs', 'map', 'places.json');
 const REFRESH = process.argv.includes('--refresh');
 const UA = 'osaka-kyoto-trip/1.0 (personal travel itinerary map; https://github.com/threshadow98171314/osaka-kyoto-trip)';
@@ -36,6 +37,27 @@ const QUERY_OVERRIDE = {
   // （OSM 回傳的地址與行程表記載一致：長柄西一丁目、北長狭通一丁目 9 番）
   '天然温泉なにわの湯': 'なにわの湯',
   'モーリヤ三宮店 神戸': 'モーリヤ',
+
+  /* ---- 推薦景點（data/attractions.json）：繁中名稱與日文正式名差異較大者 ---- */
+  '哲學之道 京都': '哲学の道 京都',
+  '比叡山延曆寺 京都': '延暦寺 大津',
+  '天保山摩天輪 大阪': '天保山大観覧車',
+  '神戶港塔 関西': '神戸ポートタワー',
+  '北野異人館 関西': '北野異人館 神戸',
+  '有馬溫泉 関西': '有馬温泉',
+  '城崎溫泉 関西': '城崎温泉',
+  '倉敷美觀地區 関西': '倉敷美観地区',
+  '姬路動物園 関西': '姫路市立動物園',
+  '神戶動物王國 関西': '神戸どうぶつ王国',
+  '任天堂博物館 京都': 'ニンテンドーミュージアム 宇治',
+  '嵐山小火車 京都': 'トロッコ嵯峨駅',
+  '京都國際マンガ博物館 京都': '京都国際マンガミュージアム',
+  '伊根灣舟屋 京都': '伊根の舟屋',
+  '奈良老街 奈良': 'ならまち 奈良',
+  '臨空城 Outlets 大阪': 'りんくうプレミアム・アウトレット',
+  '心齋橋 PARCO 大阪': '心斎橋PARCO',
+  'teamLab 長居植物園 大阪': '長居植物園 大阪',
+  '大阪灣格蘭王子大飯店 大阪': 'グランドプリンスホテル大阪ベイ',
 };
 
 const strip = (s) => s.replace(/<[^>]*>/g, '').replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
@@ -99,8 +121,49 @@ function extract() {
   return places;
 }
 
-async function geocode(query) {
-  const q = QUERY_OVERRIDE[query] || query;
+/* 繁體漢字 → 日文新字體。OSM 的日本資料用日文漢字，
+   「有馬溫泉」查不到但「有馬温泉」查得到。 */
+const ZH_TO_JA = {
+  '溫': '温', '戶': '戸', '區': '区', '縣': '県', '觀': '観', '國': '国',
+  '學': '学', '灣': '湾', '醫': '医', '藝': '芸', '櫻': '桜', '舊': '旧',
+  '寶': '宝', '鐵': '鉄', '驛': '駅', '澤': '沢', '濱': '浜', '缽': '鉢',
+  '龍': '竜', '藥': '薬', '橫': '横', '嶽': '岳', '團': '団', '廣': '広',
+  '劍': '剣', '萬': '万', '歷': '歴', '澀': '渋', '祕': '秘', '眾': '衆',
+};
+
+const toJaKanji = (s) => s.replace(/[一-鿿]/g, (c) => ZH_TO_JA[c] || c);
+
+/* 產生由精確到寬鬆的候選查詢字串 */
+function queryVariants(query) {
+  const out = [];
+  const push = (s) => { s = (s || '').trim(); if (s && out.indexOf(s) === -1) out.push(s); };
+
+  push(query);
+  push(toJaKanji(query));
+
+  // 去掉括號內的補充說明：「銀閣寺（慈照寺） 京都」→「銀閣寺 京都」
+  const noParen = query.replace(/[（(][^）)]*[）)]/g, ' ').replace(/\s+/g, ' ');
+  push(noParen);
+  push(toJaKanji(noParen));
+
+  // 取括號內的名稱：「美國村（アメリカ村） 大阪」→「アメリカ村 大阪」
+  const inner = query.match(/[（(]([^）)]+)[）)]/);
+  if (inner) {
+    const tail = query.replace(/^.*[）)]/, '').trim();
+    push((inner[1] + ' ' + tail).trim());
+  }
+
+  // 「新世界・通天閣 大阪」→ 取「・」後段
+  if (query.indexOf('・') !== -1) {
+    const parts = query.split(' ')[0].split('・');
+    const tail = query.split(' ').slice(1).join(' ');
+    parts.forEach((p) => { push((p + ' ' + tail).trim()); push(toJaKanji((p + ' ' + tail).trim())); });
+  }
+
+  return out;
+}
+
+async function geocodeOnce(q) {
   const url = 'https://nominatim.openstreetmap.org/search'
     + '?format=jsonv2&limit=1&countrycodes=jp&accept-language=ja'
     + '&q=' + encodeURIComponent(q);
@@ -117,45 +180,95 @@ async function geocode(query) {
   };
 }
 
+async function geocode(query) {
+  // 有手動指定就只用指定的，不再試其他變體
+  if (QUERY_OVERRIDE[query]) return geocodeOnce(QUERY_OVERRIDE[query]);
+
+  const variants = queryVariants(query);
+  for (let i = 0; i < variants.length; i++) {
+    if (i > 0) await new Promise((r) => setTimeout(r, 1100)); // 每次請求都要守速率
+    const hit = await geocodeOnce(variants[i]);
+    if (hit) return hit;
+  }
+  return null;
+}
+
+/* 推薦景點：來自 data/attractions.json，與行程表地點分開呈現 */
+function extractRecommended() {
+  if (!fs.existsSync(RECO_SRC)) return [];
+  const json = JSON.parse(fs.readFileSync(RECO_SRC, 'utf8'));
+  return (json.attractions || []).map((a) => ({
+    id: a.id,
+    name: a.name,
+    city: a.city,
+    category: a.category || a.area || '',
+    features: a.features || '',
+    price: a.price || '',
+    duration: a.duration || '',
+    hours: a.hours || '',
+    transport: a.transport || '',
+    link: a.link || '',
+    tags: a.tags || [],
+    // 加上城市可大幅提高 Nominatim 命中率（「清水寺」全日本不只一間）
+    query: a.name + ' ' + (a.city === '關西延伸' ? '関西' : a.city),
+  }));
+}
+
 (async () => {
   const places = extract();
-  console.log('從行程表擷取到 ' + places.length + ' 個地點\n');
+  const recommended = extractRecommended();
+  console.log('行程表地點 ' + places.length + ' 個，推薦景點 ' + recommended.length + ' 個\n');
 
   // 沿用既有座標，避免重複請求
   let cache = {};
   if (!REFRESH && fs.existsSync(OUT)) {
-    for (const p of JSON.parse(fs.readFileSync(OUT, 'utf8')).places || []) {
+    const prev = JSON.parse(fs.readFileSync(OUT, 'utf8'));
+    for (const p of (prev.places || []).concat(prev.recommended || [])) {
       if (p.lat != null) cache[p.query] = { lat: p.lat, lon: p.lon, osm: p.osm, geocodedQuery: p.geocodedQuery };
     }
+    // 上次查不到的也記下來，不要每次重試
+    for (const q of prev.unresolved || []) cache[q] = null;
   }
 
-  const uniq = [...new Set(places.map((p) => p.query))];
+  const all = places.concat(recommended);
+  const uniq = [...new Set(all.map((p) => p.query))];
   const coords = {};
+  const unresolved = [];
   let hit = 0, miss = 0, cached = 0;
 
   for (const q of uniq) {
-    if (cache[q]) { coords[q] = cache[q]; cached++; console.log('  快取  ' + q); continue; }
+    if (Object.prototype.hasOwnProperty.call(cache, q)) {
+      cached++;
+      if (cache[q]) coords[q] = cache[q]; else unresolved.push(q);
+      continue;
+    }
     try {
-      await new Promise((r) => setTimeout(r, 1100)); // 遵守 1 req/sec
+      await new Promise((r) => setTimeout(r, 1100)); // 遵守 Nominatim 每秒 1 次
       const c = await geocode(q);
       if (c) { coords[q] = c; hit++; console.log('  ✓ ' + q + '  →  ' + c.lat + ', ' + c.lon); }
-      else { miss++; console.log('  ✗ 查無座標  ' + q); }
+      else { miss++; unresolved.push(q); console.log('  ✗ 查無座標  ' + q); }
     } catch (e) {
       miss++;
+      unresolved.push(q);
       console.log('  ✗ ' + q + '  (' + e.message + ')');
     }
   }
 
-  for (const p of places) Object.assign(p, coords[p.query] || {});
+  for (const p of all) Object.assign(p, coords[p.query] || {});
 
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
   fs.writeFileSync(OUT, JSON.stringify({
     generatedAt: new Date().toISOString().slice(0, 10),
     source: SRC.replace(/\\/g, '/'),
+    recommendedSource: RECO_SRC.replace(/\\/g, '/'),
     attribution: '© OpenStreetMap contributors — 座標由 Nominatim 查詢',
     places,
+    recommended: recommended.filter((r) => r.lat != null),
+    unresolved,
   }, null, 2) + '\n', 'utf8');
 
-  console.log('\n新查 ' + hit + ' / 沿用快取 ' + cached + ' / 失敗 ' + miss);
+  console.log('\n新查 ' + hit + ' / 沿用快取 ' + cached + ' / 查無座標 ' + miss);
+  console.log('行程表地點 ' + places.filter((p) => p.lat != null).length + '/' + places.length
+            + '，推薦景點 ' + recommended.filter((r) => r.lat != null).length + '/' + recommended.length);
   console.log('已寫入 ' + OUT);
 })();
