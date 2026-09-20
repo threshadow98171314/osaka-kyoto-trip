@@ -89,6 +89,11 @@ node scripts/fetch-hero-photos.js   # 重新抓圖並產生 hero.js 與 credits.
 | 圖層 | `layer`（上層，`zIndexOffset: 500`） | `recoLayer`（下層） |
 
 - 視野（`fitBounds`）**只依行程地點計算**，避免被散落各地的推薦景點拉遠
+- **移動路線開關**（〰️ 移動路線）：只在單日檢視有作用；路線依「有時間的地點」排序連線，
+  因此**每個地點都必須有時間**。若某地點只出現在「今日相關地圖」而沒有對應的時間軸項目，
+  它就不會有時間，那天的路線會斷掉或畫不出來 —— 請把 map-link 補回對應的時間軸項目
+- **序號**：當天最早的點若是機場，編號從 0 起算（代表抵達／出發點），其餘從 1 開始。
+  注意 `makeIcon()` 不可用 `seq ? ...` 判斷，因為 0 在 JS 是 falsy
 - 類別開關：景點／美食／交通／住宿／已預約
 
 **資料產生流程**：`docs/final/index.html` 是唯一事實來源。改完行程後執行
@@ -104,17 +109,28 @@ Nominatim 對少數地點解析不佳，腳本內 `QUERY_OVERRIDE` 可指定替�
 - **逐日切換**：`showDay(n)` 一次只顯示一天。初始顯示順序為：網址 `#day-N` > 今天的日期 > 上次瀏覽的日期（localStorage `lastDay`）
 - **切換方式**：日期列點擊、鍵盤左右方向鍵、手機左右滑動（橫向位移 >70px 且明顯大於縱向才觸發，避免干擾上下捲動）
 - **今日標記**：日期列上「今天」那一格右上角有金色圓點
+- **主行程 / 彈性行程**（2026-09-21 起）：每個 `.timeline-item` 都必須有 `.tl-kind` 標示
+  - `.is-main` ＋ `主行程`：航班、**所有交通移動**、住宿 check-in/out、5 個已預約項目，
+    以及 8 個大景點（大阪城、姬路城、奈良公園、伏見稻荷、平等院、金閣寺、嵐山、清水寺）。左側為實線邊
+  - `.is-flex` ＋ `彈性`：其餘餐飲、購物、機動景點。左側為虛線邊，內含方案輪播
+  - 目前為 45 主行程 / 16 彈性，**不應有未標示的項目**
+- **方案輪播 `.plans`**：方案 A 一律是原訂行程，B／C 為替代方案（共 32 個）
+  - 切換方式：圓點、左右箭頭、**區塊內左右滑動**（門檻 40px）
+  - `.plans-viewport` 的高度由 JS 依目前方案設定；`.plans-track` 必須保持
+    `align-items: flex-start`，否則 flex 會把所有方案拉成等高，量不到各自的真實高度
+  - **頁面層級的日期滑動會略過起點落在 `.plans` 內的手勢**，兩種滑動才不會打架
+  - 方案中引用的店家／景點資料一律來自已查證的資料庫（`docs/selector/foods.html` 的
+    `foods`、`data/attractions.json`），**不要在方案裡手寫未查證的票價或營業時間**
+  - 列印時所有方案會攤平顯示，不會只印出目前那一個
 - **複製這天行程**：`copyDay()` 匯出純文字（含日文地名）貼給旅伴；Clipboard API 失敗時退回 `execCommand`
 - **日期列置中**：`.day-nav-inner` 用 `width: fit-content` + `margin: 0 auto` 達成寬螢幕置中；`min-width: max-content` 會讓 `justify-content` 失效，**不要改回去**。560px 以下改為靠左並可橫向捲動
-- **補充資訊 `.tl-tips`**：每個行程 block 下方的注意事項，四種樣式各有用途，請維持語意：
   - `.tip.warn` — **會撲空／會關門的警告**（例如木津市場週日公休）
   - `.tip.book` — 需預約、有時限
   - `.tip.near` — 附近推薦、替代方案
   - `.tip.info` — 營業時間、交通等實務資訊
-- **預算追蹤已移出**本頁，改為獨立的 `docs/budget/`
 - **日文地名**：`.ja-name` 標註日文寫法，僅在繁中與日文寫法不同時才加；切換狀態存於 localStorage `showJa`；**列印時一律顯示**，方便在當地出示給站務人員
 - **主題**：自動／淺色／深色三段循環，存於 localStorage `theme`
-- **預算追蹤**：各分類金額存於 localStorage `budget.*`，固定門票小計 `FIXED_TICKETS` 定義在 script 內，改動票價時要一併更新
+- **預算追蹤已移出本頁**，改為獨立的 `docs/budget/`（依 Day 分開記帳，localStorage `budget2.*`）
 - **離線**：Service Worker 快取行程本體；字體採非阻塞載入，CDN 失效時退回系統中日文字型
 - **地圖連結**：`?q=` 一律使用**明文日文地名**，不要改回 percent-encoding（歷史上曾因編碼轉換導致 17 個連結指向錯誤地點）
 
@@ -132,8 +148,16 @@ Nominatim 對少數地點解析不佳，腳本內 `QUERY_OVERRIDE` 可指定替�
 
 ### docs/selector/ -HTML選擇器（GitHub Pages顯示用）
 這些 HTML 檔案使用 Tailwind CSS CDN 引入樣式，無需 build step：
-- `docs/selector/attractions.html` - 景點選擇器（綠色主題）
-- `docs/selector/foods.html` - 美食選擇器（橙色主題）
+- `docs/selector/attractions.html` - 景點選擇器（綠色主題，110 筆）
+- `docs/selector/foods.html` - 美食選擇器（橙色主題，63 筆）
+
+> **兩個選擇器已於 2026-09-21 改用 `docs/assets/base.css` 的設計語彙**（同樣的頁首、
+> 隨機風景照、工具列與色票），與站內其他頁面一致，並支援深色模式。
+> Tailwind 仍用於排版，硬編碼色（`bg-white`、`text-gray-*`）在深色模式下有覆寫。
+
+> ⚠️ **`getTagClass()` 的 key 必須與資料中的實際標籤值一致。**
+> 兩個選擇器的標籤集合完全不同，各有各的配色表，不要共用。
+> 歷史上曾因 key 寫成 `type-ramen`、`city-osaka` 而與實際值對不上，導致所有標籤變灰。
 
 > 選擇器是出發前在家規劃用的工具，**不需要做離線版本**；依賴 Tailwind CDN 是可接受的取捨。
 > 需要離線的是行程表與地圖。

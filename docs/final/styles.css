@@ -917,3 +917,204 @@ body.is-offline .offline-badge {
     display: block !important;
   }
 }
+
+
+/* === 主行程 / 彈性行程 === */
+
+/* 主行程：左側實心粗邊，視覺上「定下來了」 */
+.timeline-item.is-main {
+  border-left-color: var(--primary);
+}
+
+/* 彈性行程：左側虛線邊，暗示「可以換」 */
+.timeline-item.is-flex {
+  border-left-style: dashed;
+  border-left-color: var(--secondary);
+}
+
+.tl-kind {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 1px;
+}
+
+.tl-kind.main {
+  background: var(--primary);
+  color: #fff;
+}
+
+.tl-kind.flex {
+  background: transparent;
+  color: var(--secondary);
+  border: 1px dashed var(--secondary);
+}
+
+/* === 方案輪播 === */
+.plans { margin-top: 2px; }
+
+.plans-viewport {
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  /* 高度由 JS 依目前方案設定，避免被最長的方案撐出一大片空白 */
+  transition: height 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.plans-track {
+  display: flex;
+  /* 預設 stretch 會把所有方案拉成一樣高，量不到各自的真實高度 */
+  align-items: flex-start;
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.plan {
+  flex: 0 0 100%;
+  min-width: 0;
+  padding: 2px 1px;
+}
+
+.plan-head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--on-surface);
+  margin-bottom: 5px;
+}
+
+.plan-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 19px;
+  height: 19px;
+  border-radius: 5px;
+  background: var(--secondary);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.plan:first-child .plan-tag { background: var(--primary); }
+
+.plan-body { font-size: 0.85rem; line-height: 1.65; }
+.plan-body > p { margin-bottom: 6px; color: var(--on-surface-muted); }
+
+/* 方案裡引用的店家／景點小卡（資料來自已查證的資料庫） */
+.plan-ref {
+  background: var(--surface-alt);
+  border-left: 3px solid var(--secondary);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 9px 12px;
+  margin-top: 6px;
+}
+
+.pr-name { font-size: 0.85rem; font-weight: 700; color: var(--on-surface); }
+.pr-feat { font-size: 0.78rem; color: var(--on-surface-muted); margin-top: 2px; line-height: 1.6; }
+.pr-facts { font-size: 0.75rem; color: var(--on-surface-muted); margin-top: 5px; line-height: 1.7; }
+
+.pr-map {
+  display: inline-block;
+  margin-top: 7px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--secondary);
+  background: var(--chip-bg);
+  border-radius: 20px;
+  padding: 3px 10px;
+  text-decoration: none;
+}
+
+.pr-map:hover { text-decoration: none; background: #C0D3E3; }
+
+/* 導覽列 */
+.plans-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 8px;
+  padding-top: 7px;
+  border-top: 1px dashed var(--border);
+}
+
+.plan-arrow {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--on-surface-muted);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: pointer;
+  font-family: var(--font-noto);
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+
+.plan-arrow:hover:not(:disabled) { border-color: var(--secondary); color: var(--secondary); }
+.plan-arrow:disabled { opacity: 0.3; cursor: default; }
+
+.plan-dots { display: flex; gap: 5px; }
+
+.plan-dot {
+  min-width: 22px;
+  height: 22px;
+  border-radius: 11px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--on-surface-muted);
+  font-size: 0.68rem;
+  font-weight: 800;
+  font-family: var(--font-noto);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.plan-dot:hover { border-color: var(--secondary); color: var(--secondary); }
+
+.plan-dot.active {
+  background: var(--secondary);
+  border-color: var(--secondary);
+  color: #fff;
+}
+
+.plan-dot:first-child.active {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+/* 圖例 */
+.kind-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: 0.74rem;
+  color: var(--on-surface-muted);
+  margin: 0 0 14px;
+  padding: 9px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.kind-legend span { display: inline-flex; align-items: center; gap: 5px; }
+
+/* 列印時把所有方案攤平顯示，不要只印出目前那一個 */
+@media print {
+  .plans-viewport { overflow: visible; }
+  .plans-track { display: block; transform: none !important; }
+  .plan { break-inside: avoid; margin-bottom: 8px; }
+  .plans-nav { display: none; }
+}

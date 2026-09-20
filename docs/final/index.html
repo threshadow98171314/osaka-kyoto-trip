@@ -75,27 +75,31 @@
             <p class="date-str">抵達大阪，輕鬆安頓</p>
           </div>
         </div>
+        <div class="kind-legend"><span><b style="color:var(--primary)">▌</b>主行程＝已訂或非去不可</span><span><b style="color:var(--secondary)">┊</b>彈性＝可左右滑動換方案</span></div>
+
 
         <div class="timeline">
 
-          <div class="timeline-item">
+          <div class="timeline-item is-main">
             <div class="tl-header">
               <span class="tl-time">15:15</span>
               <span class="tl-icon">✈️</span>
               <span class="tl-title">航班｜TPE 桃園機場 → KIX 關西機場<span class="ja-name">桃園国際空港→関西国際空港</span></span>
               <span class="tl-tag">航班</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>中華航空 CI 158｜起飛 15:15 → 抵達 19:00（飛行時間約 3hr45min）</p>
             </div>
           </div>
 
-          <div class="timeline-item transport">
+          <div class="timeline-item is-main transport">
             <div class="tl-header">
               <span class="tl-time">19:00</span>
               <span class="tl-icon">🛃</span>
               <span class="tl-title">入境通關</span>
               <span class="tl-tag transport">交通</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>入境通關、領取行李，請預留約 1 小時</p>
@@ -106,12 +110,13 @@
             </a>
           </div>
 
-          <div class="timeline-item transport">
+          <div class="timeline-item is-main transport">
             <div class="tl-header">
               <span class="tl-time">20:15</span>
               <span class="tl-icon">🚇</span>
               <span class="tl-title">南海電鐵 關西機場 → 新今宮站<span class="ja-name">南海電鉄／関西国際空港→新今宮駅</span></span>
               <span class="tl-tag transport">交通</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>step-by-step 交通指引：</p>
@@ -127,11 +132,12 @@
             </a>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-main">
             <div class="tl-header">
               <span class="tl-time">21:15</span>
               <span class="tl-icon">🏨</span>
               <span class="tl-title">入住｜一難波南2號店</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p><strong>住一難波南2號店</strong>（Apartment Hotel 11 Namba Minami Shin-Imamiya II）</p>
@@ -144,18 +150,28 @@
             </a>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-flex">
             <div class="tl-header">
               <span class="tl-time">22:00</span>
               <span class="tl-icon">🍜</span>
               <span class="tl-title">晚餐 / 休息</span>
+            <span class="tl-kind flex">彈性</span>
             </div>
-            <div class="tl-detail">
+            <div class="plans" data-plans>
+              <div class="plans-viewport">
+                <div class="plans-track">
+                  <div class="plan" role="tabpanel" aria-label="原訂行程"><div class="plan-head"><span class="plan-tag">A</span>原訂行程</div><div class="plan-body"><div class="tl-detail">
               <p>附近超商（7-11 / 全家）或松屋簡單吃點宵夜，早點休息調整時差</p>
             </div>
             <div class="tl-tips">
               <div class="tip info"><span class="tip-ico">🏪</span><span class="tip-body"><b>新今宮站周邊 24 小時超商</b><br><b>LAWSON 新今宮駅前西店</b>（距車站約 117m）、<b>FamilyMart 新今宮駅北店</b>（約 154m）、<b>FamilyMart 山王動物園前店</b>（約 252m）皆為 24 小時營業。</span></div>
               <div class="tip warn"><span class="tip-ico">⚠️</span><span class="tip-body"><b>深夜別跑錯 7-11</b><br>車站周邊的兩間 7-11 <b>都不是 24 小時</b>：JR新今宮駅西口内店 6:30-22:00、南海新今宮駅改札内店 6:00-23:00。21:15 才入住，宵夜請直接找 LAWSON 或 FamilyMart。</span></div>
+            </div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 B"><div class="plan-head"><span class="plan-tag">B</span>超商一次買齊宵夜＋隔天早餐</div><div class="plan-body"><p>隔天木津市場週日公休，早餐本來就要另想辦法。今晚直接在 24 小時的 LAWSON 新今宮駅前西店或 FamilyMart 新今宮駅北店買好明早的份，隔天可以直接出發。</p></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 C"><div class="plan-head"><span class="plan-tag">C</span>什麼都不吃，直接休息</div><div class="plan-body"><p>21:15 才入住、隔天 09:00 就要出發。飛了一天先把時差和體力調回來，早餐留到大阪城附近再解決。</p></div></div>
+                </div>
+              </div>
+              <div class="plans-nav"><button type="button" class="plan-arrow" data-dir="-1" aria-label="上一個方案">‹</button><div class="plan-dots"><button type="button" class="plan-dot active" data-i="0" aria-label="方案 A">A</button><button type="button" class="plan-dot" data-i="1" aria-label="方案 B">B</button><button type="button" class="plan-dot" data-i="2" aria-label="方案 C">C</button></div><button type="button" class="plan-arrow" data-dir="1" aria-label="下一個方案">›</button></div>
             </div>
           </div>
 
@@ -186,23 +202,35 @@
             <p class="date-str">大阪經典巡禮與商圈採購</p>
           </div>
         </div>
+        <div class="kind-legend"><span><b style="color:var(--primary)">▌</b>主行程＝已訂或非去不可</span><span><b style="color:var(--secondary)">┊</b>彈性＝可左右滑動換方案</span></div>
+
 
         <div class="timeline">
 
-          <div class="timeline-item">
+          <div class="timeline-item is-flex">
             <div class="tl-header">
               <span class="tl-time">09:00</span>
               <span class="tl-icon">🍳</span>
               <span class="tl-title">早餐｜木津市場</span>
               <span class="tl-tag highlight">景點</span>
+            <span class="tl-kind flex">彈性</span>
             </div>
-            <div class="tl-detail">
+            <div class="plans" data-plans>
+              <div class="plans-viewport">
+                <div class="plans-track">
+                  <div class="plan" role="tabpanel" aria-label="原訂行程"><div class="plan-head"><span class="plan-tag">A</span>原訂行程</div><div class="plan-body"><div class="tl-detail">
               <p>從飯店出發，步行約 5 分鐘即可抵達早市，品嚐新鮮海產與生魚片丼飯。</p>
               <p class="tl-note">📍 地址：大阪市浪速區敷津東 2-2-8｜最近站：地鐵大國町站</p>
             </div>
             <div class="tl-tips">
               <div class="tip warn"><span class="tip-ico">🚫</span><span class="tip-body"><b>9/27 是週日，木津市場公休</b><br>大阪木津卸売市場<b>週日、國定假日固定公休</b>（另有不定期週三休市），營業時間僅 <b>06:00–11:00</b>。行程排在 9/27（日）09:00，<b>去了會撲空</b>。<br>面向一般客的「木津の朝市」只在<b>每月第 2 個與最後一個週六 09:00–12:00</b> 舉辦。</span></div>
               <div class="tip near"><span class="tip-ico">🍣</span><span class="tip-body"><b>同區域的替代方案</b><br>① 直接提早去<b>黑門市場</b>（伊勢屋本店 8:30 開門、全年無休），反正當天 13:20 也排了黑門市場，可把早餐併過去、午餐改吃別的。<br>② 飯店周邊超商或大國町站附近早餐店。</span></div>
+            </div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 B"><div class="plan-head"><span class="plan-tag">B</span>改去黑門市場（推薦）</div><div class="plan-body"><p>木津市場 9/27（日）公休。黑門市場的伊勢屋本店 8:30 就開、全年無休，走路或地鐵都很近。若改這個方案，午餐的黑門市場就換成別的。</p><div class="plan-ref"><div class="pr-name">黑門市場</div><div class="pr-feat">大阪人的廚房、海鮮現場吃</div><div class="pr-facts">🎫 ¥500-2,000<br>🕐 9:00-18:00<br>📍 大阪市中央區日本橋2-3</div><a class="pr-map" href="https://maps.google.com/maps?q=%E9%BB%91%E9%96%80%E5%B8%82%E5%A0%B4%20%E5%A4%A7%E9%98%AA" target="_blank" rel="noopener">在 Google Maps 開啟</a></div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 C"><div class="plan-head"><span class="plan-tag">C</span>超商解決，把時間留給大阪城</div><div class="plan-body"><p>飯店周邊超商買個飯糰咖啡，提早到大阪城。大阪城公園腹地大，多出來的 1 小時很好用。</p></div></div>
+                </div>
+              </div>
+              <div class="plans-nav"><button type="button" class="plan-arrow" data-dir="-1" aria-label="上一個方案">‹</button><div class="plan-dots"><button type="button" class="plan-dot active" data-i="0" aria-label="方案 A">A</button><button type="button" class="plan-dot" data-i="1" aria-label="方案 B">B</button><button type="button" class="plan-dot" data-i="2" aria-label="方案 C">C</button></div><button type="button" class="plan-arrow" data-dir="1" aria-label="下一個方案">›</button></div>
             </div>
             <a class="map-link" href="https://maps.google.com/maps?q=木津市場+大阪" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
@@ -210,12 +238,13 @@
             </a>
           </div>
 
-          <div class="timeline-item transport">
+          <div class="timeline-item is-main transport">
             <div class="tl-header">
               <span class="tl-time">10:30</span>
               <span class="tl-icon">🚇</span>
               <span class="tl-title">交通｜飯店 → 大阪城</span>
               <span class="tl-tag transport">交通</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>step-by-step 交通指引：</p>
@@ -227,12 +256,13 @@
             </div>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-main">
             <div class="tl-header">
               <span class="tl-time">11:00</span>
               <span class="tl-icon">🏯</span>
               <span class="tl-title">景點｜大阪城</span>
               <span class="tl-tag highlight">景點</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>漫步大阪城公園，欣賞天守閣與護城河；計畫B：可至大阪歷史博物館</p>
@@ -244,12 +274,13 @@
             </a>
           </div>
 
-          <div class="timeline-item transport">
+          <div class="timeline-item is-main transport">
             <div class="tl-header">
               <span class="tl-time">13:00</span>
               <span class="tl-icon">🚇</span>
               <span class="tl-title">交通｜大阪城 → 黑門市場<span class="ja-name">大阪城→黒門市場</span></span>
               <span class="tl-tag transport">交通</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>step-by-step 交通指引：</p>
@@ -261,20 +292,30 @@
             </div>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-flex">
             <div class="tl-header">
               <span class="tl-time">13:20</span>
               <span class="tl-icon">🍢</span>
               <span class="tl-title">午餐｜黑門市場<span class="ja-name">黒門市場</span></span>
               <span class="tl-tag highlight">景點</span>
+            <span class="tl-kind flex">彈性</span>
             </div>
-            <div class="tl-detail">
+            <div class="plans" data-plans>
+              <div class="plans-viewport">
+                <div class="plans-track">
+                  <div class="plan" role="tabpanel" aria-label="原訂行程"><div class="plan-head"><span class="plan-tag">A</span>原訂行程</div><div class="plan-body"><div class="tl-detail">
               <p>邊走邊吃，推薦和牛烤肉串、黑門三平生魚片、高橋豆漿</p>
               <p class="tl-note">📍 地址：中央區日本橋 2-4-1｜最近站：日本橋站 10 號出口步行 2 分鐘</p>
             </div>
             <div class="tl-tips">
               <div class="tip info"><span class="tip-ico">🕐</span><span class="tip-body"><b>各店營業時間不一，週日尤其要注意</b><br>黑門市場<b>不是整體統一營業</b>，逐店而異：<br>・伊勢屋本店 8:30-18:00，<b>全年無休</b><br>・なべじ 9:00-18:00（<b>週日只到 14:00</b>）<br>・みな美 8:00-16:30，<b>週日・例假日公休</b>（10-3月無休）<br>9/27 為週日，想吃特定店家建議先查該店當日營業。</span></div>
               <div class="tip near"><span class="tip-ico">🍢</span><span class="tip-body"><b>必吃</b><br>和牛烤肉串、黑門三平的生魚片與海鮮丼、高橋豆漿的現做豆乳甜甜圈。邊走邊吃為主，<b>多數攤位只收現金</b>。</span></div>
+            </div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 B"><div class="plan-head"><span class="plan-tag">B</span>新世界串炸</div><div class="plan-body"><p>從大阪城搭地鐵到「惠美須町站」，比黑門市場多 1 站。串炸是大阪最具代表性的庶民美食，也能順路看通天閣。</p><div class="plan-ref"><div class="pr-name">串カツだるま 新世界總本店</div><div class="pr-feat">1929 年創業的串炸元祖名店，現炸淋秘傳醬汁，高麗菜免費無限續。醬汁禁止二次沾取</div><div class="pr-facts">🎫 每串約 ¥130-300<br>📍 大阪市浪速區恵美須東2-3-9</div><a class="pr-map" href="https://maps.google.com/maps?q=%E4%B8%B2%E3%82%AB%E3%83%84%E3%81%A0%E3%82%8B%E3%81%BE%20%E6%96%B0%E4%B8%96%E7%95%8C%E7%B8%BD%E6%9C%AC%E5%BA%97%20%E5%A4%A7%E9%98%AA" target="_blank" rel="noopener">在 Google Maps 開啟</a></div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 C"><div class="plan-head"><span class="plan-tag">C</span>道頓堀大阪燒</div><div class="plan-body"><p>若早餐已經在黑門市場吃過，午餐換到道頓堀，吃完直接接下午的心齋橋行程，動線更順。</p><div class="plan-ref"><div class="pr-name">千房</div><div class="pr-feat">口感多元、選擇多樣</div><div class="pr-facts">🎫 ¥800-1,200<br>🕐 11:00-23:00<br>📍 大阪市江區道頓堀1-5-2</div><a class="pr-map" href="https://maps.google.com/maps?q=%E5%8D%83%E6%88%BF%20%E5%A4%A7%E9%98%AA" target="_blank" rel="noopener">在 Google Maps 開啟</a></div></div></div>
+                </div>
+              </div>
+              <div class="plans-nav"><button type="button" class="plan-arrow" data-dir="-1" aria-label="上一個方案">‹</button><div class="plan-dots"><button type="button" class="plan-dot active" data-i="0" aria-label="方案 A">A</button><button type="button" class="plan-dot" data-i="1" aria-label="方案 B">B</button><button type="button" class="plan-dot" data-i="2" aria-label="方案 C">C</button></div><button type="button" class="plan-arrow" data-dir="1" aria-label="下一個方案">›</button></div>
             </div>
             <a class="map-link" href="https://maps.google.com/maps?q=黒門市場+大阪" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
@@ -282,20 +323,30 @@
             </a>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-flex">
             <div class="tl-header">
               <span class="tl-time">14:30</span>
               <span class="tl-icon">🛒</span>
               <span class="tl-title">景點｜日本橋電器街 ＆ 心齋橋筋商店街<span class="ja-name">日本橋でんでんタウン／心斎橋筋商店街</span></span>
               <span class="tl-tag highlight">景點</span>
+            <span class="tl-kind flex">彈性</span>
             </div>
-            <div class="tl-detail">
+            <div class="plans" data-plans>
+              <div class="plans-viewport">
+                <div class="plans-track">
+                  <div class="plan" role="tabpanel" aria-label="原訂行程"><div class="plan-head"><span class="plan-tag">A</span>原訂行程</div><div class="plan-body"><div class="tl-detail">
               <p>step-by-step 交通指引：</p>
               <ol>
                 <li>從黑門市場往南步行約 5-10 分鐘至電器街（でんでんタウン）</li>
                 <li>再往西或北步行約 15 分鐘至心齋橋筋商店街</li>
                 <li>可順路拍攝固力果跑跑人</li>
               </ol>
+            </div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 B"><div class="plan-head"><span class="plan-tag">B</span>美國村＋心齋橋 PARCO</div><div class="plan-body"><p>想看大阪年輕人的潮流文化就選這邊，和電器街只隔幾條街。PARCO 有 ACG／扭蛋樓層。</p><div class="plan-ref"><div class="pr-name">美國村（アメリカ村）</div><div class="pr-feat">美式風格、年輕潮流、潮流服飾</div><div class="pr-facts">🎫 免費<br>⏱ 1-2小時<br>🕐 店鋪各異<br>📍 大阪市中央區西心齋橋<br>🚇 Metro「心齋橋駅」步行5分</div><a class="pr-map" href="https://maps.google.com/maps?q=%E7%BE%8E%E5%9C%8B%E6%9D%91%EF%BC%88%E3%82%A2%E3%83%A1%E3%83%AA%E3%82%AB%E6%9D%91%EF%BC%89%20%E5%B8%82%E4%B8%AD%E5%BF%83" target="_blank" rel="noopener">在 Google Maps 開啟</a></div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 C"><div class="plan-head"><span class="plan-tag">C</span>新世界・通天閣</div><div class="plan-body"><p>昭和復古街區，和午餐的串炸方案可以併在一起，半天就逛完新世界一帶。</p><div class="plan-ref"><div class="pr-name">新世界・通天閣</div><div class="pr-feat">復古街區、串炸 Ike炸豬排</div><div class="pr-facts">🎫 ¥1,500（大人）<br>⏱ 1.5小時<br>🕐 9:00-21:45<br>📍 大阪市浪速區恵美須東1-18-6<br>🚇 Jr 環狀線「新世界駅」步行5分</div><a class="pr-map" href="https://maps.google.com/maps?q=%E6%96%B0%E4%B8%96%E7%95%8C%E3%83%BB%E9%80%9A%E5%A4%A9%E9%96%A3%20%E5%B8%82%E4%B8%AD%E5%BF%83" target="_blank" rel="noopener">在 Google Maps 開啟</a></div></div></div>
+                </div>
+              </div>
+              <div class="plans-nav"><button type="button" class="plan-arrow" data-dir="-1" aria-label="上一個方案">‹</button><div class="plan-dots"><button type="button" class="plan-dot active" data-i="0" aria-label="方案 A">A</button><button type="button" class="plan-dot" data-i="1" aria-label="方案 B">B</button><button type="button" class="plan-dot" data-i="2" aria-label="方案 C">C</button></div><button type="button" class="plan-arrow" data-dir="1" aria-label="下一個方案">›</button></div>
             </div>
             <a class="map-link" href="https://maps.google.com/maps?q=日本橋でんでんタウン+大阪" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
@@ -307,28 +358,39 @@
             </a>
           </div>
 
-          <div class="timeline-item transport">
+          <div class="timeline-item is-main transport">
             <div class="tl-header">
               <span class="tl-time">16:30</span>
               <span class="tl-icon">🚇</span>
               <span class="tl-title">交通｜心齋橋 → 寶可夢中心<span class="ja-name">心斎橋→ポケモンセンターオーサカ</span></span>
               <span class="tl-tag transport">交通</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>從地鐵「心齋橋站」搭乘御堂筋線（往千里中央方向）直達「<strong>梅田站</strong>」，車程約 6 分鐘。</p>
             </div>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-flex">
             <div class="tl-header">
               <span class="tl-time">16:45</span>
               <span class="tl-icon">🎮</span>
               <span class="tl-title">景點｜寶可夢中心（大阪）<span class="ja-name">ポケモンセンターオーサカ（大丸梅田店 13F）</span></span>
               <span class="tl-tag highlight">景點</span>
+            <span class="tl-kind flex">彈性</span>
             </div>
-            <div class="tl-detail">
+            <div class="plans" data-plans>
+              <div class="plans-viewport">
+                <div class="plans-track">
+                  <div class="plan" role="tabpanel" aria-label="原訂行程"><div class="plan-head"><span class="plan-tag">A</span>原訂行程</div><div class="plan-body"><div class="tl-detail">
               <p>位於大丸百貨梅田店 13 樓，蒐集限定寶可夢商品</p>
               <p class="tl-note">📍 地址：大阪市北區梅田 3-1-1 大丸百貨 13F｜🕐 10:00-20:00</p>
+            </div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 B"><div class="plan-head"><span class="plan-tag">B</span>梅田藍天大廈空中庭園</div><div class="plan-body"><p>和寶可夢中心同在梅田，走路可達。傍晚上去剛好接日落與夜景。</p><div class="plan-ref"><div class="pr-name">梅田藍天大廈</div><div class="pr-feat">空中庭園、夕陽/夜景</div><div class="pr-facts">🎫 ¥2,000<br>⏱ 1小時<br>🕐 9:30-22:30<br>📍 大阪市北區大澱中1-1-90<br>🚇 JR「大阪駅」步行9分</div><a class="pr-map" href="https://maps.google.com/maps?q=%E6%A2%85%E7%94%B0%E8%97%8D%E5%A4%A9%E5%A4%A7%E5%BB%88%20%E5%B8%82%E4%B8%AD%E5%BF%83" target="_blank" rel="noopener">在 Google Maps 開啟</a></div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 C"><div class="plan-head"><span class="plan-tag">C</span>阿倍野 HARUKAS 300</div><div class="plan-body"><p>日本第一高樓的 360 度展望台。不在梅田，需要從心齋橋搭御堂筋線往南，適合放棄梅田行程時的替代。</p><div class="plan-ref"><div class="pr-name">阿倍野HARUKAS 300</div><div class="pr-feat">市區最高展望臺、360度夜景</div><div class="pr-facts">🎫 ¥2,000<br>⏱ 1小時<br>🕐 9:00-22:00<br>📍 大阪市阿倍野區阿倍野筋1<br>🚇 「天王寺駅」直達</div><a class="pr-map" href="https://maps.google.com/maps?q=%E9%98%BF%E5%80%8D%E9%87%8EHARUKAS%20300%20%E5%B8%82%E4%B8%AD%E5%BF%83" target="_blank" rel="noopener">在 Google Maps 開啟</a></div></div></div>
+                </div>
+              </div>
+              <div class="plans-nav"><button type="button" class="plan-arrow" data-dir="-1" aria-label="上一個方案">‹</button><div class="plan-dots"><button type="button" class="plan-dot active" data-i="0" aria-label="方案 A">A</button><button type="button" class="plan-dot" data-i="1" aria-label="方案 B">B</button><button type="button" class="plan-dot" data-i="2" aria-label="方案 C">C</button></div><button type="button" class="plan-arrow" data-dir="1" aria-label="下一個方案">›</button></div>
             </div>
             <a class="map-link" href="https://maps.google.com/maps?q=ポケモンセンターオーサカ+大丸梅田店" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
@@ -336,28 +398,39 @@
             </a>
           </div>
 
-          <div class="timeline-item transport">
+          <div class="timeline-item is-main transport">
             <div class="tl-header">
               <span class="tl-time">18:30</span>
               <span class="tl-icon">🚇</span>
               <span class="tl-title">交通｜寶可夢中心 → 天神橋筋商店街<span class="ja-name">ポケモンセンターオーサカ→天神橋筋商店街</span></span>
               <span class="tl-tag transport">交通</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>從地鐵「東梅田站」搭乘谷町線（往大日方向）至「<strong>天神橋筋六丁目站</strong>」，車程約 4 分鐘。</p>
             </div>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-flex">
             <div class="tl-header">
               <span class="tl-time">18:45</span>
               <span class="tl-icon">🍽️</span>
               <span class="tl-title">晚餐｜天神橋筋商店街</span>
               <span class="tl-tag highlight">景點</span>
+            <span class="tl-kind flex">彈性</span>
             </div>
-            <div class="tl-detail">
+            <div class="plans" data-plans>
+              <div class="plans-viewport">
+                <div class="plans-track">
+                  <div class="plan" role="tabpanel" aria-label="原訂行程"><div class="plan-head"><span class="plan-tag">A</span>原訂行程</div><div class="plan-body"><div class="tl-detail">
               <p>日本最長的商店街（約 2.6km），體驗在地美食，隨意逛各式小吃攤</p>
               <p class="tl-note">📍 最近站：天神橋筋六丁目站（地下鐵）、天滿站（JR）</p>
+            </div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 B"><div class="plan-head"><span class="plan-tag">B</span>留在梅田吃</div><div class="plan-body"><p>16:45 就在梅田，不必再移動到天神橋筋。梅田地下街與百貨餐廳選擇多，省下約 30 分鐘車程。</p><div class="plan-ref"><div class="pr-name">梅田藍天大廈</div><div class="pr-feat">空中庭園、夕陽/夜景</div><div class="pr-facts">🎫 ¥2,000<br>⏱ 1小時<br>🕐 9:30-22:30<br>📍 大阪市北區大澱中1-1-90<br>🚇 JR「大阪駅」步行9分</div><a class="pr-map" href="https://maps.google.com/maps?q=%E6%A2%85%E7%94%B0%E8%97%8D%E5%A4%A9%E5%A4%A7%E5%BB%88%20%E5%B8%82%E4%B8%AD%E5%BF%83" target="_blank" rel="noopener">在 Google Maps 開啟</a></div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 C"><div class="plan-head"><span class="plan-tag">C</span>回難波・道頓堀</div><div class="plan-body"><p>晚上要回新今宮的飯店，順路在道頓堀吃完再回去，還能補拍固力果招牌的夜景。</p><div class="plan-ref"><div class="pr-name">金龍拉麵</div><div class="pr-feat">豚骨湯底、24小時營業</div><div class="pr-facts">🎫 ¥600-900<br>🕐 24小時<br>📍 大阪市江區道頓堀1-7-24</div><a class="pr-map" href="https://maps.google.com/maps?q=%E9%87%91%E9%BE%8D%E6%8B%89%E9%BA%B5%20%E5%A4%A7%E9%98%AA" target="_blank" rel="noopener">在 Google Maps 開啟</a></div></div></div>
+                </div>
+              </div>
+              <div class="plans-nav"><button type="button" class="plan-arrow" data-dir="-1" aria-label="上一個方案">‹</button><div class="plan-dots"><button type="button" class="plan-dot active" data-i="0" aria-label="方案 A">A</button><button type="button" class="plan-dot" data-i="1" aria-label="方案 B">B</button><button type="button" class="plan-dot" data-i="2" aria-label="方案 C">C</button></div><button type="button" class="plan-arrow" data-dir="1" aria-label="下一個方案">›</button></div>
             </div>
             <a class="map-link" href="https://maps.google.com/maps?q=天神橋筋商店街+大阪" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
@@ -365,14 +438,18 @@
             </a>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-flex">
             <div class="tl-header">
               <span class="tl-time">20:30</span>
               <span class="tl-icon">♨️</span>
               <span class="tl-title">放鬆｜浪速之湯天然溫泉<span class="ja-name">天然温泉なにわの湯</span></span>
               <span class="tl-tag highlight">景點</span>
+            <span class="tl-kind flex">彈性</span>
             </div>
-            <div class="tl-detail">
+            <div class="plans" data-plans>
+              <div class="plans-viewport">
+                <div class="plans-track">
+                  <div class="plan" role="tabpanel" aria-label="原訂行程"><div class="plan-head"><span class="plan-tag">A</span>原訂行程</div><div class="plan-body"><div class="tl-detail">
               <p>step-by-step 交通指引：</p>
               <ol>
                 <li>從天神橋筋六丁目站步行約 <strong>8 分鐘</strong>抵達「天然溫泉浪速之湯」</li>
@@ -381,6 +458,12 @@
               </ol>
               <p class="tl-note">📍 地址：大阪市北區長柄西 1-7-31｜🕐 週一～五 10:00-翌1:00／六日例假日 8:00-翌1:00（最終受理 24:00）</p>
               <p class="tl-note">🎫 平日 ¥900／六日例假日 <strong>¥1,000</strong>（9/27 為週日，適用 ¥1,000）</p>
+            </div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 B"><div class="plan-head"><span class="plan-tag">B</span>跳過溫泉，早點休息</div><div class="plan-body"><p>隔天 09:00 就要出發去姬路，是全程最早的一天。泡完湯回到飯店大概已經 22:30 之後。</p></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 C"><div class="plan-head"><span class="plan-tag">C</span>道頓堀夜景散步</div><div class="plan-body"><p>不泡湯的話，把晚上留給道頓堀的霓虹與固力果招牌，強度低也不用換裝。</p><div class="plan-ref"><div class="pr-name">道頓堀</div><div class="pr-feat">跑跑人、美食、大板燒、章魚燒</div><div class="pr-facts">🎫 免費<br>⏱ 2-3小時<br>🕐 24小時（店鋪各異）<br>📍 大阪市中央區道頓堀<br>🚇 Metro 禦堂筋線「難波駅」步行5分</div><a class="pr-map" href="https://maps.google.com/maps?q=%E9%81%93%E9%A0%93%E5%A0%80%20%E5%B8%82%E4%B8%AD%E5%BF%83" target="_blank" rel="noopener">在 Google Maps 開啟</a></div></div></div>
+                </div>
+              </div>
+              <div class="plans-nav"><button type="button" class="plan-arrow" data-dir="-1" aria-label="上一個方案">‹</button><div class="plan-dots"><button type="button" class="plan-dot active" data-i="0" aria-label="方案 A">A</button><button type="button" class="plan-dot" data-i="1" aria-label="方案 B">B</button><button type="button" class="plan-dot" data-i="2" aria-label="方案 C">C</button></div><button type="button" class="plan-arrow" data-dir="1" aria-label="下一個方案">›</button></div>
             </div>
             <a class="map-link" href="https://maps.google.com/maps?q=天然温泉なにわの湯" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
@@ -420,15 +503,18 @@
             <p class="date-str">國寶名城與神戶牛饗宴</p>
           </div>
         </div>
+        <div class="kind-legend"><span><b style="color:var(--primary)">▌</b>主行程＝已訂或非去不可</span><span><b style="color:var(--secondary)">┊</b>彈性＝可左右滑動換方案</span></div>
+
 
         <div class="timeline">
 
-          <div class="timeline-item transport">
+          <div class="timeline-item is-main transport">
             <div class="tl-header">
               <span class="tl-time">09:00</span>
               <span class="tl-icon">🚇</span>
               <span class="tl-title">交通｜大阪 → 姬路城<span class="ja-name">大阪→姫路城</span></span>
               <span class="tl-tag transport">交通</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>step-by-step 交通指引：</p>
@@ -440,12 +526,13 @@
             </div>
           </div>
 
-          <div class="timeline-item transport">
+          <div class="timeline-item is-main transport">
             <div class="tl-header">
               <span class="tl-time">10:35</span>
               <span class="tl-icon">🚇</span>
               <span class="tl-title">步行｜JR 姬路站 → 姬路城<span class="ja-name">JR姫路駅→姫路城</span></span>
               <span class="tl-tag transport">交通</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>出 JR 姬路站後，沿著「大手前通」筆直步行約 <strong>15-20 分鐘</strong>即可抵達姬路城。</p>
@@ -456,12 +543,13 @@
             </a>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-main">
             <div class="tl-header">
               <span class="tl-time">10:50</span>
               <span class="tl-icon">🏯</span>
               <span class="tl-title">景點｜姬路城<span class="ja-name">姫路城</span></span>
               <span class="tl-tag highlight">景點</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>日本保存最完整的國寶白鷺城｜列入世界文化遺產</p>
@@ -475,12 +563,13 @@
             </a>
           </div>
 
-          <div class="timeline-item transport">
+          <div class="timeline-item is-main transport">
             <div class="tl-header">
               <span class="tl-time">12:50</span>
               <span class="tl-icon">🚇</span>
               <span class="tl-title">交通｜姬路城 → 神戶 Mouriya<span class="ja-name">姫路城→モーリヤ三宮店</span></span>
               <span class="tl-tag transport">交通</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>step-by-step 交通指引：</p>
@@ -492,12 +581,13 @@
             </div>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-main">
             <div class="tl-header">
               <span class="tl-time">14:00</span>
               <span class="tl-icon">🥩</span>
               <span class="tl-title">固定行程｜Mouriya 三宮店｜神戶牛鐵板燒<span class="ja-name">モーリヤ三宮店（神戸牛鉄板焼）</span></span>
               <span class="tl-tag fixed">預約</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p><strong>Mouriya（モーリヤ）三宮店</strong>｜頂級 A5 神戶牛鐵板燒</p>
@@ -511,16 +601,26 @@
             </a>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-flex">
             <div class="tl-header">
               <span class="tl-time">16:00</span>
               <span class="tl-icon">🏖️</span>
               <span class="tl-title">景點｜神戶市區散策<span class="ja-name">北野異人館／神戸ハーバーランド モザイク</span></span>
               <span class="tl-tag highlight">景點</span>
+            <span class="tl-kind flex">彈性</span>
             </div>
-            <div class="tl-detail">
+            <div class="plans" data-plans>
+              <div class="plans-viewport">
+                <div class="plans-track">
+                  <div class="plan" role="tabpanel" aria-label="原訂行程"><div class="plan-head"><span class="plan-tag">A</span>原訂行程</div><div class="plan-body"><div class="tl-detail">
               <p>北野異人館街感受歐風建築之美 → 美利堅公園看神戶港夕陽</p>
               <p>推薦：北野異人館 → 生田神社 → 神戶港 Mosaic 廣場</p>
+            </div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 B"><div class="plan-head"><span class="plan-tag">B</span>南京町中華街＋元町商店街</div><div class="plan-body"><p>從三宮往西走即到，比北野的坡道輕鬆很多。剛吃完 Mouriya 的話這個方案比較不累。</p><div class="plan-ref"><div class="pr-name">老祥記</div><div class="pr-feat">1915 年創業的百年老店，招牌豚まん（豬肉包）外皮厚薄適中有嚼勁、肉餡鮮甜多汁，南京町的排隊名物</div><div class="pr-facts">📍 神戶市中央區元町通2-1-14</div><a class="pr-map" href="https://maps.google.com/maps?q=%E8%80%81%E7%A5%A5%E8%A8%98%20%E7%A5%9E%E6%88%B6" target="_blank" rel="noopener">在 Google Maps 開啟</a></div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 C"><div class="plan-head"><span class="plan-tag">C</span>神戶港塔＋美利堅公園</div><div class="plan-body"><p>直接衝海邊看夕陽與夜景，省去北野的爬坡時間，18:30 回大阪也比較從容。</p><div class="plan-ref"><div class="pr-name">神戶港塔</div><div class="pr-feat">夜景浪漫、地標</div><div class="pr-facts">🎫 ¥1,000<br>⏱ 1小時<br>🕐 10:00-22:00<br>📍 神戶市中央區波止場町<br>🚇 JR可達</div><a class="pr-map" href="https://maps.google.com/maps?q=%E7%A5%9E%E6%88%B6%E6%B8%AF%E5%A1%94%20%E9%97%9C%E8%A5%BF%E5%BB%B6%E4%BC%B8" target="_blank" rel="noopener">在 Google Maps 開啟</a></div></div></div>
+                </div>
+              </div>
+              <div class="plans-nav"><button type="button" class="plan-arrow" data-dir="-1" aria-label="上一個方案">‹</button><div class="plan-dots"><button type="button" class="plan-dot active" data-i="0" aria-label="方案 A">A</button><button type="button" class="plan-dot" data-i="1" aria-label="方案 B">B</button><button type="button" class="plan-dot" data-i="2" aria-label="方案 C">C</button></div><button type="button" class="plan-arrow" data-dir="1" aria-label="下一個方案">›</button></div>
             </div>
             <a class="map-link" href="https://maps.google.com/maps?q=北野異人館+神戸" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
@@ -536,12 +636,13 @@
             </div>
           </div>
 
-          <div class="timeline-item transport">
+          <div class="timeline-item is-main transport">
             <div class="tl-header">
               <span class="tl-time">18:30</span>
               <span class="tl-icon">🚇</span>
               <span class="tl-title">交通｜神戶 → 大阪（返回飯店）<span class="ja-name">神戸→大阪</span></span>
               <span class="tl-tag transport">交通</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>從 JR 三之宮站搭乘 JR 神戶線 <strong>快速 / 新快速</strong>返回大阪 / 難波方向，結束後返回飯店休息。</p>
@@ -577,15 +678,18 @@
             <p class="date-str">古都奈良與藝術之夜（移動日）</p>
           </div>
         </div>
+        <div class="kind-legend"><span><b style="color:var(--primary)">▌</b>主行程＝已訂或非去不可</span><span><b style="color:var(--secondary)">┊</b>彈性＝可左右滑動換方案</span></div>
+
 
         <div class="timeline">
 
-          <div class="timeline-item transport">
+          <div class="timeline-item is-main transport">
             <div class="tl-header">
               <span class="tl-time">09:00</span>
               <span class="tl-icon">🚇</span>
               <span class="tl-title">交通｜大阪 → 奈良</span>
               <span class="tl-tag transport">交通</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>step-by-step 交通指引：</p>
@@ -596,23 +700,25 @@
             </div>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-main">
             <div class="tl-header">
               <span class="tl-time">10:05</span>
               <span class="tl-icon">🎒</span>
               <span class="tl-title">寄放行李｜近鐵奈良站</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>將行李寄放於近鐵奈良站內的大型置物櫃，步行約 10 分鐘進入奈良公園區域。</p>
             </div>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-main">
             <div class="tl-header">
               <span class="tl-time">10:20</span>
               <span class="tl-icon">🦌</span>
               <span class="tl-title">景點｜奈良公園 ＆ 東大寺 ＆ 春日大社</span>
               <span class="tl-tag highlight">景點</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>看鹿、參觀世界最大木造建築「<strong>東大寺</strong>」大佛殿、祈求學業進步的「<strong>春日大社</strong>」</p>
@@ -632,23 +738,34 @@
             </a>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-flex">
             <div class="tl-header">
               <span class="tl-time">13:00</span>
               <span class="tl-icon">🍡</span>
               <span class="tl-title">午餐｜春日大社表參道 / 近鐵奈良站周邊</span>
+            <span class="tl-kind flex">彈性</span>
             </div>
-            <div class="tl-detail">
+            <div class="plans" data-plans>
+              <div class="plans-viewport">
+                <div class="plans-track">
+                  <div class="plan" role="tabpanel" aria-label="原訂行程"><div class="plan-head"><span class="plan-tag">A</span>原訂行程</div><div class="plan-body"><div class="tl-detail">
               <p>推薦中谷堂現搗麻糬、柿葉壽司奈良特色美食</p>
+            </div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 B"><div class="plan-head"><span class="plan-tag">B</span>志津香釜飯</div><div class="plan-body"><p>Tabelog 奈良排行前段的釜飯名店。現點現炊要等，建議先抽號再去逛公園。</p><div class="plan-ref"><div class="pr-name">志津香 釜飯</div><div class="pr-feat">Tabelog 奈良美食排行前段的釜飯名店，現點現炊需等候</div><div class="pr-facts">📍 奈良市</div><a class="pr-map" href="https://maps.google.com/maps?q=%E5%BF%97%E6%B4%A5%E9%A6%99%20%E9%87%9C%E9%A3%AF%20%E5%A5%88%E8%89%AF" target="_blank" rel="noopener">在 Google Maps 開啟</a></div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 C"><div class="plan-head"><span class="plan-tag">C</span>商店街快速解決</div><div class="plan-body"><p>近鐵奈良站商店街的烏龍麵，吃完順手買中谷堂現搗麻糬。14:15 要搭近鐵特急，趕時間時選這個。</p><div class="plan-ref"><div class="pr-name">麵鬪庵</div><div class="pr-feat">商店街內人氣烏龍麵店，招牌是裝在大福袋裡的巾着きつね</div><div class="pr-facts">📍 奈良市橋本町</div><a class="pr-map" href="https://maps.google.com/maps?q=%E9%BA%B5%E9%AC%AA%E5%BA%B5%20%E5%A5%88%E8%89%AF" target="_blank" rel="noopener">在 Google Maps 開啟</a></div></div></div>
+                </div>
+              </div>
+              <div class="plans-nav"><button type="button" class="plan-arrow" data-dir="-1" aria-label="上一個方案">‹</button><div class="plan-dots"><button type="button" class="plan-dot active" data-i="0" aria-label="方案 A">A</button><button type="button" class="plan-dot" data-i="1" aria-label="方案 B">B</button><button type="button" class="plan-dot" data-i="2" aria-label="方案 C">C</button></div><button type="button" class="plan-arrow" data-dir="1" aria-label="下一個方案">›</button></div>
             </div>
           </div>
 
-          <div class="timeline-item transport">
+          <div class="timeline-item is-main transport">
             <div class="tl-header">
               <span class="tl-time">14:15</span>
               <span class="tl-icon">🚇</span>
               <span class="tl-title">交通｜奈良 → 京都</span>
               <span class="tl-tag transport">交通</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>step-by-step 交通指引：</p>
@@ -660,11 +777,12 @@
             </div>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-main">
             <div class="tl-header">
               <span class="tl-time">15:10</span>
               <span class="tl-icon">🏨</span>
               <span class="tl-title">入住｜京都蘭多爾公寓套房飯店</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>抵達京都車站後，從八条口出站步行約 10 分鐘，抵達「<strong>京都蘭多爾公寓套房飯店</strong>」(Randor Residential Hotel Kyoto Suites) 辦理入住。</p>
@@ -676,24 +794,26 @@
             </a>
           </div>
 
-          <div class="timeline-item transport">
+          <div class="timeline-item is-main transport">
             <div class="tl-header">
               <span class="tl-time">17:30</span>
               <span class="tl-icon">🚶</span>
               <span class="tl-title">交通｜飯店 → teamLab 展場</span>
               <span class="tl-tag transport">交通</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>從飯店步行前往 teamLab 展場（約 15 分鐘）</p>
             </div>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-main">
             <div class="tl-header">
               <span class="tl-time">18:00</span>
               <span class="tl-icon">🎨</span>
               <span class="tl-title">固定行程｜teamLab Biovortex Kyoto</span>
               <span class="tl-tag fixed">預約</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p><strong>18:00-18:30 時段進場</strong>｜日本最大數位藝術博物館</p>
@@ -707,18 +827,28 @@
             </a>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-flex">
             <div class="tl-header">
               <span class="tl-time">19:30</span>
               <span class="tl-icon">🍜</span>
               <span class="tl-title">晚餐｜京都車站周邊<span class="ja-name">京都駅周辺</span></span>
+            <span class="tl-kind flex">彈性</span>
             </div>
-            <div class="tl-detail">
+            <div class="plans" data-plans>
+              <div class="plans-viewport">
+                <div class="plans-track">
+                  <div class="plan" role="tabpanel" aria-label="原訂行程"><div class="plan-head"><span class="plan-tag">A</span>原訂行程</div><div class="plan-body"><div class="tl-detail">
               <p>展覽結束後，步行回京都車站周邊（拉麵小路或地下街用餐）</p>
             </div>
             <div class="tl-tips">
               <div class="tip info"><span class="tip-ico">🍜</span><span class="tip-body"><b>京都拉麵小路（京都站大樓 10F）</b><br>集合全日本 10 家人氣拉麵店，<b>11:00-22:00（L.O. 21:30）</b>。位於京都站大樓大階梯南側 10 樓，從八条口飯店步行可達。<br>用餐尖峰（19:00-20:00）常需排隊，建議提早或錯開。</span></div>
               <div class="tip near"><span class="tip-ico">🛍️</span><span class="tip-body"><b>同棟其他選擇</b><br>Porta 地下街（京都站地下）與 The CUBE 有更多餐廳與伴手禮店，營業時間多為 11:00-22:00，打烊時間比拉麵小路略早，晚歸時請留意。</span></div>
+            </div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 B"><div class="plan-head"><span class="plan-tag">B</span>搭地鐵到四条・河原町</div><div class="plan-body"><p>烏丸線 4 分鐘到四条站，選擇比車站多很多。缺點是吃完要再搭回來。</p><div class="plan-ref"><div class="pr-name">錦市場</div><div class="pr-feat">京之臺所、傳統食材</div><div class="pr-facts">🎫 免費<br>⏱ 1小時<br>🕐 店鋪約 9:00-18:00<br>📍 京都市中京區錦小路<br>🚇 「四條駅」步行5分</div><a class="pr-map" href="https://maps.google.com/maps?q=%E9%8C%A6%E5%B8%82%E5%A0%B4%20%E6%96%87%E5%8C%96%E9%AB%94%E9%A9%97" target="_blank" rel="noopener">在 Google Maps 開啟</a></div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 C"><div class="plan-head"><span class="plan-tag">C</span>飯店周邊簡單吃</div><div class="plan-body"><p>八条口一帶的超商與餐飲。看完 teamLab 或跑完一整天景點後，不想再移動時的保底方案。</p></div></div>
+                </div>
+              </div>
+              <div class="plans-nav"><button type="button" class="plan-arrow" data-dir="-1" aria-label="上一個方案">‹</button><div class="plan-dots"><button type="button" class="plan-dot active" data-i="0" aria-label="方案 A">A</button><button type="button" class="plan-dot" data-i="1" aria-label="方案 B">B</button><button type="button" class="plan-dot" data-i="2" aria-label="方案 C">C</button></div><button type="button" class="plan-arrow" data-dir="1" aria-label="下一個方案">›</button></div>
             </div>
           </div>
 
@@ -751,15 +881,18 @@
             <p class="date-str">千本鳥居與宇治任天堂朝聖</p>
           </div>
         </div>
+        <div class="kind-legend"><span><b style="color:var(--primary)">▌</b>主行程＝已訂或非去不可</span><span><b style="color:var(--secondary)">┊</b>彈性＝可左右滑動換方案</span></div>
+
 
         <div class="timeline">
 
-          <div class="timeline-item transport">
+          <div class="timeline-item is-main transport">
             <div class="tl-header">
               <span class="tl-time">09:00</span>
               <span class="tl-icon">🚇</span>
               <span class="tl-title">交通｜京都 → 伏見稻荷大社<span class="ja-name">京都駅→伏見稲荷大社</span></span>
               <span class="tl-tag transport">交通</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>step-by-step 交通指引：</p>
@@ -770,12 +903,13 @@
             </div>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-main">
             <div class="tl-header">
               <span class="tl-time">09:20</span>
               <span class="tl-icon">⛩️</span>
               <span class="tl-title">景點｜伏見稻荷大社<span class="ja-name">伏見稲荷大社</span></span>
               <span class="tl-tag highlight">景點</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>順著千本鳥居往山上走一小段，避開人潮，祈求生意興隆、五穀豐收</p>
@@ -787,24 +921,26 @@
             </a>
           </div>
 
-          <div class="timeline-item transport">
+          <div class="timeline-item is-main transport">
             <div class="tl-header">
               <span class="tl-time">11:15</span>
               <span class="tl-icon">🚇</span>
               <span class="tl-title">交通｜JR稻荷站 → JR宇治站<span class="ja-name">JR稲荷駅→JR宇治駅</span></span>
               <span class="tl-tag transport">交通</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>返回 JR 稻荷站，搭乘 JR 奈良線至「<strong>JR宇治站</strong>」，車程約 <strong>25 分鐘</strong>。</p>
             </div>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-main">
             <div class="tl-header">
               <span class="tl-time">11:40</span>
               <span class="tl-icon">🍵</span>
               <span class="tl-title">景點與午餐｜宇治散步（平等院）</span>
               <span class="tl-tag highlight">景點</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>參觀世界文化遺產「<strong>平等院</strong>」，吃抹茶蕎麥麵、喝宇治茶，漫步宇治川</p>
@@ -817,12 +953,13 @@
             </a>
           </div>
 
-          <div class="timeline-item transport">
+          <div class="timeline-item is-main transport">
             <div class="tl-header">
               <span class="tl-time">14:30</span>
               <span class="tl-icon">🚇</span>
               <span class="tl-title">交通｜JR宇治站 → JR小倉站 → 任天堂博物館<span class="ja-name">JR宇治駅→JR小倉駅→ニンテンドーミュージアム</span></span>
               <span class="tl-tag transport">交通</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>step-by-step 交通指引：</p>
@@ -833,12 +970,13 @@
             </div>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-main">
             <div class="tl-header">
               <span class="tl-time">15:30</span>
               <span class="tl-icon">🎮</span>
               <span class="tl-title">固定行程｜任天堂博物館 Nintendo Museum<span class="ja-name">ニンテンドーミュージアム</span></span>
               <span class="tl-tag fixed">預約</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p><strong>15:30-16:00 時段進場</strong></p>
@@ -852,30 +990,41 @@
             </a>
           </div>
 
-          <div class="timeline-item transport">
+          <div class="timeline-item is-main transport">
             <div class="tl-header">
               <span class="tl-time">18:00</span>
               <span class="tl-icon">🚇</span>
               <span class="tl-title">交通｜任天堂博物館 → 京都車站<span class="ja-name">ニンテンドーミュージアム→京都駅</span></span>
               <span class="tl-tag transport">交通</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>閉館後步行至 JR 小倉站，搭乘 JR 奈良線返回「<strong>京都車站</strong>」。</p>
             </div>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-flex">
             <div class="tl-header">
               <span class="tl-time">18:45</span>
               <span class="tl-icon">🍜</span>
               <span class="tl-title">晚餐｜京都車站周邊<span class="ja-name">京都駅周辺</span></span>
+            <span class="tl-kind flex">彈性</span>
             </div>
-            <div class="tl-detail">
+            <div class="plans" data-plans>
+              <div class="plans-viewport">
+                <div class="plans-track">
+                  <div class="plan" role="tabpanel" aria-label="原訂行程"><div class="plan-head"><span class="plan-tag">A</span>原訂行程</div><div class="plan-body"><div class="tl-detail">
               <p>拉麵小路（京都站大樓內）、Porta 地下街、或 AEON MALL 京都桂川</p>
             </div>
             <div class="tl-tips">
               <div class="tip info"><span class="tip-ico">🍜</span><span class="tip-body"><b>京都拉麵小路（京都站大樓 10F）</b><br>集合全日本 10 家人氣拉麵店，<b>11:00-22:00（L.O. 21:30）</b>。位於京都站大樓大階梯南側 10 樓，從八条口飯店步行可達。<br>用餐尖峰（19:00-20:00）常需排隊，建議提早或錯開。</span></div>
               <div class="tip near"><span class="tip-ico">🛍️</span><span class="tip-body"><b>同棟其他選擇</b><br>Porta 地下街（京都站地下）與 The CUBE 有更多餐廳與伴手禮店，營業時間多為 11:00-22:00，打烊時間比拉麵小路略早，晚歸時請留意。</span></div>
+            </div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 B"><div class="plan-head"><span class="plan-tag">B</span>搭地鐵到四条・河原町</div><div class="plan-body"><p>烏丸線 4 分鐘到四条站，選擇比車站多很多。缺點是吃完要再搭回來。</p><div class="plan-ref"><div class="pr-name">錦市場</div><div class="pr-feat">京之臺所、傳統食材</div><div class="pr-facts">🎫 免費<br>⏱ 1小時<br>🕐 店鋪約 9:00-18:00<br>📍 京都市中京區錦小路<br>🚇 「四條駅」步行5分</div><a class="pr-map" href="https://maps.google.com/maps?q=%E9%8C%A6%E5%B8%82%E5%A0%B4%20%E6%96%87%E5%8C%96%E9%AB%94%E9%A9%97" target="_blank" rel="noopener">在 Google Maps 開啟</a></div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 C"><div class="plan-head"><span class="plan-tag">C</span>飯店周邊簡單吃</div><div class="plan-body"><p>八条口一帶的超商與餐飲。看完 teamLab 或跑完一整天景點後，不想再移動時的保底方案。</p></div></div>
+                </div>
+              </div>
+              <div class="plans-nav"><button type="button" class="plan-arrow" data-dir="-1" aria-label="上一個方案">‹</button><div class="plan-dots"><button type="button" class="plan-dot active" data-i="0" aria-label="方案 A">A</button><button type="button" class="plan-dot" data-i="1" aria-label="方案 B">B</button><button type="button" class="plan-dot" data-i="2" aria-label="方案 C">C</button></div><button type="button" class="plan-arrow" data-dir="1" aria-label="下一個方案">›</button></div>
             </div>
           </div>
 
@@ -906,15 +1055,18 @@
             <p class="date-str">瑞饋祭、嵐山風華與絕品漢堡排</p>
           </div>
         </div>
+        <div class="kind-legend"><span><b style="color:var(--primary)">▌</b>主行程＝已訂或非去不可</span><span><b style="color:var(--secondary)">┊</b>彈性＝可左右滑動換方案</span></div>
+
 
         <div class="timeline">
 
-          <div class="timeline-item transport">
+          <div class="timeline-item is-main transport">
             <div class="tl-header">
               <span class="tl-time">09:00</span>
               <span class="tl-icon">🚇</span>
               <span class="tl-title">交通｜京都 → 金閣寺</span>
               <span class="tl-tag transport">交通</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>step-by-step 交通指引：</p>
@@ -926,12 +1078,13 @@
             </div>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-main">
             <div class="tl-header">
               <span class="tl-time">09:40</span>
               <span class="tl-icon">🏯</span>
               <span class="tl-title">景點｜金閣寺（鹿苑寺）</span>
               <span class="tl-tag highlight">景點</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>世界文化遺產，金箔貼面的三層樓閣建築，倒映於鏡湖池中</p>
@@ -943,24 +1096,26 @@
             </a>
           </div>
 
-          <div class="timeline-item transport">
+          <div class="timeline-item is-main transport">
             <div class="tl-header">
               <span class="tl-time">10:40</span>
               <span class="tl-icon">🚇</span>
               <span class="tl-title">交通｜金閣寺 → 北野天滿宮<span class="ja-name">金閣寺→北野天満宮</span></span>
               <span class="tl-tag transport">交通</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>從金閣寺道搭乘 <strong>101、102 或 204 號公車</strong>至「<strong>北野天滿宮前站</strong>」，車程約 <strong>10 分鐘</strong>。</p>
             </div>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-main">
             <div class="tl-header">
               <span class="tl-time">11:00</span>
               <span class="tl-icon">⛩️</span>
               <span class="tl-title">固定行程｜北野天滿宮（瑞饋祭・神幸祭）<span class="ja-name">北野天満宮（ずいき祭・神幸祭）</span></span>
               <span class="tl-tag fixed">祭典</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>北野天滿宮是全國 12,000 間天滿宮的總本社，供奉學問之神「菅原道真」</p>
@@ -973,12 +1128,13 @@
             </a>
           </div>
 
-          <div class="timeline-item transport">
+          <div class="timeline-item is-main transport">
             <div class="tl-header">
               <span class="tl-time">13:00</span>
               <span class="tl-icon">🚇</span>
               <span class="tl-title">交通｜北野天滿宮 → 嵐山<span class="ja-name">北野天満宮→嵐山</span></span>
               <span class="tl-tag transport">交通</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>step-by-step 交通指引：</p>
@@ -990,12 +1146,13 @@
             </div>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-main">
             <div class="tl-header">
               <span class="tl-time">13:20</span>
               <span class="tl-icon">🌿</span>
               <span class="tl-title">景點｜嵐山</span>
               <span class="tl-tag highlight">景點</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>竹林之道 → 天龍寺（曹源池庭園）→ 野宮神社 → 渡月橋看傍晚景色</p>
@@ -1007,25 +1164,30 @@
             </a>
           </div>
 
-          <div class="timeline-item transport">
+          <div class="timeline-item is-main transport">
             <div class="tl-header">
               <span class="tl-time">17:00</span>
               <span class="tl-icon">🚇</span>
               <span class="tl-title">交通｜嵐山 → 京都車站 → 飯店<span class="ja-name">嵐山→京都駅</span></span>
               <span class="tl-tag transport">交通</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>從 JR 嵯峨嵐山站搭乘 JR 嵯峨野線返回京都車站，先回飯店放東西，再轉搭地下鐵烏丸線前往木屋町周邊。</p>
             </div>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-flex">
             <div class="tl-header">
               <span class="tl-time">18:30</span>
               <span class="tl-icon">🍽️</span>
               <span class="tl-title">晚餐｜Kyoto Hamburger Steak "Conel"</span>
+            <span class="tl-kind flex">彈性</span>
             </div>
-            <div class="tl-detail">
+            <div class="plans" data-plans>
+              <div class="plans-viewport">
+                <div class="plans-track">
+                  <div class="plan" role="tabpanel" aria-label="原訂行程"><div class="plan-head"><span class="plan-tag">A</span>原訂行程</div><div class="plan-body"><div class="tl-detail">
               <p>超人氣漢堡排店，份量十足，建議提前預約</p>
               <p class="tl-note">📍 四條 / 河原町附近</p>
             </div>
@@ -1033,18 +1195,34 @@
               <div class="tip book"><span class="tip-ico">📞</span><span class="tip-body"><b>建議先訂位</b><br><b>京都ハンバーグ食堂コネル（Hamburg Conel）</b>｜人氣店，晚餐時段常客滿。<br>📞 <b>075-221-2682</b>｜也可透過官網或訂位平台預約。</span></div>
               <div class="tip info"><span class="tip-ico">📍</span><span class="tip-body"><b>地址與交通</b><br>京都市中京区鍋屋町 223｜阪急「京都河原町站」步行 <b>1 分鐘</b>、京阪「祇園四条站」步行 <b>2 分鐘</b>。<br>🕐 午餐 11:00-15:00、晚餐 <b>17:00-22:00</b>（L.O. 為打烊前 1 小時）｜<b>全年無休</b>。</span></div>
               <div class="tip near"><span class="tip-ico">🌙</span><span class="tip-body"><b>吃完接鴨川散步剛好</b><br>店址就在河原町・先斗町一帶，走出來即是鴨川，與 20:00 的鴨川夜間散步無縫銜接，不需再搭車。</span></div>
+            </div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 B"><div class="plan-head"><span class="plan-tag">B</span>先斗町居酒屋</div><div class="plan-body"><p>吃完直接走到鴨川，和 20:00 的夜間散步無縫接軌，不用預約也不怕客滿。</p><div class="plan-ref"><div class="pr-name">祇園・花見小路</div><div class="pr-feat">藝伎文化、傳統建築</div><div class="pr-facts">🎫 免費<br>⏱ 1-2小時<br>🕐 24小時（店鋪各異）<br>📍 京都市東山區祇園町<br>🚇 「祇園四條駅」步行10分</div><a class="pr-map" href="https://maps.google.com/maps?q=%E7%A5%87%E5%9C%92%E3%83%BB%E8%8A%B1%E8%A6%8B%E5%B0%8F%E8%B7%AF%20%E5%AE%9A%E7%95%AA" target="_blank" rel="noopener">在 Google Maps 開啟</a></div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 C"><div class="plan-head"><span class="plan-tag">C</span>錦市場・木屋町一帶</div><div class="plan-body"><p>與河原町同一區，若 Conel 當天訂不到位，往北走幾條街就有大量選擇。</p><div class="plan-ref"><div class="pr-name">錦市場</div><div class="pr-feat">京之臺所、傳統食材</div><div class="pr-facts">🎫 免費<br>⏱ 1小時<br>🕐 店鋪約 9:00-18:00<br>📍 京都市中京區錦小路<br>🚇 「四條駅」步行5分</div><a class="pr-map" href="https://maps.google.com/maps?q=%E9%8C%A6%E5%B8%82%E5%A0%B4%20%E6%96%87%E5%8C%96%E9%AB%94%E9%A9%97" target="_blank" rel="noopener">在 Google Maps 開啟</a></div></div></div>
+                </div>
+              </div>
+              <div class="plans-nav"><button type="button" class="plan-arrow" data-dir="-1" aria-label="上一個方案">‹</button><div class="plan-dots"><button type="button" class="plan-dot active" data-i="0" aria-label="方案 A">A</button><button type="button" class="plan-dot" data-i="1" aria-label="方案 B">B</button><button type="button" class="plan-dot" data-i="2" aria-label="方案 C">C</button></div><button type="button" class="plan-arrow" data-dir="1" aria-label="下一個方案">›</button></div>
             </div>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-flex">
             <div class="tl-header">
               <span class="tl-time">20:00</span>
               <span class="tl-icon">🌙</span>
               <span class="tl-title">景點｜鴨川夜間散步 ＆ 先斗町<span class="ja-name">鴨川／先斗町</span></span>
               <span class="tl-tag highlight">景點</span>
+            <span class="tl-kind flex">彈性</span>
             </div>
-            <div class="tl-detail">
+            <div class="plans" data-plans>
+              <div class="plans-viewport">
+                <div class="plans-track">
+                  <div class="plan" role="tabpanel" aria-label="原訂行程"><div class="plan-head"><span class="plan-tag">A</span>原訂行程</div><div class="plan-body"><div class="tl-detail">
               <p>感受京都獨特夜生活，鴨川畔夜間散步，穿越熱鬧的先斗町通</p>
+            </div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 B"><div class="plan-head"><span class="plan-tag">B</span>八坂神社＋祇園花見小路</div><div class="plan-body"><p>夜間的祇園石板路與紅燈籠氣氛濃厚，八坂神社境內 24 小時開放且免費。</p><div class="plan-ref"><div class="pr-name">八坂神社</div><div class="pr-feat">祇園信仰中心</div><div class="pr-facts">🎫 免費<br>⏱ 30分鐘<br>🕐 24小時<br>📍 京都市東山區祇園町<br>🚇 「祇園四條駅」步行5分</div><a class="pr-map" href="https://maps.google.com/maps?q=%E5%85%AB%E5%9D%82%E7%A5%9E%E7%A4%BE%20%E5%AE%9A%E7%95%AA" target="_blank" rel="noopener">在 Google Maps 開啟</a></div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 C"><div class="plan-head"><span class="plan-tag">C</span>直接回飯店整理行李</div><div class="plan-body"><p>隔天 08:30 就要出發去清水寺，是京都段最早的一天。</p></div></div>
+                </div>
+              </div>
+              <div class="plans-nav"><button type="button" class="plan-arrow" data-dir="-1" aria-label="上一個方案">‹</button><div class="plan-dots"><button type="button" class="plan-dot active" data-i="0" aria-label="方案 A">A</button><button type="button" class="plan-dot" data-i="1" aria-label="方案 B">B</button><button type="button" class="plan-dot" data-i="2" aria-label="方案 C">C</button></div><button type="button" class="plan-arrow" data-dir="1" aria-label="下一個方案">›</button></div>
             </div>
             <a class="map-link" href="https://maps.google.com/maps?q=鴨川+京都" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
@@ -1080,15 +1258,18 @@
             <p class="date-str">清水寺、敘敘苑與河原町採購</p>
           </div>
         </div>
+        <div class="kind-legend"><span><b style="color:var(--primary)">▌</b>主行程＝已訂或非去不可</span><span><b style="color:var(--secondary)">┊</b>彈性＝可左右滑動換方案</span></div>
+
 
         <div class="timeline">
 
-          <div class="timeline-item transport">
+          <div class="timeline-item is-main transport">
             <div class="tl-header">
               <span class="tl-time">08:30</span>
               <span class="tl-icon">🚇</span>
               <span class="tl-title">交通｜京都車站 → 清水寺<span class="ja-name">京都駅→清水寺</span></span>
               <span class="tl-tag transport">交通</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>step-by-step 交通指引：</p>
@@ -1100,12 +1281,13 @@
             </div>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-main">
             <div class="tl-header">
               <span class="tl-time">08:50</span>
               <span class="tl-icon">🏯</span>
               <span class="tl-title">景點｜清水寺與周邊</span>
               <span class="tl-tag highlight">景點</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>參拜清水舞台，順二年坂、三年坂、八坂庚申堂漫步，建議一早前往避開人潮</p>
@@ -1117,24 +1299,26 @@
             </a>
           </div>
 
-          <div class="timeline-item transport">
+          <div class="timeline-item is-main transport">
             <div class="tl-header">
               <span class="tl-time">11:00</span>
               <span class="tl-icon">🚇</span>
               <span class="tl-title">交通｜清水寺 → 京都車站<span class="ja-name">清水寺→京都駅</span></span>
               <span class="tl-tag transport">交通</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>從「清水道站」搭乘 <strong>206 號公車</strong>直接返回京都車站（約 15 分鐘）。</p>
             </div>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-main">
             <div class="tl-header">
               <span class="tl-time">11:30</span>
               <span class="tl-icon">🥩</span>
               <span class="tl-title">固定行程｜敘敘苑 JR京都伊勢丹店<span class="ja-name">叙々苑 ジェイアール京都伊勢丹店</span></span>
               <span class="tl-tag fixed">預約</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>超人氣燒肉餐廳，位於伊勢丹百貨 7 樓，透過落地窗可欣賞京都塔美景</p>
@@ -1148,28 +1332,39 @@
             </a>
           </div>
 
-          <div class="timeline-item transport">
+          <div class="timeline-item is-main transport">
             <div class="tl-header">
               <span class="tl-time">13:30</span>
               <span class="tl-icon">🚇</span>
               <span class="tl-title">交通｜京都車站 → 錦市場<span class="ja-name">京都駅→錦市場</span></span>
               <span class="tl-tag transport">交通</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>搭乘地鐵烏丸線至「<strong>四條站</strong>」，車程約 <strong>4 分鐘</strong>，出站後步行前往錦市場。</p>
             </div>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-flex">
             <div class="tl-header">
               <span class="tl-time">14:00</span>
               <span class="tl-icon">🛒</span>
               <span class="tl-title">景點｜錦市場</span>
               <span class="tl-tag highlight">景點</span>
+            <span class="tl-kind flex">彈性</span>
             </div>
-            <div class="tl-detail">
+            <div class="plans" data-plans>
+              <div class="plans-viewport">
+                <div class="plans-track">
+                  <div class="plan" role="tabpanel" aria-label="原訂行程"><div class="plan-head"><span class="plan-tag">A</span>原訂行程</div><div class="plan-body"><div class="tl-detail">
               <p>有「京都廚房」之稱，400年歷史的商店街，品嚐在地小吃、購買特色伴手禮</p>
               <p class="tl-note">📍 地址：京都市中京區錦小路通｜🕐 10:00-18:00（店鋪各異）｜🎫 免費</p>
+            </div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 B"><div class="plan-head"><span class="plan-tag">B</span>錦市場深度版</div><div class="plan-body"><p>不只走馬看花：三木雞卵的玉子燒、小川咖啡堺町錦店。注意錦市場禁止邊走邊吃，要在店家指定區域食用。</p><div class="plan-ref"><div class="pr-name">三木雞卵</div><div class="pr-feat">錦市場的玉子燒名店，口感細緻滑嫩、蛋香濃郁充滿高湯鮮味。錦市場禁止邊走邊吃，請在店家指定區域食用</div><div class="pr-facts">🕐 約 09:00-18:00<br>📍 京都市中京區錦小路通富小路西入</div><a class="pr-map" href="https://maps.google.com/maps?q=%E4%B8%89%E6%9C%A8%E9%9B%9E%E5%8D%B5%20%E4%BA%AC%E9%83%BD" target="_blank" rel="noopener">在 Google Maps 開啟</a></div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 C"><div class="plan-head"><span class="plan-tag">C</span>二年坂・三年坂</div><div class="plan-body"><p>若上午清水寺周邊沒逛夠，下午折回東山區的石板坡道，和清水寺行程併成半天。</p><div class="plan-ref"><div class="pr-name">祇園・花見小路</div><div class="pr-feat">藝伎文化、傳統建築</div><div class="pr-facts">🎫 免費<br>⏱ 1-2小時<br>🕐 24小時（店鋪各異）<br>📍 京都市東山區祇園町<br>🚇 「祇園四條駅」步行10分</div><a class="pr-map" href="https://maps.google.com/maps?q=%E7%A5%87%E5%9C%92%E3%83%BB%E8%8A%B1%E8%A6%8B%E5%B0%8F%E8%B7%AF%20%E5%AE%9A%E7%95%AA" target="_blank" rel="noopener">在 Google Maps 開啟</a></div></div></div>
+                </div>
+              </div>
+              <div class="plans-nav"><button type="button" class="plan-arrow" data-dir="-1" aria-label="上一個方案">‹</button><div class="plan-dots"><button type="button" class="plan-dot active" data-i="0" aria-label="方案 A">A</button><button type="button" class="plan-dot" data-i="1" aria-label="方案 B">B</button><button type="button" class="plan-dot" data-i="2" aria-label="方案 C">C</button></div><button type="button" class="plan-arrow" data-dir="1" aria-label="下一個方案">›</button></div>
             </div>
             <a class="map-link" href="https://maps.google.com/maps?q=錦市場+京都" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
@@ -1177,16 +1372,26 @@
             </a>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-flex">
             <div class="tl-header">
               <span class="tl-time">15:30</span>
               <span class="tl-icon">🛍️</span>
               <span class="tl-title">採購｜河原町 / 祇園商圈<span class="ja-name">河原町／祇園</span></span>
               <span class="tl-tag highlight">景點</span>
+            <span class="tl-kind flex">彈性</span>
             </div>
-            <div class="tl-detail">
+            <div class="plans" data-plans>
+              <div class="plans-viewport">
+                <div class="plans-track">
+                  <div class="plan" role="tabpanel" aria-label="原訂行程"><div class="plan-head"><span class="plan-tag">A</span>原訂行程</div><div class="plan-body"><div class="tl-detail">
               <p>藥妝、服飾大採購，新京極商店街、祇園商圈，最後一天把握時間</p>
               <p class="tl-note">推薦：Bic Camera（電器）、松本清（藥妝）、高橋三年堂（甜點）</p>
+            </div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 B"><div class="plan-head"><span class="plan-tag">B</span>新京極＋寺町商店街</div><div class="plan-body"><p>有頂棚不怕下雨，藥妝與雜貨店密度高，同樣在河原町旁邊。</p><div class="plan-ref"><div class="pr-name">心齋橋商店街</div><div class="pr-feat">購物天堂、日系品牌、藥妝</div><div class="pr-facts">🎫 免費<br>⏱ 2-3小時<br>🕐 店鋪 10:00-20:00<br>📍 大阪市中央區心齋橋筋<br>🚇 Metro 禦堂筋線「心齋橋駅」直達</div><a class="pr-map" href="https://maps.google.com/maps?q=%E5%BF%83%E9%BD%8B%E6%A9%8B%E5%95%86%E5%BA%97%E8%A1%97%20%E5%B8%82%E4%B8%AD%E5%BF%83" target="_blank" rel="noopener">在 Google Maps 開啟</a></div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 C"><div class="plan-head"><span class="plan-tag">C</span>京都車站一次買完</div><div class="plan-body"><p>伊勢丹、Porta 地下街、The CUBE 都在車站內。回飯店的路上順手買完，隔天早上就不用趕。</p></div></div>
+                </div>
+              </div>
+              <div class="plans-nav"><button type="button" class="plan-arrow" data-dir="-1" aria-label="上一個方案">‹</button><div class="plan-dots"><button type="button" class="plan-dot active" data-i="0" aria-label="方案 A">A</button><button type="button" class="plan-dot" data-i="1" aria-label="方案 B">B</button><button type="button" class="plan-dot" data-i="2" aria-label="方案 C">C</button></div><button type="button" class="plan-arrow" data-dir="1" aria-label="下一個方案">›</button></div>
             </div>
             <a class="map-link" href="https://maps.google.com/maps?q=河原町+京都" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
@@ -1194,14 +1399,24 @@
             </a>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-flex">
             <div class="tl-header">
               <span class="tl-time">18:30</span>
               <span class="tl-icon">🍽️</span>
               <span class="tl-title">晚餐｜四條 / 河原町一帶</span>
+            <span class="tl-kind flex">彈性</span>
             </div>
-            <div class="tl-detail">
+            <div class="plans" data-plans>
+              <div class="plans-viewport">
+                <div class="plans-track">
+                  <div class="plan" role="tabpanel" aria-label="原訂行程"><div class="plan-head"><span class="plan-tag">A</span>原訂行程</div><div class="plan-body"><div class="tl-detail">
               <p>最後一晚，盡情享用京都美食，隨後搭地鐵返回飯店打包行李</p>
+            </div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 B"><div class="plan-head"><span class="plan-tag">B</span>先斗町居酒屋</div><div class="plan-body"><p>最後一晚，鴨川旁的巷弄居酒屋氣氛好，吃完沿著鴨川散步回四条搭車。</p><div class="plan-ref"><div class="pr-name">祇園・花見小路</div><div class="pr-feat">藝伎文化、傳統建築</div><div class="pr-facts">🎫 免費<br>⏱ 1-2小時<br>🕐 24小時（店鋪各異）<br>📍 京都市東山區祇園町<br>🚇 「祇園四條駅」步行10分</div><a class="pr-map" href="https://maps.google.com/maps?q=%E7%A5%87%E5%9C%92%E3%83%BB%E8%8A%B1%E8%A6%8B%E5%B0%8F%E8%B7%AF%20%E5%AE%9A%E7%95%AA" target="_blank" rel="noopener">在 Google Maps 開啟</a></div></div></div>
+                <div class="plan" role="tabpanel" aria-label="方案 C"><div class="plan-head"><span class="plan-tag">C</span>京都車站拉麵小路</div><div class="plan-body"><p>京都站大樓 10F，11:00-22:00（L.O. 21:30）。吃完直接回飯店打包，隔天 09:00 退房不會手忙腳亂。</p></div></div>
+                </div>
+              </div>
+              <div class="plans-nav"><button type="button" class="plan-arrow" data-dir="-1" aria-label="上一個方案">‹</button><div class="plan-dots"><button type="button" class="plan-dot active" data-i="0" aria-label="方案 A">A</button><button type="button" class="plan-dot" data-i="1" aria-label="方案 B">B</button><button type="button" class="plan-dot" data-i="2" aria-label="方案 C">C</button></div><button type="button" class="plan-arrow" data-dir="1" aria-label="下一個方案">›</button></div>
             </div>
           </div>
 
@@ -1233,14 +1448,17 @@
             <p class="date-str">滿載而歸</p>
           </div>
         </div>
+        <div class="kind-legend"><span><b style="color:var(--primary)">▌</b>主行程＝已訂或非去不可</span><span><b style="color:var(--secondary)">┊</b>彈性＝可左右滑動換方案</span></div>
+
 
         <div class="timeline">
 
-          <div class="timeline-item">
+          <div class="timeline-item is-main">
             <div class="tl-header">
               <span class="tl-time">09:00</span>
               <span class="tl-icon">🚶</span>
               <span class="tl-title">退房｜飯店 → JR京都車站<span class="ja-name">ホテル→JR京都駅</span></span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>飯店退房，拉著行李步行至 JR 京都車站（約 10-15 分鐘）</p>
@@ -1251,12 +1469,13 @@
             </a>
           </div>
 
-          <div class="timeline-item transport">
+          <div class="timeline-item is-main transport">
             <div class="tl-header">
               <span class="tl-time">09:30</span>
               <span class="tl-icon">🚇</span>
               <span class="tl-title">交通｜JR京都車站 → 關西國際機場<span class="ja-name">JR京都駅→関西国際空港</span></span>
               <span class="tl-tag transport">交通</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>step-by-step 交通指引：</p>
@@ -1269,11 +1488,12 @@
             </div>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-main">
             <div class="tl-header">
               <span class="tl-time">10:50</span>
               <span class="tl-icon">🛃</span>
               <span class="tl-title">報到｜關西國際機場<span class="ja-name">関西国際空港</span></span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>抵達機場，辦理登機報到與行李託運手續，通過安檢與免稅店最後採購</p>
@@ -1284,12 +1504,13 @@
             </a>
           </div>
 
-          <div class="timeline-item">
+          <div class="timeline-item is-main">
             <div class="tl-header">
               <span class="tl-time">12:20</span>
               <span class="tl-icon">✈️</span>
               <span class="tl-title">航班｜KIX 關西機場 → TPE 桃園機場<span class="ja-name">関西国際空港→桃園国際空港</span></span>
               <span class="tl-tag">航班</span>
+            <span class="tl-kind main">主行程</span>
             </div>
             <div class="tl-detail">
               <p>中華航空 CI 159｜起飛 12:20 → 抵達 14:15（飛行時間約 3hr55min）</p>
@@ -1424,6 +1645,8 @@
 
       main.addEventListener('touchstart', function (e) {
         if (e.touches.length !== 1) { x0 = null; return; }
+        // 手指落在方案輪播裡 → 那是切換方案的手勢，不要拿來換日期
+        if (e.target instanceof Element && e.target.closest('.plans')) { x0 = null; return; }
         x0 = e.touches[0].clientX;
         y0 = e.touches[0].clientY;
       }, { passive: true });
@@ -1519,6 +1742,68 @@
     };
 
     /* 預算追蹤已移至獨立頁面 ../budget/（依每日分開記帳） */
+    /* ---------- 彈性行程的方案輪播 ---------- */
+    function initPlans(root) {
+      (root || document).querySelectorAll('[data-plans]').forEach(function (box) {
+        if (box.dataset.ready) return;
+        box.dataset.ready = '1';
+
+        var vp = box.querySelector('.plans-viewport');
+        var track = box.querySelector('.plans-track');
+        var panes = box.querySelectorAll('.plan');
+        var dots = box.querySelectorAll('.plan-dot');
+        var arrows = box.querySelectorAll('.plan-arrow');
+        var n = panes.length;
+        var cur = 0;
+
+        function go(i) {
+          cur = Math.min(Math.max(i, 0), n - 1);
+          track.style.transform = 'translateX(' + (-cur * 100) + '%)';
+          vp.style.height = panes[cur].offsetHeight + 'px';
+          dots.forEach(function (d, k) { d.classList.toggle('active', k === cur); });
+          panes.forEach(function (pn, k) { pn.setAttribute('aria-hidden', String(k !== cur)); });
+          arrows.forEach(function (a) {
+            var dir = +a.dataset.dir;
+            a.disabled = (dir < 0 && cur === 0) || (dir > 0 && cur === n - 1);
+          });
+        }
+
+        dots.forEach(function (d) {
+          d.addEventListener('click', function () { go(+d.dataset.i); });
+        });
+
+        arrows.forEach(function (a) {
+          a.addEventListener('click', function () { go(cur + (+a.dataset.dir)); });
+        });
+
+        /* 區塊內左右滑動切換方案。門檻 40px，比日期滑動的 70px 低，
+           因為這是小範圍的元件手勢。 */
+        var sx = null, sy = null;
+        box.addEventListener('touchstart', function (e) {
+          if (e.touches.length !== 1) { sx = null; return; }
+          sx = e.touches[0].clientX;
+          sy = e.touches[0].clientY;
+        }, { passive: true });
+
+        box.addEventListener('touchend', function (e) {
+          if (sx === null) return;
+          var dx = e.changedTouches[0].clientX - sx;
+          var dy = e.changedTouches[0].clientY - sy;
+          sx = null;
+          if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+          go(cur + (dx < 0 ? 1 : -1));
+        }, { passive: true });
+
+        go(0);
+        // 視窗寬度改變會讓文字重新換行，高度要跟著重算
+        window.addEventListener('resize', function () { vp.style.height = panes[cur].offsetHeight + 'px'; });
+        // 字體載入完成後行高可能改變
+        if (document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(function () { vp.style.height = panes[cur].offsetHeight + 'px'; });
+        }
+      });
+    }
+
 
     /* ---------- 回到頂部 ---------- */
     window.addEventListener('scroll', function () {
@@ -1538,6 +1823,7 @@
     applyTheme(store.get('theme', 'auto'));
     if (store.get('showJa', '0') === '1') window.toggleJa();
     markToday();
+    initPlans();
     initDay();
     syncOnline();
 
