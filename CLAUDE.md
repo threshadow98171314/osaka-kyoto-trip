@@ -367,6 +367,12 @@ crawler.crawl_batch(['https://example.com/page1', 'https://example.com/page2'])
 "
 ```
 
+> ⚠️ **存完一定要檢查檔案內容**（2026-09-22 踩過的兩個坑）：
+> - 預設的內文擷取會挑第一個 class 含 `content` 的 div，在 **Tabelog** 等網站只會存到頁首選單（約 245 bytes），
+>   評分和營業時間都沒存到。檔案太小時，改成覆寫 `extract_content()` 直接回傳 `soup.body`
+> - 網頁可能內嵌**第三方的存取權杖**（例如 Yahoo 地圖頁裡的 Mapbox token），GitHub 的推送保護會把整批 push 擋下。
+>   **commit 前先把權杖遮蔽掉**，不要到 GitHub 上按「允許這個 secret」
+
 ## 參考資料
 
 `reference/` 目錄包含爬蟲抓取的原始參考資料備份（34+ 個檔案），涵蓋交通、美食、景點等各類資訊。
