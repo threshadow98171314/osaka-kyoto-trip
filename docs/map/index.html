@@ -250,6 +250,26 @@ body {
 
 .leaflet-tooltip.time-tip::before { display: none; }   /* 拿掉小箭頭 */
 
+/* 路線上的交通方式說明（滑過路線才出現） */
+.leaflet-tooltip.route-tip {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: var(--font);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* 狀態列上的路線圖例 */
+.route-legend { display: inline-flex; align-items: center; gap: 10px; margin-left: 6px; white-space: nowrap; }
+.route-legend i { display: inline-block; width: 18px; height: 0; vertical-align: middle; margin-right: 3px; }
+.route-legend .rl-rail { border-top: 4px solid var(--primary); }
+.route-legend .rl-subway { border-top: 4px solid var(--secondary); }
+.route-legend .rl-walk { border-top: 3px dotted var(--muted); }
+
 /* 推薦景點的名稱標籤（hover 才出現） */
 .leaflet-tooltip.reco-tip {
   background: var(--surface);
@@ -406,7 +426,8 @@ body {
     return 'spot';
   }
 
-  var map, layer, recoLayer, routeLine, meMarker;
+  var map, layer, recoLayer, routeLine, routeLayer, meMarker;
+  var routes = {};      // docs/map/routes.json：依交通方式算好的實際路線（只有部分天數有）
   var places = [];       // 行程表上的地點
   var recos = [];        // data/attractions.json 的推薦景點
   var activeDay = 'all';
@@ -425,7 +446,8 @@ body {
       maxZoom: 19,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
-    // 推薦景點放在下層，行程地點永遠蓋在上面
+    // 由下而上：路線 → 推薦景點 → 行程地點（行程地點永遠蓋在最上面）
+    routeLayer = L.layerGroup().addTo(map);
     recoLayer = L.layerGroup().addTo(map);
     layer = L.layerGroup().addTo(map);
   }
@@ -487,11 +509,36 @@ body {
     return parts.join('');
   }
 
+  function cssVar(name, fallback) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
+  }
+
+  /* 一段交通：鐵路用主色實線、地鐵用次色實線、步行用灰色點線。
+     底下先墊一條較粗的白線，在街道很多的底圖上才看得清楚 */
+  function drawLeg(leg) {
+    var walk = leg.mode === 'walk';
+    var color = walk ? cssVar('--muted', '#7A6E5D')
+      : (leg.mode === 'subway' ? cssVar('--secondary', '#4A6FA5') : cssVar('--primary', '#B5451B'));
+    if (!walk) {
+      L.polyline(leg.coords, { color: cssVar('--surface', '#fff'), weight: 8, opacity: 0.85, interactive: false })
+        .addTo(routeLayer);
+    }
+    L.polyline(leg.coords, walk
+      ? { color: color, weight: 3.5, opacity: 0.95, dashArray: '1 7', lineCap: 'round' }
+      : { color: color, weight: 4.5, opacity: 0.9 })
+      .bindTooltip(leg.label, { sticky: true, className: 'route-tip' })
+      .addTo(routeLayer);
+  }
+
   /* ---------- 重繪 ---------- */
   function render() {
     layer.clearLayers();
     recoLayer.clearLayers();
     if (routeLine) { map.removeLayer(routeLine); routeLine = null; }
+    routeLayer.clearLayers();
+    var routeKind = '';   // 'real'＝依交通方式的實際路線、'straight'＝舊的虛線直線
+    var routeBounds = [];
+    var routeModes = {};   // 這一天實際用到的交通方式，圖例只列這些
 
     var shown = places.filter(function (p) {
       if (p.lat == null) return false;
@@ -508,9 +555,21 @@ body {
       var offset = (ordered.length && isGateway(ordered[0])) ? 0 : 1;
       ordered.forEach(function (p, i) { seqOf[p.query + '@' + p.time] = i + offset; });
 
-      if (showRoute && ordered.length > 1) {
+      if (showRoute && routes[activeDay]) {
+        /* 依交通方式畫實際路線：鐵路沿著軌道、步行沿著道路。
+           不受類別篩選影響 —— 路線是「這一天怎麼移動」，關掉某類標記不該讓路線斷掉 */
+        routeKind = 'real';
+        routes[activeDay].forEach(function (seg) {
+          seg.legs.forEach(function (leg) {
+            drawLeg(leg);
+            routeModes[leg.mode] = true;
+            routeBounds = routeBounds.concat(leg.coords);
+          });
+        });
+      } else if (showRoute && ordered.length > 1) {
+        routeKind = 'straight';
         routeLine = L.polyline(ordered.map(function (p) { return [p.lat, p.lon]; }), {
-          color: getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#B5451B',
+          color: cssVar('--primary', '#B5451B'),
           weight: 3,
           opacity: 0.7,
           dashArray: '7 6',
@@ -562,12 +621,19 @@ body {
     var label = activeDay === 'all' ? '全部行程' : ('Day ' + activeDay);
     $('status').textContent = label + '：行程 ' + shown.length + ' 點'
       + (showReco ? '／推薦 ' + recoShown.length + ' 點' : '')
-      + (routeLine ? '（虛線＝當日移動順序）'
+      + (routeKind === 'straight' ? '（虛線＝當日移動順序）'
                    : (activeDay !== 'all' && !showRoute ? '（路線已隱藏）' : ''));
+    if (routeKind === 'real') {
+      $('status').insertAdjacentHTML('beforeend', '<span class="route-legend">'
+        + (routeModes.rail ? '<span><i class="rl-rail"></i>鐵路</span>' : '')
+        + (routeModes.subway ? '<span><i class="rl-subway"></i>地鐵</span>' : '')
+        + (routeModes.walk ? '<span><i class="rl-walk"></i>步行</span>' : '')
+        + '</span>');
+    }
 
     // 只依行程地點決定視野，避免被散落各地的推薦景點拉遠
     if (shown.length) {
-      map.fitBounds(L.latLngBounds(shown.map(function (p) { return [p.lat, p.lon]; })),
+      map.fitBounds(L.latLngBounds(shown.map(function (p) { return [p.lat, p.lon]; }).concat(routeBounds)),
         { padding: [45, 45], maxZoom: 15 });
     }
   }
@@ -686,7 +752,16 @@ body {
   };
 
   /* ---------- 載入資料 ---------- */
-  fetch('places.json')
+  /* 路線資料是加分項：讀不到就退回虛線直線，不影響地圖本身 */
+  fetch('routes.json')
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .catch(function () { return null; })
+    .then(function (rd) {
+      if (rd && rd.days) {
+        Object.keys(rd.days).forEach(function (d) { routes[+d] = rd.days[d]; });
+      }
+      return fetch('places.json');
+    })
     .then(function (r) {
       if (!r.ok) throw new Error('HTTP ' + r.status);
       return r.json();

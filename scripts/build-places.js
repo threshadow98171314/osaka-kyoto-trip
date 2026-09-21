@@ -26,13 +26,18 @@ const QUERY_OVERRIDE = {
   'ポケモンセンターオーサカ 大丸梅田店': '大丸梅田店',
   '叙々苑 ジェイアール京都伊勢丹店': 'ジェイアール京都伊勢丹',
   'teamLab Biovortex Kyoto': '京都市南区東九条東岩本町',
-  'Apartment Hotel 11 Namba Minami Shin-Imamiya II': '大阪市西成区太子1丁目',
+  // 飯店地址：大阪市浪速区恵美須西3-8-7（Trip.com、Hotels.com 查證，2026-09-21）。
+  // 舊值「西成区太子1丁目」在鐵路另一側，差了約 700m，地圖上的步行路線會整個繞錯
+  'Apartment Hotel 11 Namba Minami Shin-Imamiya II': '大阪市浪速区恵美須西3丁目',
   'Randor Residential Hotel Kyoto Suites': '京都市南区東九条北松ノ木町',
   '日本橋でんでんタウン 大阪': '日本橋筋商店街 大阪市浪速区',
   '河原町 京都': '河原町通 京都市中京区',
   '鴨川 京都': '鴨川 京都市中京区',
   '神戸ハーバーランド モザイク': '神戸ハーバーランド',
   '南海電鉄 新今宮駅': '新今宮駅',
+  // 只查「関西国際空港」會落在島中央的跑道區，離航廈和車站近 2 公里，
+  // 地圖上的路線會從跑道上出發。中華航空在第 1 航廈
+  '関西国際空港': '関西国際空港 第1ターミナル',
   // 加了空格／店名後綴反而查不到，用店名本身即可命中
   // （OSM 回傳的地址與行程表記載一致：長柄西一丁目、北長狭通一丁目 9 番）
   '天然温泉なにわの湯': 'なにわの湯',
@@ -241,6 +246,8 @@ function extractRecommended() {
   let hit = 0, miss = 0, cached = 0;
 
   for (const q of uniq) {
+    // QUERY_OVERRIDE 改過的地點，舊座標是用舊查詢字串查的，要重查
+    if (cache[q] && QUERY_OVERRIDE[q] && cache[q].geocodedQuery !== QUERY_OVERRIDE[q]) delete cache[q];
     if (Object.prototype.hasOwnProperty.call(cache, q)) {
       cached++;
       if (cache[q]) coords[q] = cache[q]; else unresolved.push(q);
@@ -275,4 +282,13 @@ function extractRecommended() {
   console.log('行程表地點 ' + places.filter((p) => p.lat != null).length + '/' + places.length
             + '，推薦景點 ' + recommended.filter((r) => r.lat != null).length + '/' + recommended.length);
   console.log('已寫入 ' + OUT);
+
+  /* 地點座標變了，依交通方式畫的路線也要跟著重算（沒變的路段會沿用，不會重打 API） */
+  console.log('\n— 更新移動路線 —');
+  const r = require('child_process').spawnSync(process.execPath,
+    [path.join(__dirname, 'build-routes.js')].concat(REFRESH ? ['--refresh'] : []),
+    { stdio: 'inherit' });
+  if (r.status !== 0) {
+    console.log('⚠ 路線沒有更新成功（places.json 已寫入）。可稍後單獨執行 node scripts/build-routes.js');
+  }
 })();

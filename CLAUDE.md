@@ -70,7 +70,8 @@ node scripts/fetch-hero-photos.js   # 重新抓圖並產生 hero.js 與 credits.
 - 資料存於 localStorage `budget2.*`
 
 ### 行前 Check List docs/checklist/
-- 7 大類 36 項，勾選狀態存於 localStorage `chk.*`
+- 7 大類 37 項，勾選狀態存於 localStorage `chk.*`
+- **HARUKA 單程優惠票**（10/3 回程）必須在出國前買，在日本買不到 —— 已列入「可考慮加訂」
 - 內容經 2026-09-20 查證，來源記於 `audit/records/2026-09-20.md`
 - 時效性高的項目（免稅制度、入境規定）**出發前需重新查證**
 
@@ -88,18 +89,39 @@ node scripts/fetch-hero-photos.js   # 重新抓圖並產生 hero.js 與 credits.
 | 預設 | 顯示 | **隱藏**，由「💡 推薦景點」開關 |
 | 圖層 | `layer`（上層，`zIndexOffset: 500`） | `recoLayer`（下層） |
 
-- 視野（`fitBounds`）**只依行程地點計算**，避免被散落各地的推薦景點拉遠
+- 視野（`fitBounds`）**只依行程地點（與當天實際路線）計算**，避免被散落各地的推薦景點拉遠
 - **移動路線開關**（〰️ 移動路線）：只在單日檢視有作用；路線依「有時間的地點」排序連線，
   因此**每個地點都必須有時間**。若某地點只出現在「今日相關地圖」而沒有對應的時間軸項目，
   它就不會有時間，那天的路線會斷掉或畫不出來 —— 請把 map-link 補回對應的時間軸項目
+- **依交通方式的實際路線**（2026-09-21 起）：直線連線會把 Day 1 關西機場 → 新今宮、
+  Day 8 京都 → 關西機場 畫成橫跨大阪灣，Day 3 姬路 → 神戶 則從山上切過去、偏離實際沿海的 JR
+  十幾公里。這幾天改畫實際路線：
+  - 鐵路／地鐵沿著 **OpenStreetMap 上該班次的 route relation** 的軌道畫（例如「空港急行 (関西空港 => なんば)」）；
+    步行由 **OSRM** 計算；起訖點與車站之間、轉乘的兩站之間自動補步行
+  - 定義在 `data/routes.json`（哪一段搭什麼車、哪站上下車），由 `scripts/build-routes.js` 產生
+    `docs/map/routes.json`（**不要手動編輯**）。`build-places.js` 跑完會自動接著跑它
+  - 目前定義了 **Day 1、3、8**。其餘天數的直線都在市區內、不跨海，**維持原本的虛線直線**；
+    沒有定義的天數地圖會自動退回虛線直線
+  - 有定義的天數，**每一段都要定義**，少一段 `build-routes.js` 會直接報錯（避免路線默默斷掉）；
+    行程改了地點或時間，舊的路段定義沒用到時會印出警告
+  - 地圖樣式：鐵路＝主色實線、地鐵＝次色實線、步行＝灰色點線，滑過路線會顯示搭哪一班；
+    狀態列圖例只列當天用到的交通方式
+  - 步行路徑若比直線遠 3 倍以上（例如關西機場航廈與車站之間的室內連通道 OSM 沒畫到，
+    OSRM 會繞出 3.4 km），直接畫直線
+  - Overpass 主站常回 429／504，腳本會等待重試；抓過的 relation 存在 `scripts/.cache/`（不進版控）
+- **地點座標要對**：`QUERY_OVERRIDE` 裡的查詢字串錯了，步行路線會整個繞錯。
+  例如飯店曾被指到「西成区太子1丁目」（鐵路另一側，差約 700m），實際地址是
+  **浪速区恵美須西3-8-7**；關西機場只查「関西国際空港」會落在跑道區，改指第 1 航廈。
+  override 改了之後，快取的舊座標會自動重查
 - **序號**：當天最早的點若是機場，編號從 0 起算（代表抵達／出發點），其餘從 1 開始。
   注意 `makeIcon()` 不可用 `seq ? ...` 判斷，因為 0 在 JS 是 falsy
 - 類別開關：景點／美食／交通／住宿／已預約
 
 **資料產生流程**：`docs/final/index.html` 是唯一事實來源。改完行程後執行
 ```bash
-node scripts/build-places.js          # 沿用已查過的座標
+node scripts/build-places.js          # 沿用已查過的座標與路線（會自動接著跑 build-routes.js）
 node scripts/build-places.js --refresh # 全部重查
+node scripts/build-routes.js          # 只重算路線（改了 data/routes.json 時）
 ```
 腳本會解析行程表的地圖連結，透過 OpenStreetMap Nominatim 查經緯度，寫入 `docs/map/places.json`。
 Nominatim 對少數地點解析不佳，腳本內 `QUERY_OVERRIDE` 可指定替代查詢字串。
@@ -332,5 +354,6 @@ crawler.crawl_batch(['https://example.com/page1', 'https://example.com/page2'])
   - 解析標題的正規表示式必須列出標題後面可能出現的所有 span
     （`.tl-tag`／`.tl-kind`／`.tl-plan`）。少列一個，那個 span 的文字就會被吃進標題，
     地圖上會出現「入住｜一難波南2號店 主行程」這種標題
+- `scripts/build-routes.js` - 依 `data/routes.json` 產生地圖上依交通方式的實際路線（見上方「docs/map/ 行程地圖」）
 - `scripts/sync-counts.js` - 把首頁的選擇器筆數 badge 同步成實際資料筆數
 - `scripts/fetch-hero-photos.js` - 重新抓取頁首背景照片（見上方「頁首背景照片」）

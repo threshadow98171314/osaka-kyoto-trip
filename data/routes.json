@@ -1,0 +1,121 @@
+{
+  "_說明": [
+    "地圖「移動路線」的交通方式定義，由 scripts/build-routes.js 轉成 docs/map/routes.json。",
+    "from / to 必須與 docs/map/places.json 的 query 完全一致（也就是行程表 map-link 的 ?q= 內容，+ 換成空白）。",
+    "有列在這裡的天數，每一段（相鄰兩個有時間的地點）都要定義，少一段 build-routes.js 會直接報錯。",
+    "沒列在這裡的天數，地圖維持原本的虛線直線 —— 目前只有直線會橫跨大阪灣或嚴重偏離實際路線的天數才定義。",
+    "legs.mode：walk（步行，OSRM 計算）、rail（鐵路）、subway（地鐵）。",
+    "rail / subway 的 relation 是 OpenStreetMap 上『該班次、該方向』的 route relation id，",
+    "board / alight 是該 relation 裡的站名（OSM 寫法，不加「駅」）。",
+    "查 relation id：https://www.openstreetmap.org/ 搜尋站名 → 點車站 → 看「Relations」。",
+    "起訖點與車站之間、轉乘的兩站之間，腳本會自動補步行，這裡不用寫。"
+  ],
+  "days": {
+    "1": [
+      {
+        "from": "関西国際空港",
+        "to": "南海電鉄 新今宮駅",
+        "legs": [
+          {
+            "mode": "rail",
+            "relation": 18668905,
+            "label": "南海 空港急行",
+            "board": "関西空港",
+            "alight": "新今宮"
+          }
+        ]
+      },
+      {
+        "from": "南海電鉄 新今宮駅",
+        "to": "Apartment Hotel 11 Namba Minami Shin-Imamiya II",
+        "legs": [
+          { "mode": "walk" }
+        ]
+      }
+    ],
+    "3": [
+      {
+        "from": "大国町駅",
+        "to": "姫路城",
+        "legs": [
+          {
+            "mode": "subway",
+            "relation": 8028808,
+            "label": "地鐵御堂筋線",
+            "board": "大国町",
+            "alight": "梅田"
+          },
+          {
+            "mode": "rail",
+            "relation": 15640455,
+            "label": "JR 神戶線 新快速",
+            "board": "大阪",
+            "alight": "姫路"
+          }
+        ]
+      },
+      {
+        "from": "姫路城",
+        "to": "モーリヤ三宮店 神戸",
+        "legs": [
+          {
+            "mode": "rail",
+            "relation": 15640454,
+            "label": "JR 神戶線 新快速",
+            "board": "姫路",
+            "alight": "三ノ宮"
+          }
+        ]
+      },
+      {
+        "from": "モーリヤ三宮店 神戸",
+        "to": "北野異人館 神戸",
+        "legs": [
+          { "mode": "walk" }
+        ]
+      },
+      {
+        "from": "北野異人館 神戸",
+        "to": "神戸ハーバーランド モザイク",
+        "legs": [
+          { "mode": "walk" }
+        ]
+      },
+      {
+        "from": "神戸ハーバーランド モザイク",
+        "to": "Apartment Hotel 11 Namba Minami Shin-Imamiya II",
+        "legs": [
+          {
+            "mode": "rail",
+            "relation": 15640454,
+            "label": "JR 神戶線 新快速",
+            "board": "神戸",
+            "alight": "大阪"
+          },
+          {
+            "mode": "rail",
+            "relation": 10073682,
+            "label": "JR 大阪環狀線（外回り）",
+            "board": "大阪",
+            "alight": "新今宮"
+          }
+        ]
+      }
+    ],
+    "8": [
+      {
+        "from": "京都駅",
+        "to": "関西国際空港",
+        "legs": [
+          {
+            "mode": "rail",
+            "relation": 6665863,
+            "label": "JR 特急 HARUKA",
+            "board": "京都",
+            "alight": "関西空港"
+          }
+        ]
+      }
+    ]
+  }
+}

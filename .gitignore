@@ -20,3 +20,6 @@ build/
 
 # Logs
 *.log
+
+# build-routes.js 抓下來的 OpenStreetMap relation 原始資料（本機快取，可隨時刪）
+scripts/.cache/
