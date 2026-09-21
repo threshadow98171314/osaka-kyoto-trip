@@ -140,6 +140,16 @@ Nominatim 對少數地點解析不佳，腳本內 `QUERY_OVERRIDE` 可指定替�
 ### docs/final/index.html 功能說明（請勿移除）
 - **逐日切換**：`showDay(n)` 一次只顯示一天。初始顯示順序為：網址 `#day-N` > 今天的日期 > 上次瀏覽的日期（localStorage `lastDay`）
 - **切換方式**：日期列點擊、鍵盤左右方向鍵、手機左右滑動（橫向位移 >70px 且明顯大於縱向才觸發，避免干擾上下捲動）
+- **換天後的捲動位置**（2026-09-22 起）：回到「日期列貼齊畫面頂端」的位置（`navHomeY()`），
+  **不要改回捲到頁面最上面** —— 使用者反映每換一天就要把頁首照片重看一次
+  - 已經停在日期列上方（頁首還看得到）時**不捲動**，工具列的「複製這天行程」才不會被捲走
+  - 瞬間跳過去、不做 smooth 動畫：內容已經整個換掉，捲動動畫只會讓新的一天從眼前刷過去
+  - 日期列是 sticky，捲下去後量它自己永遠是 0，所以 `navHomeY()` 量的是前一個元素（航班列）的底邊
+  - 第一次載入（`initDay()` 傳 `noScroll`）不主動捲動；網址帶 `#day-N` 時（從地圖頁「看這天的行程」
+    連回來）交給瀏覽器原生的錨點捲動，`.day-section` 的 `scroll-margin-top: calc(var(--nav-h) + 16px)`
+    讓它停在同一個位置。**沒有這個 margin，sticky 的日期列會蓋住當天標題**。
+    `--nav-h` 由 `syncNavHeight()` 用 `getBoundingClientRect().height` 量 ——
+    `offsetHeight` 會四捨五入（61.6 → 62），頂端會露出一條航班列
 - **今日標記**：日期列上「今天」那一格右上角有金色圓點
 - **三種項目分類**（2026-09-21 起）：每個 `.timeline-item` 都必須有 `.tl-kind` 標示
   - `.is-main` ＋ `主行程`：航班、住宿 check-in/out、5 個已預約項目、報到與退房，
@@ -149,7 +159,16 @@ Nominatim 對少數地點解析不佳，腳本內 `QUERY_OVERRIDE` 可指定替�
   - `.is-flex` ＋ `彈性`：其餘餐飲、購物、機動景點。左側為虛線邊，內含方案輪播
   - 目前為 **20 主行程 / 25 交通 / 16 彈性**（共 61），**不應有未標示的項目**
   - 交通項目**不再另外掛 `.tl-tag.transport`「交通」pill**，那會和分類標籤重複顯示同一個字
-- **方案輪播 `.plans`**：方案 A 一律是原訂行程，B／C 為替代方案（共 32 個）
+- **方案輪播 `.plans`**：方案 A 一律是原訂行程，B～E 為替代方案
+  （2026-09-22：16 組、共 48 個替代方案 —— B、C 各 16，D 14，E 2）
+  - **挑選原則**（使用者明確要求，不要退回「每天都給同一批店」）：
+    - **同一家店不要出現在不同天的方案裡**；每一組都要配合當天的星期（公休日）、所在區域與前後行程
+    - 優先選評價高、有人氣的店：食べログ評分與評論數、百名店／食べログ Award，並參考近五年的
+      部落客、論壇與社群評價 —— **五年以前的評價不採用**
+    - 每一家都要確認「那天那個時段有開」。曾經 Day 4（週二）午餐的 A、B、C 三家店週二全部公休
+  - **方案小卡 `.plan-ref`**：`.pr-name` 店名／`.pr-feat` 特色／`.pr-facts`
+    （⭐ 食べログ評分與評論數＋查詢年月、🏅 百名店／Award、🕐 營業時間、🎫 價位、📍 地址、⚠️ 注意）／
+    `.pr-links`（`.pr-map` 地圖＋`.pr-src` 查證來源）。評分會隨時間變動，**一定要寫查詢年月**
   - 切換方式：圓點、左右箭頭、**區塊內左右滑動**（門檻 40px）、桌機滑鼠拖曳
   - **切換方式是 display 顯示／隱藏，不要改回 transform + 量高度。**
     非 active 的方案為 `display:none`，容器高度自然貼合目前那一張。
@@ -161,9 +180,9 @@ Nominatim 對少數地點解析不佳，腳本內 `QUERY_OVERRIDE` 可指定替�
     使用者看到的就是「網頁版根本不能切換」
   - **每個方案自己帶標題與 emoji**：`.plan` 上的 `data-icon`，以及 `.plan` 內第一個
     `<span class="plan-title" hidden>`。`go()` 會把它們寫進 `.tl-title`／`.tl-icon`，
-    並更新 header 上的 `.tl-plan` 指示（A 用主色、B／C 用次色）。
+    並更新 header 上的 `.tl-plan` 指示（A 用主色、B～E 用次色）。
     **不可以只換內文不換標題** —— 否則會出現「標題寫木津市場、內容是黑門市場」。
-    方案 A 的 `plan-title` 就是原本的標題（含 `.ja-name`）；B／C 只寫繁中，
+    方案 A 的 `plan-title` 就是原本的標題（含 `.ja-name`）；B～E 只寫繁中，
     未經查證的日文寫法一律不寫
   - `go()` 會把導覽列**釘回原本的螢幕位置**：方案長短不同會改變整份文件的高度，
     使用者若正捲在頁尾，瀏覽器會夾住捲動位置、整頁往下位移。捲不動時會撐開
@@ -172,6 +191,16 @@ Nominatim 對少數地點解析不佳，腳本內 `QUERY_OVERRIDE` 可指定替�
   - 方案中引用的店家／景點資料一律來自已查證的資料庫（`docs/selector/foods.html` 的
     `foods`、`data/attractions.json`），**不要在方案裡手寫未查證的票價或營業時間**
   - 列印時所有方案會攤平顯示（連同各自的標題），不會只印出目前那一個
+- **主行程的計畫B `.alt-plan`**（2026-09-22 起）：主行程描述裡原本用一句「計畫B：…」帶過的備案，
+  改成主行程卡片底部的收合區塊
+  - **不做成方案輪播**：輪播代表「任選一個」而且會換掉標題；主行程是已訂或非去不可，計畫B 只是備案
+  - `<details class="alt-plan">`：收合時一列寫明「B｜計畫B｜名稱」＋什麼情況用（`.ap-when`），
+    點開才看 `.plan-ref` 小卡。B 字方塊直接用 `.plan-tag`，虛線框與顏色沿用次色＝替代方案
+  - 小卡裡的地圖連結用 `.pr-map`，**不要用 `.map-link`** —— 否則 `build-places.js` 會把它當成
+    行程地點畫上地圖、串進當天的移動路線
+  - 內容一樣只能引用已查證的資料庫（目前是 `data/attractions.json` 的 `osaka-museum-history`）
+  - 列印時由 `beforeprint` 全部展開、`afterprint` 還原；`copyDay()` 會在該項下面多一行「└ 計畫B｜…」
+  - 目前只有一處：Day 2 大阪城 → 大阪歷史博物館
 - **複製這天行程**：`copyDay()` 匯出純文字（含日文地名）貼給旅伴；Clipboard API 失敗時退回 `execCommand`
 - **日期列置中**：`.day-nav-inner` 用 `width: fit-content` + `margin: 0 auto` 達成寬螢幕置中；`min-width: max-content` 會讓 `justify-content` 失效，**不要改回去**。560px 以下改為靠左並可橫向捲動
   - `.tip.warn` — **會撲空／會關門的警告**（例如木津市場週日公休）
@@ -192,7 +221,8 @@ Nominatim 對少數地點解析不佳，腳本內 `QUERY_OVERRIDE` 可指定替�
 
 ### 審核目錄 audit/
 - `audit/records/` - 審核記錄（按日期存放）
-- `audit/records/2026-05-24.md` - 最新審核記錄
+- `audit/records/2026-09-22.md` - 最新審核記錄（主行程計畫B、換天捲動位置、大丸梅田店改名 LUCUA SOUTH）
+- `audit/records/2026-09-21.md` - 地圖實際路線、Day 8 出發時間、頁首照片、彈性方案 B～E
 - `audit/verified.md` - 已驗證的資訊
 - `audit/discrepancies.md` - 發現的資訊不一致處
 
@@ -204,8 +234,8 @@ Nominatim 對少數地點解析不佳，腳本內 `QUERY_OVERRIDE` 可指定替�
 
 ### docs/selector/ -HTML選擇器（GitHub Pages顯示用）
 這些 HTML 檔案使用 Tailwind CSS CDN 引入樣式，無需 build step：
-- `docs/selector/attractions.html` - 景點選擇器（綠色主題，111 筆）
-- `docs/selector/foods.html` - 美食選擇器（橙色主題，63 筆）
+- `docs/selector/attractions.html` - 景點選擇器（綠色主題，121 筆）
+- `docs/selector/foods.html` - 美食選擇器（橙色主題，91 筆）
 
 > ⚠️ 首頁 `docs/index.html` 的卡片上有筆數 badge，**改完資料陣列後要同步**：
 > ```bash
@@ -226,7 +256,9 @@ Nominatim 對少數地點解析不佳，腳本內 `QUERY_OVERRIDE` 可指定替�
 > `candidates.html`（候選清單）已於 2026-09-20 依需求移除。
 
 **attractions.html 功能說明（請勿移除）**：
-- 資料來源：景點資料內嵌於 HTML 中的 JavaScript `attractions` 陣列
+- 資料來源：景點資料內嵌於 HTML 中的 JavaScript `attractions` 陣列，
+  **由 `data/attractions.json` 產生，不要直接改陣列**（兩份以前各改各的，分岔到出現重複項目）：
+  改完 JSON 後執行 `node scripts/sync-attractions.js`，再執行 `node scripts/sync-counts.js`
 - 篩選功能：城市（單選）、標籤（多選 AND 邏輯）、免費景點、已選景點、文字搜尋
 - 檢視模式：卡片視圖 / 表格視圖，可切換
 - 標籤系統：所有標籤都有顏色底色，支援多選（需同時滿足所有選中的標籤）
@@ -239,6 +271,10 @@ Nominatim 對少數地點解析不佳，腳本內 `QUERY_OVERRIDE` 可指定替�
 **foods.html 功能說明（請勿移除）**：
 - 資料來源：美食店家資料內嵌於 HTML 中的 JavaScript `foods` 陣列
 - 結構與 attractions.html 類似，便於同步操作
+- 選填欄位（2026-09-21 起，供行程表的方案小卡使用）：`rating`／`reviews`（食べログ評分與評論數，
+  要寫查詢年月）、`award`（百名店／Award）、`note`（公休、預約等注意事項）、
+  `mapq`（Google Maps 查詢字串，**明文日文**）、`src`（查證來源網址）。
+  `data/attractions.json` 也有 `mapq`
 - 篩選功能：地區（單選）、類別標籤（多選 AND 邏輯）、平價、已選、文字搜尋
 - 標籤系統：所有標籤都有顏色底色，支援多選（需同時滿足所有選中的標籤）
 - 價位標籤：自動判斷平價/中價位/高價位
@@ -253,6 +289,8 @@ Nominatim 對少數地點解析不佳，腳本內 `QUERY_OVERRIDE` 可指定替�
 ### 參考資料 reference/
 - 爬蟲抓取的原始網頁備份（34+ 個檔案）
 - 包含交通、美食、景點等各類參考資料
+- `reference/plans-2026-09/` - 彈性方案（B～E）與主行程計畫B 的查證來源備份（2026-09-22）。
+  檔名是「網域_路徑」，避免不同網站的首頁都變成 `index.md` 互相覆蓋
 
 ### docs/ 目錄結構
 ```
@@ -365,5 +403,6 @@ crawler.crawl_batch(['https://example.com/page1', 'https://example.com/page2'])
     （`.tl-tag`／`.tl-kind`／`.tl-plan`）。少列一個，那個 span 的文字就會被吃進標題，
     地圖上會出現「入住｜一難波南2號店 主行程」這種標題
 - `scripts/build-routes.js` - 依 `data/routes.json` 產生地圖上依交通方式的實際路線（見上方「docs/map/ 行程地圖」）
+- `scripts/sync-attractions.js` - 用 `data/attractions.json` 重新產生景點選擇器的內嵌陣列
 - `scripts/sync-counts.js` - 把首頁的選擇器筆數 badge 同步成實際資料筆數
 - `scripts/fetch-hero-photos.js` - 重新抓取頁首背景照片（見上方「頁首背景照片」）

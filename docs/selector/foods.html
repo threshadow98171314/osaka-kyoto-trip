@@ -231,7 +231,7 @@ const foods = [
     ],
     "price": "¥2,000-5,000",
     "hours": "11:00-20:00",
-    "address": "大阪市江區道頓堀1-2-3",
+    "address": "大阪市中央區道頓堀1-2-3",
     "features": "蒲燒鰻魚飯、關西口味"
   },
   {
@@ -246,22 +246,28 @@ const foods = [
     ],
     "price": "¥800-1,200",
     "hours": "11:00-23:00",
-    "address": "大阪市江區道頓堀1-5-2",
+    "address": "大阪市中央區道頓堀1-5-2",
     "features": "口感多元、選擇多樣"
   },
   {
     "id": "daiichi",
-    "name": "本家第一旭",
-    "area": "大阪",
-    "location": "大阪",
+    "name": "本家 第一旭 たかばし本店",
+    "area": "京都",
+    "location": "京都站東側",
     "type": [
-      "大阪",
-      "拉麵"
+      "京都",
+      "拉麵",
+      "百名店"
     ],
-    "price": "¥600-900",
-    "hours": "24小時",
-    "address": "大阪市北區天神橋5",
-    "features": "久留米豚骨、24小時"
+    "price": "¥1,000-1,999",
+    "hours": "6:00-翌 1:00（週四休）",
+    "address": "京都市下京区東塩小路向畑町845",
+    "features": "京都醬油豚骨拉麵代表店，九條蔥、國產豬叉燒；不接受預約",
+    "rating": "3.74",
+    "reviews": 6934,
+    "award": "食べログ拉麵百名店 2019-2025 連續入選",
+    "mapq": "本家第一旭+たかばし本店",
+    "src": "https://tabelog.com/en/kyoto/A2601/A260101/26000873/"
   },
   {
     "id": "daikisuisan",
@@ -343,7 +349,7 @@ const foods = [
   },
   {
     "id": "goldragon",
-    "name": "金龍拉麵",
+    "name": "金龍ラーメン 道頓堀店",
     "area": "大阪",
     "location": "道頓堀",
     "type": [
@@ -352,7 +358,7 @@ const foods = [
     ],
     "price": "¥600-900",
     "hours": "24小時",
-    "address": "大阪市江區道頓堀1-7-24",
+    "address": "大阪市中央區道頓堀1-7-26",
     "features": "豚骨湯底、24小時營業"
   },
   {
@@ -427,7 +433,7 @@ const foods = [
     ],
     "price": "¥700-1,000",
     "hours": "11:00-23:00",
-    "address": "大阪市江區道頓堀1-4-15",
+    "address": "大阪市中央區道頓堀1-4-15",
     "features": "白菜豚骨、批評屋"
   },
   {
@@ -577,7 +583,7 @@ const foods = [
     ],
     "price": "¥700-900",
     "hours": "11:30-22:30",
-    "address": "大阪市江區道頓堀1-5-11",
+    "address": "大阪市中央區道頓堀1-5-11",
     "features": "濃郁豚骨湯頭"
   },
   {
@@ -685,7 +691,7 @@ const foods = [
       "排隊名店"
     ],
     "price": "",
-    "hours": "",
+    "hours": "10:00-18:30 售完即止；原店改裝中（2025/2～2026/11 左右），暫於南京町廣場對面姊妹店「曹家包子館」營業，公休日資料不一",
     "address": "神戶市中央區元町通2-1-14",
     "features": "1915 年創業的百年老店，招牌豚まん（豬肉包）外皮厚薄適中有嚼勁、肉餡鮮甜多汁，南京町的排隊名物",
     "link": ""
@@ -764,8 +770,8 @@ const foods = [
       "烏龍麵"
     ],
     "price": "",
-    "hours": "",
-    "address": "奈良市橋本町",
+    "hours": "11:00-15:00（週二、三、四臨時休業）",
+    "address": "奈良市橋本町30-1",
     "features": "商店街內人氣烏龍麵店，招牌是裝在大福袋裡的巾着きつね",
     "link": ""
   },
@@ -812,8 +818,8 @@ const foods = [
       "排隊名店"
     ],
     "price": "",
-    "hours": "",
-    "address": "奈良市",
+    "hours": "平日 11:00-15:00 LO、週末 11:00-16:00 LO（公園店週二休）",
+    "address": "奈良市登大路町59-11（公園店）",
     "features": "Tabelog 奈良美食排行前段的釜飯名店，現點現炊需等候",
     "link": ""
   },
@@ -1018,8 +1024,8 @@ const foods = [
       "在地名物"
     ],
     "price": "",
-    "hours": "約 09:00-18:00",
-    "address": "京都市中京區錦小路通富小路西入",
+    "hours": "9:00-17:00",
+    "address": "京都市中京區錦小路通富小路西入ル東魚屋町182",
     "features": "錦市場的玉子燒名店，口感細緻滑嫩、蛋香濃郁充滿高湯鮮味。錦市場禁止邊走邊吃，請在店家指定區域食用",
     "link": ""
   },
@@ -1190,6 +1196,572 @@ const foods = [
     "address": "京都市東區祇園町",
     "features": "抹茶奶油蛋糕捲、抹茶拿鐵",
     "link": "https://www.yojiya.co.jp/"
+  },
+  {
+    "id": "mutekko-osaka",
+    "name": "無鉄砲 大阪店",
+    "area": "大阪",
+    "location": "今宮戎・新今宮",
+    "type": [
+      "大阪",
+      "拉麵",
+      "百名店",
+      "排隊名店"
+    ],
+    "price": "¥1,000-1,999",
+    "hours": "11:00-15:00、17:30-22:30（週一休）",
+    "address": "大阪市浪速区戎本町1-5-21 米田ビル1F",
+    "features": "濃厚豚骨拉麵，可選溏心蛋、帶骨排骨；不接受預約",
+    "link": "https://muteppou.com/",
+    "rating": "3.71",
+    "reviews": 2447,
+    "award": "食べログ拉麵百名店 2019-2025 連續入選",
+    "mapq": "無鉄砲+大阪店",
+    "src": "https://tabelog.com/en/osaka/A2701/A270206/27005006/"
+  },
+  {
+    "id": "kushikatsu-yokozuna",
+    "name": "日本一の串かつ 横綱 通天閣店",
+    "area": "大阪",
+    "location": "新世界",
+    "type": [
+      "大阪",
+      "串炸"
+    ],
+    "price": "¥1,000-2,999",
+    "hours": "24 小時、全年無休",
+    "address": "大阪市浪速区恵美須東3-6-1",
+    "features": "354 席的大型串炸店，就在通天閣下，深夜也能吃",
+    "rating": "3.39",
+    "reviews": 417,
+    "mapq": "串かつ横綱+通天閣店",
+    "src": "https://tabelog.com/en/osaka/A2701/A270206/27066939/"
+  },
+  {
+    "id": "sennariya-coffee",
+    "name": "千成屋珈琲",
+    "area": "大阪",
+    "location": "新世界",
+    "type": [
+      "大阪",
+      "咖啡",
+      "早餐",
+      "百名店"
+    ],
+    "price": "¥1,000 內",
+    "hours": "週末假日 9:00-19:00、平日 11:30-19:00",
+    "address": "大阪市浪速区恵美須東3-4-15",
+    "features": "1948 年創業，大阪「綜合果汁（ミックスジュース）」發源店",
+    "rating": "3.62",
+    "reviews": 836,
+    "award": "食べログ喫茶店百名店 2021",
+    "mapq": "千成屋珈琲",
+    "src": "https://tabelog.com/en/osaka/A2701/A270206/27017860/"
+  },
+  {
+    "id": "kissa-american",
+    "name": "純喫茶 アメリカン",
+    "area": "大阪",
+    "location": "道頓堀",
+    "type": [
+      "大阪",
+      "咖啡",
+      "早餐",
+      "鬆餅",
+      "百名店"
+    ],
+    "price": "¥1,000-1,999",
+    "hours": "9:00-22:00（週二到 21:30）；每月約 3 個週四不定休",
+    "address": "大阪市中央区道頓堀1-7-4",
+    "features": "1946 年創業的昭和復古咖啡廳，招牌手工鬆餅與「アラビヤサンド」；245 席",
+    "link": "https://k904500.gorp.jp/",
+    "rating": "3.64",
+    "reviews": 1847,
+    "award": "食べログ喫茶店百名店 2021・2022・2026",
+    "note": "店家官方頁寫 9:00 開門，食べログ寫 10:00，出發前再確認",
+    "mapq": "純喫茶アメリカン+道頓堀",
+    "src": "https://tabelog.com/en/osaka/A2701/A270202/27005758/"
+  },
+  {
+    "id": "marufuku-coffee",
+    "name": "丸福珈琲店 千日前本店",
+    "area": "大阪",
+    "location": "千日前",
+    "type": [
+      "大阪",
+      "咖啡",
+      "早餐",
+      "鬆餅"
+    ],
+    "price": "¥1,000-1,999",
+    "hours": "8:00-23:00（1/1 休）",
+    "address": "大阪市中央区千日前1-9-1",
+    "features": "1934 年創業的自家烘焙咖啡，銅板煎鬆餅、起司吐司；早餐套餐只有平日",
+    "link": "https://marufukucoffeeten.com/store/marufukucoffee-sennichimae/",
+    "rating": "3.42",
+    "reviews": 863,
+    "mapq": "丸福珈琲店+千日前本店",
+    "src": "https://tabelog.com/en/osaka/A2701/A270202/27001450/"
+  },
+  {
+    "id": "chitose-honten",
+    "name": "千とせ 本店",
+    "area": "大阪",
+    "location": "難波千日前",
+    "type": [
+      "大阪",
+      "烏龍麵",
+      "在地名物",
+      "百名店"
+    ],
+    "price": "¥1,000 內",
+    "hours": "10:30-14:30，售完即止（週二休）",
+    "address": "大阪市中央区難波千日前8-1",
+    "features": "「肉吸い」（牛肉清湯）發源店；就在千日前道具屋筋",
+    "link": "https://www.chitose-nikusui.com/",
+    "rating": "3.72",
+    "reviews": 2283,
+    "award": "食べログ烏龍麵百名店 2022・2024",
+    "mapq": "千とせ+本店+難波千日前",
+    "src": "https://tabelog.com/en/osaka/A2701/A270202/27002763/"
+  },
+  {
+    "id": "mizuno-okonomiyaki",
+    "name": "美津の",
+    "area": "大阪",
+    "location": "道頓堀",
+    "type": [
+      "大阪",
+      "大阪燒",
+      "百名店",
+      "排隊名店"
+    ],
+    "price": "¥2,000-2,999",
+    "hours": "11:00-22:00",
+    "address": "大阪市中央区道頓堀1-4-15",
+    "features": "招牌「美津の焼」與鬆軟的「山芋焼」；不接受預約，38 席",
+    "link": "https://www.mizuno-osaka.com/",
+    "rating": "3.56",
+    "reviews": 1736,
+    "award": "食べログ大阪燒百名店 2018・2019・2022・2024・2025",
+    "mapq": "美津の+道頓堀",
+    "src": "https://tabelog.com/en/osaka/A2701/A270202/27001278/"
+  },
+  {
+    "id": "jiyuken-namba",
+    "name": "自由軒 難波本店",
+    "area": "大阪",
+    "location": "難波",
+    "type": [
+      "大阪",
+      "洋食",
+      "在地名物"
+    ],
+    "price": "¥1,000-1,999",
+    "hours": "11:30-20:00（週日到 19:45）；週一休",
+    "address": "大阪市中央区難波3-1-34",
+    "features": "1910 年創業、大阪第一家西餐廳；「名物咖哩」是咖哩先拌好飯再打一顆生蛋（¥750）",
+    "link": "https://www.jiyuken.co.jp/shop/sennichimae.html",
+    "rating": "3.49",
+    "reviews": 2227,
+    "mapq": "自由軒+難波本店",
+    "src": "https://tabelog.com/en/osaka/A2701/A270202/27001310/"
+  },
+  {
+    "id": "grill-bon",
+    "name": "グリル梵",
+    "area": "大阪",
+    "location": "恵美須町（新世界）",
+    "type": [
+      "大阪",
+      "洋食",
+      "百名店"
+    ],
+    "price": "¥2,000-2,999",
+    "hours": "12:00-14:30（LO 14:00）、17:00-19:30；每月 6、16、26 日不定休，售完即止",
+    "address": "大阪市浪速区恵美須東1-17-17",
+    "features": "老字號洋食，招牌「ビーフヘレカツサンド」（牛腓力炸肉排三明治）；吧台 15 席",
+    "rating": "3.58",
+    "reviews": 499,
+    "award": "食べログ洋食百名店 2025",
+    "mapq": "グリル梵+新世界",
+    "src": "https://tabelog.com/en/osaka/A2701/A270206/27001105/"
+  },
+  {
+    "id": "harukoma-honten",
+    "name": "春駒 本店",
+    "area": "大阪",
+    "location": "天神橋筋",
+    "type": [
+      "大阪",
+      "壽司",
+      "百名店",
+      "排隊名店"
+    ],
+    "price": "¥2,000-2,999",
+    "hours": "11:00-21:30，售完即止（週二休）",
+    "address": "大阪市北区天神橋5-5-2",
+    "features": "天満的平價排隊壽司，師傅在面前現捏；有多語菜單",
+    "rating": "3.58",
+    "reviews": 1824,
+    "award": "食べログ壽司百名店 2021",
+    "mapq": "春駒+本店+天神橋",
+    "src": "https://tabelog.com/en/osaka/A2701/A270103/27002205/"
+  },
+  {
+    "id": "tenma-sakagura",
+    "name": "天満酒蔵",
+    "area": "大阪",
+    "location": "天神橋筋",
+    "type": [
+      "大阪",
+      "居酒屋"
+    ],
+    "price": "¥1,000-3,999",
+    "hours": "11:30-21:30（LO 21:00）；每月數天不定休",
+    "address": "大阪市北区天神橋5-7-28",
+    "features": "1969 年創業的大眾酒場，關東煮、生魚片便宜又快；58 席、可吸菸",
+    "link": "https://tenmasakagura.com/",
+    "rating": "3.47",
+    "reviews": 470,
+    "mapq": "天満酒蔵",
+    "src": "https://tabelog.com/en/osaka/A2701/A270103/27004399/"
+  },
+  {
+    "id": "mukadeya",
+    "name": "百足家",
+    "area": "大阪",
+    "location": "天神橋筋",
+    "type": [
+      "大阪",
+      "居酒屋",
+      "海鮮"
+    ],
+    "price": "¥3,000-3,999",
+    "hours": "週日 15:00-21:30（公休日各來源不一：週二／週四）",
+    "address": "大阪市北区天神橋5-4-9",
+    "features": "以鮮魚聞名的立飲，日本酒 25 種以上；現金",
+    "rating": "3.45",
+    "reviews": 165,
+    "mapq": "百足家+天神橋",
+    "src": "https://tabelog.com/en/osaka/A2701/A270103/27093520/"
+  },
+  {
+    "id": "mont-plus",
+    "name": "パティスリー モンプリュ 本店",
+    "area": "神戶",
+    "location": "元町・海岸通",
+    "type": [
+      "神戶",
+      "甜點",
+      "百名店"
+    ],
+    "price": "¥1,000-1,999",
+    "hours": "10:00-18:00（週二、三休）",
+    "address": "神戸市中央区海岸通3-1-17",
+    "features": "神戶代表性的法式甜點店，招牌蛋白霜系甜點；內用 22 席",
+    "rating": "3.75",
+    "reviews": 1384,
+    "award": "食べログ甜點百名店 2018-2026 六度入選",
+    "mapq": "パティスリーモンプリュ+本店",
+    "src": "https://tabelog.com/en/hyogo/A2801/A280102/28002315/"
+  },
+  {
+    "id": "kitsune-nara",
+    "name": "きつね",
+    "area": "奈良",
+    "location": "近鐵奈良站步行 7 分（鹿猿狐ビルヂング）",
+    "type": [
+      "奈良",
+      "壽喜燒",
+      "百名店"
+    ],
+    "price": "午餐 ¥4,000-4,999",
+    "hours": "11:00-15:00、17:00-21:00（週三休）",
+    "address": "奈良市元林院町22 鹿猿狐ビルヂング1F",
+    "features": "大和牛壽喜燒與涮涮鍋；套餐需預約，單點可現場",
+    "rating": "3.76",
+    "reviews": 318,
+    "award": "食べログ火鍋百名店 2024",
+    "mapq": "きつね+鹿猿狐ビルヂング",
+    "src": "https://tabelog.com/en/nara/A2901/A290101/29012524/"
+  },
+  {
+    "id": "menya-k",
+    "name": "麺屋 K",
+    "area": "奈良",
+    "location": "近鐵奈良站周邊",
+    "type": [
+      "奈良",
+      "拉麵",
+      "百名店"
+    ],
+    "price": "¥1,000-1,999",
+    "hours": "週二 11:00-14:30、週三休（其他日另有晚間時段），售完即止",
+    "address": "奈良市光明院町9",
+    "features": "11 席的小拉麵店，店主出身大阪名店「らーめん人生 JET」",
+    "rating": "3.70",
+    "reviews": 876,
+    "award": "食べログ拉麵百名店 2023-2025",
+    "mapq": "麺屋K+奈良",
+    "src": "https://tabelog.com/en/nara/A2901/A290101/29011962/"
+  },
+  {
+    "id": "gen-soba",
+    "name": "玄",
+    "area": "奈良",
+    "location": "ならまち（福智院町）",
+    "type": [
+      "奈良",
+      "蕎麥",
+      "百名店"
+    ],
+    "price": "午餐 ¥2,000-2,999",
+    "hours": "午 11:30-13:00（週二～六）；週日、一休",
+    "address": "奈良市福智院町23-2",
+    "features": "食べログ 4.05 的蕎麥名店；全預約制、每日限 40 份、不收兒童、現金",
+    "rating": "4.05",
+    "reviews": 582,
+    "award": "食べログ Award 2026 Bronze；蕎麥百名店自 2017 年連續入選",
+    "mapq": "玄+福智院町+そば",
+    "src": "https://tabelog.com/en/nara/A2901/A290101/29000052/"
+  },
+  {
+    "id": "kashiya",
+    "name": "萬御菓子誂處 樫舎",
+    "area": "奈良",
+    "location": "ならまち（中院町）",
+    "type": [
+      "奈良",
+      "和菓子",
+      "甜點",
+      "百名店"
+    ],
+    "price": "¥1,000-1,999",
+    "hours": "內用 11:00-16:30、全年無休",
+    "address": "奈良市中院町22-3",
+    "features": "和菓子與刨冰（かき氷）名店；13 席榻榻米，建議預約",
+    "rating": "3.83",
+    "reviews": 1086,
+    "award": "食べログ和菓子百名店 2026",
+    "mapq": "樫舎+奈良",
+    "src": "https://tabelog.com/en/nara/A2901/A290101/29002296/"
+  },
+  {
+    "id": "yamamoto-mambo",
+    "name": "山本まんぼ",
+    "area": "京都",
+    "location": "京都站",
+    "type": [
+      "京都",
+      "大阪燒",
+      "百名店"
+    ],
+    "price": "¥1,000-1,999",
+    "hours": "10:00-22:00（LO 21:30）；週三、每月第 3 個週四休",
+    "address": "京都市下京区小稲荷町61-54",
+    "features": "1948 年創業的大阪燒與鐵板燒，招牌「まんぼ焼」；平日可預約、現金",
+    "rating": "3.67",
+    "reviews": 1423,
+    "award": "食べログ大阪燒百名店 2022-2025",
+    "mapq": "山本まんぼ",
+    "src": "https://tabelog.com/en/kyoto/A2601/A260101/26034294/"
+  },
+  {
+    "id": "henkotsu-kyoto",
+    "name": "へんこつ",
+    "area": "京都",
+    "location": "京都站（京都塔旁）",
+    "type": [
+      "京都",
+      "居酒屋",
+      "百名店"
+    ],
+    "price": "¥1,000-2,999",
+    "hours": "17:00-23:00（週日、假日休）",
+    "address": "京都市下京区木津屋橋通烏丸西入ル東塩小路町579 あすなろビル1F",
+    "features": "牛肉料理與關東煮的人氣居酒屋；不接受預約、現金",
+    "rating": "3.65",
+    "reviews": 769,
+    "award": "食べログ居酒屋百名店 2024・2025",
+    "mapq": "へんこつ+京都駅",
+    "src": "https://tabelog.com/en/kyoto/A2601/A260101/26000797/"
+  },
+  {
+    "id": "kyoto-tower-sando",
+    "name": "京都タワーサンド 美食街",
+    "area": "京都",
+    "location": "京都站前（京都塔地下）",
+    "type": [
+      "京都",
+      "美食街"
+    ],
+    "price": "依店家",
+    "hours": "B1 11:00-23:00（部分店家不同）",
+    "address": "京都市下京区烏丸通七条下る東塩小路町721-1",
+    "features": "約 450 席、17 家店可各點各的一起坐：「鳥せい」、「京の焼肉処 弘」、大起水産回轉壽司、ぎょうざ処 亮昌、錦魚力等",
+    "link": "https://www.kyoto-tower-sando.jp/foodhall",
+    "mapq": "京都タワーサンド",
+    "src": "https://www.kyoto-tower-sando.jp/foodhall"
+  },
+  {
+    "id": "yoshidayama-seseri",
+    "name": "吉田山せせり",
+    "area": "京都",
+    "location": "京都站八条口",
+    "type": [
+      "京都",
+      "燒鳥",
+      "百名店"
+    ],
+    "price": "¥5,000-7,999",
+    "hours": "17:00-23:00（週六、日休）",
+    "address": "京都市南区東九条室町31",
+    "features": "吧台 8 席的燒鳥，搭日本酒；一個月前開放預約，每輪 2 小時（17／19／21 點）",
+    "rating": "3.64",
+    "reviews": 230,
+    "award": "食べログ燒鳥百名店 2024・2025",
+    "mapq": "吉田山せせり",
+    "src": "https://tabelog.com/en/kyoto/A2601/A260101/26030970/"
+  },
+  {
+    "id": "kyorinsen",
+    "name": "天婦羅処 京林泉",
+    "area": "京都",
+    "location": "京都站（ホテルグランヴィア京都）",
+    "type": [
+      "京都",
+      "天婦羅",
+      "百名店"
+    ],
+    "price": "¥8,000-9,999",
+    "hours": "17:00-22:00（LO 21:00）；週一休（假日除外）",
+    "address": "京都市下京区烏丸通塩小路下ル東塩小路町901 ホテルグランヴィア京都 M3F",
+    "features": "天婦羅套餐，京都蔬菜；京都站中央口直結；需網路預約",
+    "rating": "3.65",
+    "reviews": 353,
+    "award": "食べログ天婦羅百名店 2022・2023・2025",
+    "mapq": "天婦羅処+京林泉",
+    "src": "https://tabelog.com/en/kyoto/A2601/A260101/26000484/"
+  },
+  {
+    "id": "gyoza-hohei",
+    "name": "ぎょうざ 歩兵 祇園本店",
+    "area": "京都",
+    "location": "祇園",
+    "type": [
+      "京都",
+      "餃子",
+      "百名店",
+      "排隊名店"
+    ],
+    "price": "¥1,000-1,999",
+    "hours": "17:00-24:00（LO 23:30）；週日、假日休",
+    "address": "京都市東山区清本町373-3",
+    "features": "生薑餃與蒜香韭菜餃兩種；10 席、不接受預約，常常開門前就排隊",
+    "link": "https://gyozahohei.com/",
+    "rating": "3.53",
+    "reviews": 956,
+    "award": "食べログ餃子百名店 2019・2021・2024",
+    "mapq": "ぎょうざ歩兵+祇園本店",
+    "src": "https://tabelog.com/en/kyoto/A2601/A260301/26018951/"
+  },
+  {
+    "id": "kyogoku-kaneyo",
+    "name": "京極かねよ",
+    "area": "京都",
+    "location": "新京極",
+    "type": [
+      "京都",
+      "鰻魚飯",
+      "在地名物"
+    ],
+    "price": "¥3,000-3,999",
+    "hours": "晚 17:00-20:30（LO 20:00）；週三休、週二晚休",
+    "address": "京都市中京区六角通新京極東入ル松ヶ枝町456",
+    "features": "名物「きんし丼」：一整片京風玉子燒蓋在鰻魚飯上（¥3,000 起）；大正時期木造老店",
+    "rating": "3.49",
+    "reviews": 1482,
+    "mapq": "京極かねよ",
+    "src": "https://tabelog.com/en/kyoto/A2601/A260201/26001330/"
+  },
+  {
+    "id": "kyogoku-stand",
+    "name": "京極スタンド",
+    "area": "京都",
+    "location": "新京極",
+    "type": [
+      "京都",
+      "居酒屋",
+      "洋食"
+    ],
+    "price": "¥1,000-2,999",
+    "hours": "12:00-21:15（LO 20:45）；週二休",
+    "address": "京都市中京区新京極通四条上ル中之町546",
+    "features": "1927 年創業的昭和大眾食堂兼酒場，可樂餅、關東煮到定食約 60 種；不接受預約、現金、可吸菸",
+    "rating": "3.49",
+    "reviews": 948,
+    "mapq": "京極スタンド",
+    "src": "https://tabelog.com/en/kyoto/A2601/A260201/26000665/"
+  },
+  {
+    "id": "bar-rocking-chair",
+    "name": "Bar Rocking chair（ロッキングチェア）",
+    "area": "京都",
+    "location": "四条河原町",
+    "type": [
+      "京都",
+      "酒吧",
+      "百名店"
+    ],
+    "price": "¥3,000-3,999（座位費 ¥880 含小菜）",
+    "hours": "17:00-翌 1:00（週二休）",
+    "address": "京都市下京区御幸町通仏光寺下る橘町434-2",
+    "features": "有壁爐和搖椅的調酒吧；可吸菸、未成年不可入店",
+    "rating": "3.89",
+    "reviews": 542,
+    "award": "食べログ酒吧百名店 2022",
+    "mapq": "ロッキングチェア+京都",
+    "src": "https://tabelog.com/en/kyoto/A2601/A260201/26007698/"
+  },
+  {
+    "id": "mishimatei",
+    "name": "三嶋亭 本店",
+    "area": "京都",
+    "location": "寺町三条",
+    "type": [
+      "京都",
+      "壽喜燒",
+      "百名店"
+    ],
+    "price": "晚餐 ¥15,000-19,999",
+    "hours": "11:00-21:00（定休日各來源不一，預約時確認）",
+    "address": "京都市中京区寺町通三条下ル桜之町405",
+    "features": "1873 年創業的壽喜燒老舖，明治時期町家；晚間「月コース」¥17,545、「極上月コース」¥21,780（含稅服務費）；電話 075-221-0003",
+    "link": "https://www.mishima-tei.co.jp/",
+    "rating": "3.64",
+    "reviews": 871,
+    "award": "食べログ Award Bronze 2017-2019；火鍋百名店 2024",
+    "mapq": "三嶋亭+本店",
+    "src": "https://tabelog.com/en/kyoto/A2601/A260201/26000646/"
+  },
+  {
+    "id": "pontocho-masuda",
+    "name": "先斗町 ますだ",
+    "area": "京都",
+    "location": "先斗町",
+    "type": [
+      "京都",
+      "京料理"
+    ],
+    "price": "¥8,000-14,999",
+    "hours": "17:00-22:00（週日休）",
+    "address": "京都市中京区先斗町四条上ル下樵木町200",
+    "features": "約 70 年的京都家常菜（おばんざい）名店，司馬遼太郎常客；電話預約 075-221-6816、現金、店內禁止拍照",
+    "rating": "3.52",
+    "reviews": 118,
+    "mapq": "先斗町ますだ",
+    "src": "https://tabelog.com/en/kyoto/A2601/A260201/26000698/"
   }
 ];
 
@@ -1234,7 +1806,18 @@ function getTagClass(tag) {
         // 屬性
         '在地名物': { background: '#FDE0D4', color: '#9C3C14' },
         '排隊名店': { background: '#FBDCDC', color: '#A32828' },
-        '伴手禮':   { background: '#EFE6F5', color: '#6B3E96' }
+        '伴手禮':   { background: '#EFE6F5', color: '#6B3E96' },
+        // 2026-09-21 新增：食べログ百名店與新類別
+        '百名店':   { background: '#FFF1C9', color: '#8A6100' },
+        '居酒屋':   { background: '#FDEBD8', color: '#96521A' },
+        '燒鳥':     { background: '#FBE3E3', color: '#9E2B2B' },
+        '壽喜燒':   { background: '#FBE3E3', color: '#9E2B2B' },
+        '天婦羅':   { background: '#FEF0DC', color: '#8A5A15' },
+        '蕎麥':     { background: '#EDE3D8', color: '#6B4A2C' },
+        '餃子':     { background: '#FDEBD8', color: '#96521A' },
+        '和菓子':   { background: '#FBE4EE', color: '#9B2C63' },
+        '酒吧':     { background: '#E6E3F5', color: '#4B3E96' },
+        '美食街':   { background: '#E3EEF7', color: '#34557F' }
     };
     return classes[tag] || { background: '#EFEAE2', color: '#6B6255' };
 }

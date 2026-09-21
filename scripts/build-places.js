@@ -23,7 +23,9 @@ const UA = 'osaka-kyoto-trip/1.0 (personal travel itinerary map; https://github.
 
 /* Nominatim 對少數地點解析不佳，這裡指定更精確的查法 */
 const QUERY_OVERRIDE = {
-  'ポケモンセンターオーサカ 大丸梅田店': '大丸梅田店',
+  // 大丸梅田店 10～13F 已於 2026/4/5 改為 LUCUA SOUTH，行程表只寫店名；
+  // 但 Nominatim 用店名查不到，OSM 上這棟還叫「大丸梅田店」（2026-09-22 查），座標相同
+  'ポケモンセンターオーサカ': '大丸梅田店',
   '叙々苑 ジェイアール京都伊勢丹店': 'ジェイアール京都伊勢丹',
   'teamLab Biovortex Kyoto': '京都市南区東九条東岩本町',
   // 飯店地址：大阪市浪速区恵美須西3-8-7（Trip.com、Hotels.com 查證，2026-09-21）。
@@ -63,6 +65,16 @@ const QUERY_OVERRIDE = {
   '心齋橋 PARCO 大阪': '心斎橋PARCO',
   'teamLab 長居植物園 大阪': '長居植物園 大阪',
   '大阪灣格蘭王子大飯店 大阪': 'グランドプリンスホテル大阪ベイ',
+  // 2026-09-21 新增的推薦景點
+  // 只查「南京町（神戶中華街） 関西」會落到東京，要指定神戶
+  '南京町（神戶中華街） 関西': '南京町 神戸市中央区',
+  'スパワールド 世界の大温泉 大阪': 'スパワールド',
+  // 店名與地址都查不到（京都有好幾個塩屋町），用店門口的路口定位
+  'ドン・キホーテ 四条河原町店 京都': '蛸薬師通 河原町',
+  // 以下兩筆原本被定位到茨城縣、福島縣（地圖推薦圖層上會跑出關西）
+  '姬路城 関西': '姫路城',
+  '和服體驗 京都': '祇園 京都市東山区',
+  '京都駅ビル 大階段燈飾 京都': '京都駅ビル',
 };
 
 const strip = (s) => s.replace(/<[^>]*>/g, '').replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
@@ -247,7 +259,8 @@ function extractRecommended() {
 
   for (const q of uniq) {
     // QUERY_OVERRIDE 改過的地點，舊座標是用舊查詢字串查的，要重查
-    if (cache[q] && QUERY_OVERRIDE[q] && cache[q].geocodedQuery !== QUERY_OVERRIDE[q]) delete cache[q];
+    // 上次查不到（null）的，加了 override 之後也要重查
+    if (QUERY_OVERRIDE[q] && (cache[q] === null || (cache[q] && cache[q].geocodedQuery !== QUERY_OVERRIDE[q]))) delete cache[q];
     if (Object.prototype.hasOwnProperty.call(cache, q)) {
       cached++;
       if (cache[q]) coords[q] = cache[q]; else unresolved.push(q);

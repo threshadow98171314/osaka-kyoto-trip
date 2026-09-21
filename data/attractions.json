@@ -6,18 +6,20 @@
       "city": "京都",
       "area": "私房秘境",
       "category": "私房秘境",
-      "features": "任天堂直營店、遊戲主題商品、限定商品、大雕像打卡",
+      "features": "2023/10/17 開幕的任天堂直營店（京都高島屋 S.C. T8 的 7F），京都限定「Nintendo KYOTO series」只在這裡買得到；同一棟 5F 是ポケモンセンターキョウト；週末假日等忙碌日發入店整理券（開店前在 1F T8 入口「マリオ前」、開店後在 7F 店門口）",
       "price": "免費（購物另計）",
       "duration": "1小時",
-      "address": "京都高島屋S.C. 新館7樓",
-      "hours": "10:00-20:00",
+      "address": "京都市下京区四条通寺町東入2丁目御旅町35 京都高島屋S.C. T8 7F",
+      "hours": "10:30-20:00",
       "transport": "京都河原町駅 5號出口直通",
+      "link": "https://www.nintendo.com/jp/officialstore/index.html",
       "tags": [
         "京都",
         "主題樂園",
         "ACG/玩具",
         "免費"
-      ]
+      ],
+      "mapq": "京都高島屋+T8"
     },
     {
       "id": "sanjusangendo-temple",
@@ -99,15 +101,16 @@
       "area": "文化體驗",
       "category": "文化體驗",
       "features": "漫畫愛好者聖地、收藏30萬冊",
-      "price": "¥800",
+      "price": "¥1,200",
       "duration": "2小時",
-      "address": "京都市中京區烏丸御池",
-      "hours": "10:00-17:00（休週二）",
+      "address": "京都市中京区烏丸通御池上ル（元龍池小學校）",
+      "hours": "10:00-17:00（受理至 16:30）；週三休",
       "transport": "地下鐵「烏丸御池駅」",
-      "link": "https://www.kyoto-art-museum.jp/",
+      "link": "https://kyotomm.jp/",
       "tags": [
         "京都"
-      ]
+      ],
+      "mapq": "京都国際マンガミュージアム"
     },
     {
       "id": "nintendo-museum",
@@ -189,7 +192,7 @@
       "city": "京都",
       "area": "定番",
       "category": "定番景點",
-      "features": "祇園信仰中心",
+      "features": "祇園信仰中心；24 小時可參拜，西樓門夜間點燈",
       "price": "免費",
       "duration": "30分鐘",
       "address": "京都市東山區祇園町",
@@ -200,7 +203,8 @@
         "京都",
         "神社寺院",
         "免費"
-      ]
+      ],
+      "mapq": "八坂神社"
     },
     {
       "id": "kitanotenmangu",
@@ -677,7 +681,8 @@
       "tags": [
         "京都",
         "免費"
-      ]
+      ],
+      "mapq": "祇園+花見小路"
     },
     {
       "id": "tea-ceremony",
@@ -910,21 +915,24 @@
     },
     {
       "id": "grand-green",
-      "name": "GRAND GREEN OSAKA",
+      "name": "グラングリーン大阪（GRAND GREEN OSAKA）",
       "city": "大阪",
       "area": "市中心",
       "category": "市中心",
-      "features": "2025新開幕複合式商城、南館55店鋪",
+      "features": "JR 大阪站北側的新都市公園與商場（公園南園 2024/9、南館 2025/3/21 開幕），晚上 350m 步道橋「ひらめきの道」點燈；更大的「うめきたの森」2026/11/20 才開園",
       "price": "免費（消費另計）",
       "duration": "2-3小時",
-      "address": "大阪市北區曾根崎新地",
-      "hours": "店鋪各異",
-      "transport": "JR「大阪駅」直達",
-      "link": "",
+      "address": "大阪市北区大深町",
+      "hours": "公園全天開放；店鋪各異",
+      "transport": "JR 大阪站北側直通",
+      "link": "https://umekita.com/",
       "tags": [
         "大阪",
-        "免費"
-      ]
+        "免費",
+        "自然",
+        "夜景"
+      ],
+      "mapq": "グラングリーン大阪"
     },
     {
       "id": "hep-five",
@@ -933,16 +941,17 @@
       "area": "市中心",
       "category": "市中心",
       "features": "紅色摩天輪賞夜景（2026/4已恢復營業）",
-      "price": "¥800",
+      "price": "¥1,000（2026/4/22 起）",
       "duration": "15分鐘",
       "address": "大阪市北區角田叮5-15 HEP FIVE 7F",
-      "hours": "11:00-22:45",
+      "hours": "11:00-22:45（最終搭乘）",
       "transport": "Metro「梅田駅」步行3分",
       "link": "https://www.hepfive.jp/",
       "tags": [
         "大阪",
         "夜景"
-      ]
+      ],
+      "mapq": "HEP+FIVE+観覧車"
     },
     {
       "id": "kitte",
@@ -971,9 +980,10 @@
       "features": "任天堂直營店、遊戲主題商品、限定商品、大雕像打卡",
       "price": "免費（購物另計）",
       "duration": "1小時",
-      "address": "大丸梅田店13樓（大阪市北區梅田3-1-1）",
+      "address": "LUCUA SOUTH（ルクア サウス）13F（原大丸梅田店，大阪市北區梅田3-1-1）",
       "hours": "10:00-20:00",
       "transport": "JR「大阪駅」直達",
+      "link": "https://www.nintendo.com/jp/officialstore/index.html",
       "tags": [
         "大阪",
         "主題樂園",
@@ -1043,17 +1053,18 @@
       "city": "大阪",
       "area": "市中心",
       "category": "市中心",
-      "features": "玫瑰園、中央公會堂",
+      "features": "玫瑰園與大阪市中央公會堂（國家重要文化財）；公會堂 9-10 月 18:30-23:00 點燈",
       "price": "免費",
       "duration": "1小時",
-      "address": "大阪市中央區中之島",
+      "address": "大阪市北區中之島1丁目",
       "hours": "24小時",
       "transport": "Metro 御堂筋線「澱屋橋駅」步行5分",
-      "link": "",
+      "link": "https://www.city.osaka.lg.jp/keizaisenryaku/page/0000515661.html",
       "tags": [
         "大阪",
         "免費"
-      ]
+      ],
+      "mapq": "大阪市中央公会堂"
     },
     {
       "id": "katsuoji",
@@ -1176,6 +1187,24 @@
       "tags": [
         "大阪"
       ]
+    },
+    {
+      "id": "osaka-museum-history",
+      "name": "大阪歷史博物館",
+      "city": "大阪",
+      "area": "市中心",
+      "category": "市中心",
+      "features": "10 樓原寸復原難波宮大極殿，窗外可眺望大阪城與難波宮跡；常設展從 10 樓一路往下逛到 7 樓",
+      "price": "常設展 大人 ¥600（特別展另計）",
+      "duration": "1-1.5小時",
+      "address": "大阪市中央区大手前4-1-32",
+      "hours": "9:30-17:00（入館至 16:30）；週二休（遇假日改隔天休）",
+      "transport": "地鐵「谷町四丁目駅」2・9 號出口（2 號出口往東約 300m）",
+      "link": "https://www.osakamushis.jp/visit/fee.html",
+      "tags": [
+        "大阪"
+      ],
+      "mapq": "大阪歴史博物館"
     },
     {
       "id": "grand-osaka-bay",
@@ -1385,16 +1414,17 @@
       "area": "市中心",
       "category": "市中心",
       "features": "空中庭園、夕陽/夜景",
-      "price": "¥2,000",
+      "price": "大人 ¥2,000（可網路預購指定日期）",
       "duration": "1小時",
       "address": "大阪市北區大澱中1-1-90",
-      "hours": "9:30-22:30",
+      "hours": "9:30-22:30（最終入場 22:00）",
       "transport": "JR「大阪駅」步行9分",
-      "link": "https://www.kuchu-teisha.com/",
+      "link": "https://www.skybldg.co.jp/observatory/information/",
       "tags": [
         "大阪",
         "夜景"
-      ]
+      ],
+      "mapq": "梅田スカイビル+空中庭園展望台"
     },
     {
       "id": "kaiyukan",
@@ -1465,7 +1495,8 @@
       "tags": [
         "大阪",
         "免費"
-      ]
+      ],
+      "mapq": "アメリカ村+大阪"
     },
     {
       "id": "rinku",
@@ -1900,15 +1931,16 @@
       "area": "關西延伸",
       "category": "關西廣域",
       "features": "世界遺産、白鷺城",
-      "price": "¥1,000",
+      "price": "¥2,500（2026/3/1 起）",
       "duration": "2小時",
-      "address": "姬路市下手野",
+      "address": "姫路市本町68",
       "hours": "9:00-17:00",
       "transport": "JR廣域可達（約60分 from 大阪）",
       "link": "",
       "tags": [
         "關西延伸"
-      ]
+      ],
+      "mapq": "姫路城"
     },
     {
       "id": "okayama-city",
@@ -1989,17 +2021,18 @@
       "city": "關西延伸",
       "area": "關西延伸",
       "category": "關西廣域",
-      "features": "夜景浪漫、地標",
-      "price": "¥1,000",
+      "features": "2024/4/26 翻新重新開幕，新設 100m 高的屋頂甲板可 360° 看海、山、市區",
+      "price": "展望樓層＋屋頂甲板 大人 ¥1,200",
       "duration": "1小時",
-      "address": "神戶市中央區波止場町",
-      "hours": "10:00-22:00",
+      "address": "神戸市中央区波止場町5-5",
+      "hours": "9:00-23:00（最終入場 22:30）",
       "transport": "JR可達",
-      "link": "",
+      "link": "https://www.kobe-port-tower.com/",
       "tags": [
         "關西延伸",
         "夜景"
-      ]
+      ],
+      "mapq": "神戸ポートタワー"
     },
     {
       "id": "tennoji-zoo",
@@ -2036,7 +2069,203 @@
         "大阪",
         "購物",
         "ACG/玩具"
-      ]
+      ],
+      "mapq": "心斎橋PARCO"
+    },
+    {
+      "id": "tonbori-cruise",
+      "name": "とんぼりリバークルーズ",
+      "city": "大阪",
+      "area": "市中心",
+      "category": "市中心",
+      "features": "道頓堀川 20 分鐘迷你遊船，從水面看固力果跑跑人與兩岸招牌",
+      "price": "大人 ¥2,000",
+      "duration": "20分鐘",
+      "address": "太左衛門橋船着場（ドン・キホーテ道頓堀店川側入口旁）",
+      "hours": "11:00-21:00，每整點與半點出航",
+      "transport": "道頓堀，ドン・キホーテ道頓堀店旁",
+      "link": "https://www.ipponmatsu.co.jp/cruise/tombori.html",
+      "tags": [
+        "大阪",
+        "體驗",
+        "夜景"
+      ],
+      "mapq": "とんぼりリバークルーズ"
+    },
+    {
+      "id": "sennichimae-doguyasuji",
+      "name": "千日前道具屋筋商店街",
+      "city": "大阪",
+      "area": "市中心",
+      "category": "市中心",
+      "features": "約 150m 的廚具街：菜刀、食品模型、燈籠、招牌，千とせ本店也在這條街上",
+      "price": "免費（購物另計）",
+      "duration": "30分鐘-1小時",
+      "address": "大阪市中央区難波千日前",
+      "hours": "各店不同",
+      "transport": "なんば站步行約 3 分",
+      "link": "https://osaka-info.jp/spot/sennichimae-doguyasuji-shopping-street/",
+      "tags": [
+        "大阪",
+        "購物",
+        "免費"
+      ],
+      "mapq": "千日前道具屋筋商店街"
+    },
+    {
+      "id": "umekita-onsen",
+      "name": "うめきた温泉 蓮",
+      "city": "大阪",
+      "area": "市中心",
+      "category": "市中心",
+      "features": "グラングリーン大阪南館裡的大型溫泉設施，另有屋外無邊際泳池（另計）",
+      "price": "基本方案 平日 ¥3,190／週末假日 ¥3,740（稅込）",
+      "duration": "2-3小時",
+      "address": "大阪市北区大深町5-54 グラングリーン大阪 南館3-4F",
+      "hours": "24 小時（入館 12 小時後加收）",
+      "transport": "JR 大阪站北側",
+      "link": "https://umekita-onsen.jp/information",
+      "tags": [
+        "大阪",
+        "溫泉"
+      ],
+      "mapq": "うめきた温泉+蓮"
+    },
+    {
+      "id": "spaworld",
+      "name": "スパワールド 世界の大温泉",
+      "city": "大阪",
+      "area": "市中心",
+      "category": "市中心",
+      "features": "新今宮・通天閣一帶的大型溫泉設施，浴場營業到隔天早上",
+      "price": "不含泳池 ¥1,500（24:00-5:00 在館另加 ¥1,300＋入湯稅 ¥150）",
+      "duration": "1-2小時",
+      "address": "大阪市浪速区恵美須東3-4-24",
+      "hours": "浴場 10:00-翌 8:45",
+      "transport": "新今宮・動物園前一帶",
+      "link": "https://www.spaworld.co.jp/info/ryokin/",
+      "tags": [
+        "大阪",
+        "溫泉"
+      ],
+      "mapq": "スパワールド+世界の大温泉"
+    },
+    {
+      "id": "kenninji",
+      "name": "建仁寺",
+      "city": "京都",
+      "area": "文化體驗",
+      "category": "文化體驗",
+      "features": "京都最古老的禪寺；風神雷神圖屏風、法堂天井的雙龍圖",
+      "price": "一般 ¥800",
+      "duration": "1小時",
+      "address": "京都市東山区大和大路通四条下る小松町584",
+      "hours": "10:00-17:00（受理至 16:30）",
+      "transport": "祇園一帶（京阪祇園四条站）",
+      "link": "https://www.kenninji.jp/",
+      "tags": [
+        "京都",
+        "神社寺院",
+        "文化體驗"
+      ],
+      "mapq": "建仁寺"
+    },
+    {
+      "id": "daimaru-kyoto",
+      "name": "大丸京都店（地下美食街）",
+      "city": "京都",
+      "area": "購物",
+      "category": "購物",
+      "features": "四条通上的百貨公司，地下美食街可買京都限定甜點與伴手禮",
+      "price": "免費（購物另計）",
+      "duration": "1小時",
+      "address": "京都市下京区四条通高倉西入立売西町79",
+      "hours": "B2～2F 10:00-20:00",
+      "transport": "四条通上，近地鐵四条站、阪急烏丸站",
+      "link": "https://www.daimaru.co.jp/kyoto/hours.html",
+      "tags": [
+        "京都",
+        "購物"
+      ],
+      "mapq": "大丸京都店"
+    },
+    {
+      "id": "donki-shijo-kawaramachi",
+      "name": "ドン・キホーテ 四条河原町店",
+      "city": "京都",
+      "area": "購物",
+      "category": "購物",
+      "features": "藥妝、零食、伴手禮一次買齊，可辦免稅；營業到半夜，行李打包前最後補貨",
+      "price": "免費（購物另計）",
+      "duration": "1小時",
+      "address": "京都市中京区河原町通蛸薬師下る塩屋町321",
+      "hours": "10:00-翌 1:00、全年無休",
+      "transport": "河原町通上（四条～三条之間）",
+      "link": "https://www.donki.com/store/shop_detail.php?shop_id=612",
+      "tags": [
+        "京都",
+        "購物"
+      ],
+      "mapq": "ドン・キホーテ+四条河原町店"
+    },
+    {
+      "id": "kyoto-station-staircase",
+      "name": "京都駅ビル 大階段燈飾",
+      "city": "京都",
+      "area": "夜景",
+      "category": "夜景",
+      "features": "「グラフィカルイルミネーションPlus」：約 15,000 顆 LED 灑在大階段上，每月主題不同",
+      "price": "免費",
+      "duration": "30分鐘",
+      "address": "京都市下京区烏丸通塩小路下ル東塩小路町901",
+      "hours": "燈飾 15:00-22:00",
+      "transport": "JR 京都站內",
+      "link": "https://www.kyoto-station-building.co.jp/graphical_illumination/",
+      "tags": [
+        "京都",
+        "夜景",
+        "免費"
+      ],
+      "mapq": "京都駅ビル+大階段"
+    },
+    {
+      "id": "nankinmachi",
+      "name": "南京町（神戶中華街）",
+      "city": "關西延伸",
+      "area": "關西延伸",
+      "category": "關西廣域",
+      "features": "神戶中華街，豬肉包（豚饅）等小吃邊走邊吃；老祥記原店改裝中（2025/2～2026/11 左右），暫於南京町廣場對面的姊妹店「曹家包子館」營業",
+      "price": "免費（餐飲另計）",
+      "duration": "1小時",
+      "address": "神戸市中央区栄町通・元町通",
+      "hours": "各店不同",
+      "transport": "JR・阪神「元町」站步行約 5 分",
+      "link": "https://www.nankinmachi.or.jp/",
+      "tags": [
+        "關西延伸",
+        "美食"
+      ],
+      "mapq": "南京町+神戸"
+    },
+    {
+      "id": "shinkyogoku-teramachi",
+      "name": "新京極・寺町京極商店街",
+      "city": "京都",
+      "area": "購物",
+      "category": "購物",
+      "features": "三条通到四条通之間兩條平行的拱廊商店街：新京極（約 550m，1872 年開街）偏年輕與伴手禮，寺町京極保有昭和氛圍",
+      "price": "免費（購物另計）",
+      "duration": "1-2小時",
+      "address": "京都市中京区新京極通・寺町通（三条～四条）",
+      "hours": "各店不同",
+      "transport": "四条河原町一帶",
+      "link": "https://www.shinkyogoku.or.jp/",
+      "tags": [
+        "京都",
+        "購物",
+        "免費"
+      ],
+      "mapq": "新京極商店街"
     }
   ]
 }
