@@ -35,33 +35,61 @@ const TAKEN_AFTER = '2021-09-21';   // 2026-09-21 往前推五年
    pick：在預覽頁挑定的檔名；下載時只用這個，確保每次重跑結果一致 */
 const WANTED = [
   /* ---- 大阪 ---- */
-  { slug: 'osaka-castle',   caption: '大阪城天守閣',         q: ['Osaka Castle main tower', 'Osaka Castle'] },
-  { slug: 'dotonbori',      caption: '道頓堀',               q: ['Dotonbori', 'Dotonbori canal night'] },
-  { slug: 'umeda',          caption: '梅田藍天大廈',         q: ['Umeda Sky Building', 'Umeda Osaka night'] },
-  { slug: 'tsutenkaku',     caption: '新世界 通天閣',        q: ['Tsutenkaku', 'Shinsekai Osaka'] },
-  { slug: 'nakanoshima',    caption: '大阪 中之島',          q: ['Nakanoshima Osaka', 'Osaka skyline river'] },
-  { slug: 'abeno-harukas',  caption: '阿倍野 HARUKAS',       q: ['Abeno Harukas', 'Osaka skyline Harukas'] },
+  { slug: 'osaka-castle',  caption: '大阪城天守閣',       q: ['Osaka Castle main tower', 'Osaka Castle'],
+    pick: 'File:Osaka Castle 2 Osaka Japan by Don Ramey Logan.jpg' },
+  { slug: 'dotonbori',     caption: '道頓堀',             q: ['Dotonbori', 'Dotonbori canal night'],
+    pick: 'File:Osaka Dotonbori yoru.jpg' },
+  { slug: 'umeda',         caption: '梅田藍天大廈',       q: ['Umeda Sky Building', 'Umeda Osaka night'],
+    pick: "File:Worm's-eye view of the Umeda Sky Building at night 20250830.jpg" },
+  { slug: 'tsutenkaku',    caption: '新世界 通天閣',      q: ['Tsutenkaku', 'Shinsekai Osaka'],
+    pick: 'File:Shinsekai and Tsutenkaku Tower.jpg' },
+  { slug: 'nakanoshima',   caption: '大阪 中之島',        q: ['Nakanoshima Osaka', 'Osaka skyline river'],
+    pick: 'File:Cityscapes of Nakanoshima, Osaka from Sendannoki Bridge 20250831.jpg' },
+  { slug: 'abeno-harukas', caption: '阿倍野 HARUKAS 與四天王寺', q: ['Abeno Harukas', 'Osaka skyline Harukas'],
+    pick: 'File:View of Abeno Harukas and Shitennō-ji five-storied pagoda at dusk, January 2024 (clone version) - 9978.jpg' },
   /* ---- 神戶・姬路 ---- */
-  { slug: 'kobe-port',      caption: '神戶港 美利堅公園',     q: ['Kobe Port Tower', 'Meriken Park Kobe'] },
-  { slug: 'kitano',         caption: '神戶 北野異人館',       q: ['Kitano Ijinkan Kobe', 'Weathercock House Kobe'] },
-  { slug: 'himeji-castle',  caption: '姬路城',               q: ['Himeji Castle', 'Himeji-jo'] },
+  { slug: 'kobe-port',     caption: '神戶港 美利堅公園',   q: ['Kobe Port Tower', 'Meriken Park Kobe'],
+    pick: 'File:2022 Kobe Meriken Park 001.jpg' },
+  // 北野異人館近五年的合格照片都是陰天的市景，改用同一天行程（Day 3 方案 B）的南京町
+  { slug: 'nankinmachi',   caption: '神戶 南京町',         q: ['Nankinmachi Kobe', 'Kobe Chinatown'],
+    pick: 'File:Kobe Nankinmachi 20221209.jpg' },
+  { slug: 'himeji-castle', caption: '姬路城',             q: ['Himeji Castle', 'Himeji-jo'],
+    pick: 'File:Himeji castle 20241025- YAS2703.jpg' },
   /* ---- 奈良 ---- */
-  { slug: 'todaiji',        caption: '奈良 東大寺',           q: ['Todai-ji Daibutsuden', 'Todaiji Nara'] },
-  { slug: 'nara-deer',      caption: '奈良公園 鹿',           q: ['Nara Park deer', 'Sika deer Nara'] },
-  { slug: 'kasuga-taisha',  caption: '奈良 春日大社',         q: ['Kasuga Taisha', 'Kasuga-taisha lanterns'] },
+  { slug: 'todaiji',       caption: '奈良 東大寺',         q: ['Todai-ji Daibutsuden', 'Todaiji Nara'],
+    pick: 'File:Nara Todai-ji Daibutsuden Exterior South Side 09.jpg' },
+  { slug: 'nara-deer',     caption: '奈良公園 鹿',         q: ['Nara Park deer', 'Sika deer Nara'],
+    pick: 'File:Sika deer doe and fawn Nara 2026 dllu.jpg' },
+  { slug: 'kasuga-taisha', caption: '奈良 春日大社',       q: ['Kasuga Taisha', 'Kasuga-taisha lanterns'],
+    pick: 'File:Nara Kasuga-taisha Main Sanctuary Cloister Lanterns 1.jpg' },
   /* ---- 京都 ---- */
-  { slug: 'kiyomizudera',   caption: '清水寺',               q: ['Kiyomizu-dera', 'Kiyomizudera stage'] },
-  { slug: 'yasaka-pagoda',  caption: '八坂塔 二年坂',         q: ['Yasaka Pagoda', 'Hokan-ji Kyoto'] },
-  { slug: 'fushimi-inari',  caption: '伏見稻荷大社 千本鳥居',  q: ['Fushimi Inari torii', 'Fushimi Inari-taisha'] },
-  { slug: 'kinkakuji',      caption: '金閣寺（鹿苑寺）',       q: ['Kinkaku-ji', 'Kinkakuji golden pavilion'] },
-  { slug: 'kitano-tenmangu', caption: '北野天滿宮',          q: ['Kitano Tenmangu', 'Kitano Tenman-gu'] },
-  { slug: 'togetsukyo',     caption: '嵐山 渡月橋',           q: ['Togetsukyo Bridge', 'Arashiyama Togetsu-kyo'] },
-  { slug: 'arashiyama',     caption: '嵐山 竹林之道',         q: ['Arashiyama bamboo', 'Sagano bamboo forest'] },
-  { slug: 'byodoin',        caption: '宇治 平等院鳳凰堂',      q: ['Byodo-in Phoenix Hall', 'Byodoin Uji'] },
-  { slug: 'kamogawa',       caption: '京都 鴨川',             q: ['Kamo River Kyoto', 'Kamogawa Kyoto'] },
-  { slug: 'gion',           caption: '祇園 花見小路',         q: ['Hanamikoji Gion', 'Gion Kyoto street'] },
-  { slug: 'pontocho',       caption: '先斗町',               q: ['Pontocho', 'Ponto-cho Kyoto'] },
-  { slug: 'kyoto-tower',    caption: '京都塔',               q: ['Kyoto Tower', 'Kyoto Tower night'] },
+  { slug: 'kiyomizudera',  caption: '清水寺',             q: ['Kiyomizu-dera', 'Kiyomizudera stage'],
+    pick: 'File:Main Hall, Kiyomizu-dera 20211123-1.jpg' },
+  // 搜「Yasaka Pagoda」會混進東大阪同名的法觀寺，挑圖時要看清楚
+  { slug: 'yasaka-pagoda', caption: '八坂塔',             q: ['Yasaka no To', 'Yasaka Pagoda Kyoto'],
+    pick: 'File:Yasaka no Tō 20211123-2.jpg' },
+  { slug: 'fushimi-inari', caption: '伏見稻荷大社 千本鳥居', q: ['Fushimi Inari Taisha', 'Senbon torii'],
+    pick: 'File:Fushimi Inari Taisha- Part II - FushimiInari243.jpg' },
+  { slug: 'kinkakuji',     caption: '金閣寺（鹿苑寺）',     q: ['Kinkaku-ji', 'Kinkakuji golden pavilion'],
+    pick: 'File:Golden Pavilion Kinkaku-ji 2024.jpg' },
+  // 北野天滿宮近五年的合格照片只有一組冬天陰天的，改用 Day 7 的錦市場
+  { slug: 'nishiki',       caption: '京都 錦市場',         q: ['Nishiki Market Kyoto', 'Nishiki Ichiba'],
+    pick: 'File:Nishiki market - Dec 31 2021 various 18 22 46 950000.jpeg' },
+  { slug: 'togetsukyo',    caption: '嵐山 渡月橋',         q: ['Togetsukyo Bridge', 'Arashiyama Togetsu-kyo'],
+    pick: 'File:Kyoto Togetsukyo hdsr 2024 S5 01.jpg' },
+  { slug: 'arashiyama',    caption: '嵐山 竹林之道',       q: ['Arashiyama bamboo', 'Sagano bamboo forest'],
+    pick: 'File:Sagano Bamboo forest, Kyoto, 20240818 1730 4584.jpg' },
+  // 搜「Byodo-In」會混進夏威夷的平等院複製品（2021-10 那組），挑圖時要看清楚
+  { slug: 'byodoin',       caption: '宇治 平等院鳳凰堂',    q: ['Byodo-in pond', 'Byodoin Uji'],
+    pick: 'File:Byōdō-in (UJI, Kyoto) hdsr Pond S5 1.jpg' },
+  { slug: 'kamogawa',      caption: '京都 鴨川',           q: ['Kamo River Kyoto', 'Kamogawa Kyoto'],
+    pick: 'File:Kamo River, Kyoto, Japan.jpg' },
+  { slug: 'gion',          caption: '京都 祇園',           q: ['Gion Kyoto street', 'Hanamikoji Gion'],
+    pick: 'File:Streets of Gion, Kyoto - Gion7709.jpg' },
+  { slug: 'pontocho',      caption: '先斗町',             q: ['Pontocho', 'Ponto-cho Kyoto'],
+    pick: 'File:Pontocho Alley, Kyoto (52406856003).jpg' },
+  { slug: 'kyoto-tower',   caption: '京都塔',             q: ['Kyoto Tower', 'Kyoto Tower night'],
+    pick: 'File:Kyoto Tower seen from Kyoto Station, 20240820 1405 5116.jpg' },
 ];
 
 /* 可接受的自由授權；注意要能同時對到 "CC BY-SA 4.0" 與 "Public domain" */
@@ -213,6 +241,12 @@ async function download() {
     console.log('✓ ' + w.slug.padEnd(16) + (buf.length / 1024).toFixed(0).padStart(5) + ' KB  '
       + d.taken + '  ' + d.width + '×' + d.height + '  ' + d.license);
     await sleep(500);
+  }
+
+  /* 一張都沒成功（例如還沒填 pick、或網路斷了）就不要動既有的照片與清單 */
+  if (!credits.length) {
+    console.log('✗ 沒有任何照片下載成功，保留原本的照片不動');
+    process.exit(1);
   }
 
   /* 已不在清單上的舊照片一併刪掉，避免殘留在 repo 裡 */

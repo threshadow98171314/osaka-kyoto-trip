@@ -54,14 +54,24 @@
 
 ### 頁首背景照片 docs/assets/hero/
 - 來源：**Wikimedia Commons，僅收自由授權**（CC0／PD／CC-BY／CC-BY-SA），作者與授權標示於頁首下方
-- 每次載入隨機挑一張；`object-fit: cover` 讓直式照片也能適應手機與桌機
-- 照片上方壓一層暗色漸層罩，確保白字在任何照片上都可讀
+- **24 張，全部是行程會經過的地方**；每次載入隨機挑一張
+- **選圖標準（2026-09-21 起，不要放寬）**：
+  1. 自由授權（`FREE` 正規表示式把關）
+  2. **EXIF 拍攝日期在 `TAKEN_AFTER`（2021-09-21）之後**，也就是近五年。
+     上傳日期不算數 —— 很多舊照片是好幾年後才上傳的（原本 12 張有 11 張拍於 2002～2019 年）
+  3. **原圖寬 ≥ 3000px 的橫式照片**。頁首是滿版、但只有約 200～250px 高的橫幅，
+     直式照片會被裁成一條細縫
+- 下載寬度 1920px（Wikimedia 的標準縮圖寬度之一，非標準寬度會被限流），1080p 螢幕不必放大
+- 照片上方壓一層暗色漸層罩，確保白字在任何照片上都可讀；**太暗的夜景會被罩得幾乎全黑**，挑圖時要考慮
 - 照片未載入或離線時，頁首自動退回原本的漸層底色
 
 ```bash
-node scripts/fetch-hero-photos.js   # 重新抓圖並產生 hero.js 與 credits.json
+node scripts/fetch-hero-photos.js --candidates   # 依標準搜尋候選，產生 scripts/.cache/hero-candidates.html
+node scripts/fetch-hero-photos.js                # 下載 WANTED 裡 pick 指定的照片，產生 hero.js 與 credits.json
 ```
-`WANTED` 陣列可調整地標清單；`FREE` 正規表示式把關授權，**不要放寬**。
+- **一定要用眼睛看過再填 `pick`**，搜尋結果會混進同名的別處：
+  搜「Byodo-In」會出現夏威夷的平等院複製品、搜「Yasaka Pagoda」會出現東大阪同名的法觀寺
+- 下載時會刪掉已不在清單上的舊照片；**一張都沒下載成功時不會動既有檔案**
 
 ### 預算追蹤 docs/budget/
 - 依 Day1～Day8 分別記帳，每天有交通／餐飲／門票／購物／其他五類
