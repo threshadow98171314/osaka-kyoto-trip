@@ -1175,8 +1175,25 @@ body.is-offline .spot-offline { display: block; }
 
 .spot-credit { font-size: 0.66rem; color: var(--on-surface-muted); margin-top: 6px; line-height: 1.5; }
 
-.tl-detail ol.spot-route { margin: 6px 0 4px 1.2em; }
-.tl-detail ol.spot-route li { margin-bottom: 3px; }
+/* 順路清單不加序號：序號後面緊接時間（「1. 14:50」）很難讀，改成圓點＋主色的時間標籤 .sr-time */
+.tl-detail ul.spot-route { list-style: none; margin: 6px 0 4px; padding: 0; }
+.tl-detail ul.spot-route li { position: relative; padding-left: 14px; margin-bottom: 4px; }
+.tl-detail ul.spot-route li::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 0.62em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+.spot-route .sr-time {
+  font-weight: 800;
+  color: var(--primary);
+  margin-right: 6px;
+  font-variant-numeric: tabular-nums;
+}
 
 /* === 主行程的「計畫B」 ===
    主行程是已訂或非去不可的項目，不做成輪播：輪播代表「任選一個」，而且會換掉標題。
