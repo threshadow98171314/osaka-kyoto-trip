@@ -2304,6 +2304,96 @@ const foods = [
     "note": "只收現金；市巴士「衣笠校前」步行 2 分",
     "mapq": "クリケット+北野白梅町",
     "src": "https://tabelog.com/en/kyoto/A2601/A260401/26000321/"
+  },
+  {
+    "id": "rakkanki-motomachi",
+    "name": "楽関記",
+    "area": "神戶",
+    "location": "元町（JR 元町站北側）",
+    "type": [
+      "神戶",
+      "中華",
+      "百名店"
+    ],
+    "price": "¥3,000-3,999",
+    "hours": "11:30-14:30（LO 14:00）、17:30-22:00（LO 21:30），週二休（店家公告 2026/9 公休日：1、8、14、15、22、29 日）",
+    "address": "神戸市中央区北長狭通3-6-5 GONIビル 1F",
+    "features": "香港出身的主廚做的港式小菜，招牌是點了才現包的小籠包；JR 元町站步行 2 分。食べログ中國料理 WEST 百名店 2024・2026 入選",
+    "link": "",
+    "rating": "3.74",
+    "reviews": 1309,
+    "award": "食べログ中國料理 WEST 百名店 2024・2026",
+    "note": "晚餐可網路預約（午餐不接受預約）；收信用卡、交通 IC 卡",
+    "mapq": "楽関記+神戸",
+    "src": "https://tabelog.com/en/hyogo/A2801/A280102/28049146/"
+  },
+  {
+    "id": "grill-ippei-sannomiya",
+    "name": "グリル一平 三宮店",
+    "area": "神戶",
+    "location": "三宮（JR 三ノ宮站東口步行 2 分）",
+    "type": [
+      "神戶",
+      "洋食",
+      "蛋包飯",
+      "百名店"
+    ],
+    "price": "¥2,000-2,999",
+    "hours": "11:00-15:00（LO 14:30）、17:00-20:30（LO 20:00），週三休",
+    "address": "神戸市中央区琴ノ緒町5-5-26 サンハイツ三宮1F",
+    "features": "神戶老牌洋食店，招牌是多蜜醬汁（デミグラスソース），開放式廚房、32 席。食べログ洋食百名店 2020・2022・2023・2025 入選",
+    "link": "",
+    "rating": "3.69",
+    "reviews": 1940,
+    "award": "食べログ洋食百名店 2020・2022・2023、洋食 WEST 百名店 2025",
+    "note": "不接受預約，入口發券機取號碼牌；人多時會比最後點餐更早停止發號碼牌。收信用卡、PayPay",
+    "mapq": "グリル一平+三宮店",
+    "src": "https://tabelog.com/en/hyogo/A2801/A280101/28031154/"
+  },
+  {
+    "id": "akaman-sannomiya",
+    "name": "ぎょうざ専門店 赤萬 三宮店",
+    "area": "神戶",
+    "location": "三宮（阪急神戸三宮站步行 3 分）",
+    "type": [
+      "神戶",
+      "餃子",
+      "在地名物",
+      "百名店"
+    ],
+    "price": "¥1,000-1,999",
+    "hours": "週一～五 14:00-20:00、週六日 12:30-20:00（LO 19:30），週三休；賣完提早打烊",
+    "address": "神戸市中央区北長狭通2-2-1",
+    "features": "1960 年創業，一口大小的煎餃沾神戶式的味噌醬（味噌だれ）吃；1 人份 7 顆 ¥350，每人至少點 2 人份，菜單只有餃子和啤酒。食べログ餃子百名店 2019・2021・2024 入選",
+    "link": "",
+    "rating": "3.52",
+    "reviews": 1155,
+    "award": "食べログ餃子百名店 2019・2021・2024",
+    "note": "不接受預約、只收現金；14 席。價格與最低點餐見 https://kobe-journal.com/archives/6926899263.html",
+    "mapq": "赤萬+三宮店",
+    "src": "https://tabelog.com/en/hyogo/A2801/A280101/28004179/"
+  },
+  {
+    "id": "hino-sannomiya",
+    "name": "播州地酒 ひの",
+    "area": "神戶",
+    "location": "三宮（北長狭通，TSK三宮ビル 4F）",
+    "type": [
+      "神戶",
+      "居酒屋",
+      "百名店"
+    ],
+    "price": "¥6,000-7,999",
+    "hours": "18:00-22:00，週日休（連著週日的週一若是國定假日也休）",
+    "address": "神戸市中央区北長狭通2-4-7 TSK三宮ビル 4F",
+    "features": "兵庫縣地酒超過 150 種的居酒屋，推薦生魚片拼盤；店名的「播州」就是早上去的姬路所在的播磨地區。食べログ居酒屋 WEST 百名店 2024・2025 入選",
+    "link": "",
+    "rating": "3.64",
+    "reviews": 245,
+    "award": "食べログ居酒屋 WEST 百名店 2024・2025",
+    "note": "可網路預約（約前一個月 15 日開放）；席料 ¥500（含小菜）；收信用卡、PayPay",
+    "mapq": "播州地酒ひの+三宮",
+    "src": "https://tabelog.com/en/hyogo/A2801/A280101/28023316/"
   }
 ];
 
@@ -2359,13 +2449,14 @@ function getTagClass(tag) {
         '餃子':     { background: '#FDEBD8', color: '#96521A' },
         '和菓子':   { background: '#FBE4EE', color: '#9B2C63' },
         '酒吧':     { background: '#E6E3F5', color: '#4B3E96' },
-        '美食街':   { background: '#E3EEF7', color: '#34557F' }
+        '美食街':   { background: '#E3EEF7', color: '#34557F' },
+        '中華':     { background: '#FBE3E3', color: '#9E2B2B' }
     };
     return classes[tag] || { background: '#EFEAE2', color: '#6B6255' };
 }
 
 function getPriceClass(price) {
-    if (price.includes("¥3,000") || price.includes("¥4,000") || price.includes("¥5,000") || price.includes("¥8,000") || price.includes("¥10,000") || price.includes("¥12,000") || price.includes("¥15,000")) {
+    if (price.includes("¥3,000") || price.includes("¥4,000") || price.includes("¥5,000") || price.includes("¥6,000") || price.includes("¥7,000") || price.includes("¥8,000") || price.includes("¥10,000") || price.includes("¥12,000") || price.includes("¥15,000")) {
         return { background: '#ffcdd2', color: '#c62828', label: '高價位' };
     }
     if (price.includes("¥800") || price.includes("¥900") || price.includes("¥1,000") || price.includes("¥1,200") || price.includes("¥1,500") || price.includes("¥2,000")) {

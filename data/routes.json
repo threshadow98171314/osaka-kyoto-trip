@@ -83,19 +83,32 @@
       },
       {
         "from": "神戸ハーバーランド モザイク",
+        "to": "楽関記 神戸",
+        "legs": [
+          {
+            "mode": "rail",
+            "relation": 15640457,
+            "label": "JR 神戶線 快速",
+            "board": "神戸",
+            "alight": "元町"
+          }
+        ]
+      },
+      {
+        "from": "楽関記 神戸",
         "to": "Apartment Hotel 11 Namba Minami Shin-Imamiya II",
         "legs": [
           {
             "mode": "rail",
-            "relation": 15640454,
-            "label": "JR 神戶線 新快速",
-            "board": "神戸",
+            "relation": 15640457,
+            "label": "JR 神戶線 快速",
+            "board": "元町",
             "alight": "大阪"
           },
           {
             "mode": "rail",
             "relation": 10073682,
-            "label": "JR 大阪環狀線（外回り）",
+            "label": "JR 大阪環狀線（内回り）",
             "board": "大阪",
             "alight": "新今宮"
           }

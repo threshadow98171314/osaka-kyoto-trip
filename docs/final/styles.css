@@ -1110,6 +1110,24 @@ body.is-offline .offline-badge {
 /* 方案內的提醒（預約、會撲空）跟卡片之間的間距 */
 .plan-body > .tl-tips { margin: 4px 0 2px; }
 
+/* 方案自己的導遊型交通指引（從前一站怎麼過去）。
+   灰色左邊線＝「交通」，和交通項目 .is-move 的配色一致；前一張交通卡已經寫過、
+   或離方案 A 走路 3 分鐘內的方案不寫 */
+.plan-route {
+  margin: 6px 0;
+  padding: 8px 12px;
+  background: var(--surface-alt);
+  border-left: 3px solid var(--on-surface-muted);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--on-surface);
+}
+.plan-route-title { font-weight: 700; font-size: 0.78rem; margin-bottom: 3px; }
+.plan-route ol { margin: 0 0 0 1.3em; padding: 0; }
+.plan-route li { margin-bottom: 2px; }
+.plan-route-note { margin-top: 4px; font-size: 0.75rem; color: var(--on-surface-muted); }
+
 /* === 景點卡片的照片與小地圖（目前是 Day 6 嵐山） ===
    照片橫向捲動；地圖是 iframe 嵌入 ../map/spot.html?id=…&embed=1，Leaflet 只在那一頁載入。
    日期滑動會略過起點落在 .spot-photos 的手勢（見 index.html 的 enableSwipe）。 */
