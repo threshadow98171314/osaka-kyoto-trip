@@ -22,6 +22,20 @@ const REFRESH = process.argv.includes('--refresh');
 const UA = 'osaka-kyoto-trip/1.0 (personal travel itinerary map; https://github.com/threshadow98171314/osaka-kyoto-trip)';
 
 /* Nominatim 對少數地點解析不佳，這裡指定更精確的查法 */
+/* 門牌級座標：Nominatim 對日本地址只查得到「丁目」的中心，步行路線會差一兩百公尺。
+ * 這裡的座標來自國土地理院「地址檢索」（https://msearch.gsi.go.jp/address-search/AddressSearch?q=地址），
+ * 優先於 QUERY_OVERRIDE 與快取 */
+const FIXED_COORDS = {
+  // 飯店地址：大阪市浪速区恵美須西3-8-7（Trip.com、Hotels.com 查證，2026-09-21）。
+  // 舊值「西成区太子1丁目」在鐵路另一側，差了約 700m；2026-09-22 改用門牌座標，
+  // 比 Nominatim 的「恵美須西3丁目」中心偏東北約 160m（到新今宮站步行 6 分，不是 4 分）
+  'Apartment Hotel 11 Namba Minami Shin-Imamiya II': {
+    lat: 34.652317, lon: 135.503342,
+    osm: '大阪府大阪市浪速区恵美須西三丁目８番７号（國土地理院 地址檢索）',
+    geocodedQuery: 'GSI 大阪府大阪市浪速区恵美須西3-8-7',
+  },
+};
+
 const QUERY_OVERRIDE = {
   // 大丸梅田店 10～13F 已於 2026/4/5 改為 LUCUA SOUTH，行程表只寫店名；
   // 但 Nominatim 用店名查不到，OSM 上這棟還叫「大丸梅田店」（2026-09-22 查），座標相同
@@ -34,9 +48,6 @@ const QUERY_OVERRIDE = {
   '京都塔展望室（ニデック京都タワー） 京都': '京都タワー',
   '叙々苑 ジェイアール京都伊勢丹店': 'ジェイアール京都伊勢丹',
   'teamLab Biovortex Kyoto': '京都市南区東九条東岩本町',
-  // 飯店地址：大阪市浪速区恵美須西3-8-7（Trip.com、Hotels.com 查證，2026-09-21）。
-  // 舊值「西成区太子1丁目」在鐵路另一側，差了約 700m，地圖上的步行路線會整個繞錯
-  'Apartment Hotel 11 Namba Minami Shin-Imamiya II': '大阪市浪速区恵美須西3丁目',
   'Randor Residential Hotel Kyoto Suites': '京都市南区東九条北松ノ木町',
   '日本橋でんでんタウン 大阪': '日本橋筋商店街 大阪市浪速区',
   '河原町 京都': '河原町通 京都市中京区',
@@ -264,6 +275,7 @@ function extractRecommended() {
   let hit = 0, miss = 0, cached = 0;
 
   for (const q of uniq) {
+    if (FIXED_COORDS[q]) { coords[q] = FIXED_COORDS[q]; cached++; continue; }
     // QUERY_OVERRIDE 改過的地點，舊座標是用舊查詢字串查的，要重查
     // 上次查不到（null）的，加了 override 之後也要重查
     if (QUERY_OVERRIDE[q] && (cache[q] === null || (cache[q] && cache[q].geocodedQuery !== QUERY_OVERRIDE[q]))) delete cache[q];

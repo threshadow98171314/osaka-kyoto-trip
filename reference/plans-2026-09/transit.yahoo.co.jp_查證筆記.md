@@ -44,3 +44,37 @@ https://transit.yahoo.co.jp/search/result?from=%E4%BA%AC%E9%83%BD%E5%B8%82%E5%BD
 ### 円町 → 京都（21 時台，御旅所回飯店）
 https://transit.yahoo.co.jp/search/result?from=%E5%86%86%E7%94%BA&to=%E4%BA%AC%E9%83%BD&y=2026&m=10&d=01&hh=21&m1=3&m2=0&type=1&ticket=ic
 - 21:42 → 21:51（9 分），IC ¥180，JR 嵯峨野線 京都行，直達
+
+## 彈性方案的導遊型交通指引（2026-09-22 查）
+
+### Day 2（9/27 週日）
+- 新今宮 → なんば（08 時台）：南海本線 1 站，08:31 → 08:33（2 分）或 08:34 → 08:37（3 分），IC ¥180
+  — https://transit.yahoo.co.jp/search/result?from=%E6%96%B0%E4%BB%8A%E5%AE%AE&to=%E3%81%AA%E3%82%93%E3%81%B0&y=2026&m=09&d=27&hh=08&m1=3&m2=0&type=1&ticket=ic
+- 谷町四丁目 → 恵美須町（13 時台）：地下鐵中央線 → 堺筋本町 → 堺筋線（往天下茶屋），13:04 → 13:18（14 分），IC ¥240
+  — https://transit.yahoo.co.jp/search/result?from=%E8%B0%B7%E7%94%BA%E5%9B%9B%E4%B8%81%E7%9B%AE&to=%E6%81%B5%E7%BE%8E%E9%A0%88%E7%94%BA&y=2026&m=09&d=27&hh=13&m1=0&m2=0&type=1&ticket=ic
+- 天満 → 大阪（20 時台）：JR 大阪環状線 **内回り**（大阪・西九条方面），20:15 → 20:17（2 分），IC ¥150
+  — https://transit.yahoo.co.jp/search/result?from=%E5%A4%A9%E6%BA%80&to=%E5%A4%A7%E9%98%AA&y=2026&m=09&d=27&hh=20&m1=1&m2=5&type=1&ticket=ic
+- 天神橋筋六丁目 → 大阪（20 時台）：谷町線 → 東梅田＋步行 12 分 ¥190；或堺筋線 → 扇町，走到 JR 天満 → 大阪 11 分 ¥340
+  — https://transit.yahoo.co.jp/search/result?from=%E5%A4%A9%E7%A5%9E%E6%A9%8B%E7%AD%8B%E5%85%AD%E4%B8%81%E7%9B%AE&to=%E5%A4%A7%E9%98%AA&y=2026&m=09&d=27&hh=20&m1=1&m2=5&type=1&ticket=ic
+- 天神橋筋六丁目 → 北浜（20 時台）：地下鐵堺筋線（往天下茶屋，經扇町、南森町），20:21 → 20:26（5 分），IC ¥190
+  — https://transit.yahoo.co.jp/search/result?from=%E5%A4%A9%E7%A5%9E%E6%A9%8B%E7%AD%8B%E5%85%AD%E4%B8%81%E7%9B%AE&to=%E5%8C%97%E6%B5%9C%28%E5%A4%A7%E9%98%AA%E5%BA%9C%29&y=2026&m=09&d=27&hh=20&m1=1&m2=5&type=1&ticket=ic
+
+### Day 4（9/29 週二）
+- 春日大社 御本殿 → 近鉄奈良（12 時台）：步行 22 分最快；奈良交通巴士（61 系統、1 系統市內循環）要先走到東大寺大仏殿站，
+  含步行同樣 22 分、¥250 — https://transit.yahoo.co.jp/search/result?from=%E6%98%A5%E6%97%A5%E5%A4%A7%E7%A4%BE%E6%9C%AC%E6%AE%BF&to=%E8%BF%91%E9%89%84%E5%A5%88%E8%89%AF&y=2026&m=09&d=29&hh=12&m1=5&m2=0&type=1&ticket=ic
+- 京都 → 東寺（15 時台）：近鉄京都線 1 站，15:41 → 15:43（2 分），IC ¥180
+  — https://transit.yahoo.co.jp/search/result?from=%E4%BA%AC%E9%83%BD&to=%E6%9D%B1%E5%AF%BA&y=2026&m=09&d=29&hh=15&m1=4&m2=0&type=1&ticket=ic
+- 京都 → 梅小路京都西（15 時台）：JR 嵯峨野線 1 站，15:48 → 15:50（2 分），IC ¥150
+  — https://transit.yahoo.co.jp/search/result?from=%E4%BA%AC%E9%83%BD&to=%E6%A2%85%E5%B0%8F%E8%B7%AF%E4%BA%AC%E9%83%BD%E8%A5%BF&y=2026&m=09&d=29&hh=15&m1=4&m2=0&type=1&ticket=ic
+
+### Day 6（10/1 週四）
+- 京都河原町 → 京都（20 時台）：市巴士 4 號 京都駅行（四条河原町 20:08 → 京都駅前 20:20，全程 23 分）¥230；
+  阪急 1 站到烏丸、走到地下鐵四条換烏丸線，14～17 分、¥390
+  — https://transit.yahoo.co.jp/search/result?from=%E4%BA%AC%E9%83%BD%E6%B2%B3%E5%8E%9F%E7%94%BA&to=%E4%BA%AC%E9%83%BD&y=2026&m=10&d=01&hh=20&m1=0&m2=0&type=1&ticket=ic
+- 金閣寺道 → 衣笠校前：Yahoo!路線情報查不到這個公車站名，Day 6 午餐方案 D 改寫成從金閣寺直接走過去（OSRM 1.2 km、16 分）
+
+### Day 7（10/2 週五）
+- 京都 → 祇園四条（13 時台）：JR 奈良線 1 站到東福寺（¥150），轉京阪本線到祇園四条（¥180），13:34 → 13:46（12 分），IC ¥330
+  — https://transit.yahoo.co.jp/search/result?from=%E4%BA%AC%E9%83%BD&to=%E7%A5%87%E5%9C%92%E5%9B%9B%E6%9D%A1&y=2026&m=10&d=02&hh=13&m1=3&m2=0&type=1&ticket=ic
+- 京都 → 烏丸御池（13 時台）：地下鐵烏丸線（往国際会館，經五条、四条），13:35 → 13:41（5～6 分），IC ¥220
+  — https://transit.yahoo.co.jp/search/result?from=%E4%BA%AC%E9%83%BD&to=%E7%83%8F%E4%B8%B8%E5%BE%A1%E6%B1%A0&y=2026&m=10&d=02&hh=13&m1=3&m2=0&type=1&ticket=ic

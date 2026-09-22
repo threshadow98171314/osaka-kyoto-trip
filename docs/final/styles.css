@@ -1126,6 +1126,7 @@ body.is-offline .offline-badge {
 .plan-route-title { font-weight: 700; font-size: 0.78rem; margin-bottom: 3px; }
 .plan-route ol { margin: 0 0 0 1.3em; padding: 0; }
 .plan-route li { margin-bottom: 2px; }
+.plan-route-step { margin: 0; }
 .plan-route-note { margin-top: 4px; font-size: 0.75rem; color: var(--on-surface-muted); }
 
 /* === 景點卡片的照片與小地圖（目前是 Day 6 嵐山） ===

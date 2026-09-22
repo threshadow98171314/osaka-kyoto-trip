@@ -50,10 +50,10 @@
       "kind": "spot",
       "note": "📍 住宿時段：9/26 16:00 check-in ～ 9/29 10:00 check-out",
       "query": "Apartment Hotel 11 Namba Minami Shin-Imamiya II",
-      "lat": 34.651074,
-      "lon": 135.502418,
-      "osm": "恵美須西三丁目, 浪速区, 大阪市, 大阪府, 日本",
-      "geocodedQuery": "大阪市浪速区恵美須西3丁目"
+      "lat": 34.652317,
+      "lon": 135.503342,
+      "osm": "大阪府大阪市浪速区恵美須西三丁目８番７号（國土地理院 地址檢索）",
+      "geocodedQuery": "GSI 大阪府大阪市浪速区恵美須西3-8-7"
     },
     {
       "day": 2,
@@ -322,10 +322,10 @@
       "kind": "transport",
       "note": "9/28（週一）班次參考：三ノ宮 20:22 新快速 → 大阪 20:43，轉環狀線 20:54 → 新今宮 21:08",
       "query": "Apartment Hotel 11 Namba Minami Shin-Imamiya II",
-      "lat": 34.651074,
-      "lon": 135.502418,
-      "osm": "恵美須西三丁目, 浪速区, 大阪市, 大阪府, 日本",
-      "geocodedQuery": "大阪市浪速区恵美須西3丁目"
+      "lat": 34.652317,
+      "lon": 135.503342,
+      "osm": "大阪府大阪市浪速区恵美須西三丁目８番７号（國土地理院 地址檢索）",
+      "geocodedQuery": "GSI 大阪府大阪市浪速区恵美須西3-8-7"
     },
     {
       "day": 4,
