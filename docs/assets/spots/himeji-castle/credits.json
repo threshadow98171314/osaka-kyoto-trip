@@ -1,0 +1,54 @@
+[
+  {
+    "id": "keep",
+    "label": "大天守（國寶）",
+    "file": "Himeji castle 20241025- YAS2703.jpg",
+    "author": "Yasuo Hamashima",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "taken": "2024-10-25",
+    "source": "https://commons.wikimedia.org/wiki/File:Himeji_castle_20241025-_YAS2703.jpg",
+    "width": 960,
+    "height": 720,
+    "bytes": 205003
+  },
+  {
+    "id": "hishi",
+    "label": "菱之門",
+    "file": "Himeji Himeji-jo Hishi Gate 4.jpg",
+    "author": "Zairon",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "taken": "2023-10-20",
+    "source": "https://commons.wikimedia.org/wiki/File:Himeji_Himeji-jo_Hishi_Gate_4.jpg",
+    "width": 960,
+    "height": 697,
+    "bytes": 230816
+  },
+  {
+    "id": "nishinomaru",
+    "label": "從天守俯瞰西之丸的百間廊下",
+    "file": "Himeji Himeji-jo Keep View to the Hyakka Roka 3.jpg",
+    "author": "Zairon",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "taken": "2023-10-20",
+    "source": "https://commons.wikimedia.org/wiki/File:Himeji_Himeji-jo_Keep_View_to_the_Hyakka_Roka_3.jpg",
+    "width": 960,
+    "height": 717,
+    "bytes": 319333
+  },
+  {
+    "id": "interior",
+    "label": "大天守內部（2 樓）",
+    "file": "Himeji Himeji-jo Keep Interior 3.jpg",
+    "author": "Zairon",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "taken": "2023-10-20",
+    "source": "https://commons.wikimedia.org/wiki/File:Himeji_Himeji-jo_Keep_Interior_3.jpg",
+    "width": 960,
+    "height": 716,
+    "bytes": 142626
+  }
+]

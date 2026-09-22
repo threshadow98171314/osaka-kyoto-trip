@@ -1,0 +1,100 @@
+{
+  "id": "fushimi-inari",
+  "title": "伏見稻荷大社建議順路",
+  "day": 5,
+  "date": "2026-09-30",
+  "note": "座標取自 OpenStreetMap（2026-09-23 查，Nominatim）：JR 稻荷站、樓門、本殿、千本鳥居、奧社奉拜所、熊鷹社、四ツ辻",
+  "stops": [
+    {
+      "name": "JR 稻荷站",
+      "ja": "JR 稲荷駅",
+      "time": "09:15",
+      "lat": 34.96674,
+      "lon": 135.77084,
+      "desc": "出站過馬路就是表參道"
+    },
+    {
+      "name": "樓門・本殿",
+      "ja": "楼門・本殿",
+      "time": "09:20",
+      "lat": 34.96714,
+      "lon": 135.77324,
+      "desc": "先在本殿參拜"
+    },
+    {
+      "name": "千本鳥居",
+      "ja": "千本鳥居",
+      "time": "09:35",
+      "lat": 34.96673,
+      "lon": 135.7751,
+      "desc": "江戶時代起信眾奉納鳥居形成的名所"
+    },
+    {
+      "name": "奧社奉拜所",
+      "ja": "奥社奉拝所",
+      "time": "09:45",
+      "lat": 34.96654,
+      "lon": 135.77558,
+      "desc": "通稱「奧院」；旁邊有占卜用的「おもかる石」"
+    },
+    {
+      "name": "熊鷹社・新池",
+      "ja": "熊鷹社・新池",
+      "time": "09:55",
+      "lat": 34.96835,
+      "lon": 135.77862,
+      "desc": "從奧社奉拜所再往上約 10 分鐘"
+    },
+    {
+      "name": "四ツ辻",
+      "ja": "四ツ辻",
+      "time": "10:10",
+      "lat": 34.96909,
+      "lon": 135.78142,
+      "desc": "參道上數一數二的展望點，看京都市區南邊；在這裡折返"
+    },
+    {
+      "name": "JR 稻荷站",
+      "ja": "JR 稲荷駅",
+      "time": "10:55",
+      "lat": 34.96674,
+      "lon": 135.77084,
+      "desc": "原路下山，11:15 搭 JR 奈良線去宇治"
+    }
+  ],
+  "photos": [
+    {
+      "id": "romon",
+      "label": "樓門",
+      "cat": [
+        "Category:Romon, Fushimi Inari-taisha"
+      ],
+      "pick": "File:Romon, Fushimi Inari-taisha 2022.jpg"
+    },
+    {
+      "id": "naihaiden",
+      "label": "本殿前的內拜殿",
+      "cat": [
+        "Category:Buildings of Fushimi Inari-taisha"
+      ],
+      "pick": "File:Fushimi Inari-taisha, Kyoto, 20240818 1341 4404.jpg"
+    },
+    {
+      "id": "senbon",
+      "label": "千本鳥居",
+      "cat": [
+        "Category:Fushimi-Inari-taisha sembon-torii"
+      ],
+      "pick": "File:Fushimi Inari Taisha 230607 (2).jpg"
+    },
+    {
+      "id": "view",
+      "label": "從稻荷山眺望京都市區",
+      "cat": [
+        "Category:Views from Mount Inari (Kyoto)"
+      ],
+      "pick": "File:View of Kyoto from Mount Inari, 20240818 1435 4549.jpg"
+    }
+  ],
+  "photoNote": "奧社奉拜所（Oku-no-in）的 Commons 分類沒有 2021-09-21 之後拍的照片（2026-09-23 查）"
+}

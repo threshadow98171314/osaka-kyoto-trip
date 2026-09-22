@@ -1,0 +1,91 @@
+{
+  "id": "nara-park",
+  "title": "奈良公園・東大寺・春日大社建議順路",
+  "day": 4,
+  "date": "2026-09-29",
+  "note": "座標取自 OpenStreetMap（2026-09-23 查，Nominatim）：南大門、大仏殿、二月堂；近鐵奈良站用站前公車站；春日大社用行程表地圖的座標",
+  "stops": [
+    {
+      "name": "近鐵奈良站",
+      "ja": "近鉄奈良駅",
+      "time": "10:20",
+      "lat": 34.68417,
+      "lon": 135.82668,
+      "desc": "行李寄放好後出發，往東走進奈良公園"
+    },
+    {
+      "name": "東大寺 南大門",
+      "ja": "東大寺 南大門",
+      "time": "10:40",
+      "lat": 34.6858,
+      "lon": 135.83987,
+      "desc": "鎌倉時代重建的大門，兩側是金剛力士像（國寶）"
+    },
+    {
+      "name": "東大寺 大佛殿",
+      "ja": "東大寺 大仏殿",
+      "time": "10:50",
+      "lat": 34.68906,
+      "lon": 135.83987,
+      "desc": "供奉「奈良大佛」盧舍那佛坐像；大人 ¥800"
+    },
+    {
+      "name": "二月堂",
+      "ja": "東大寺 二月堂",
+      "time": "11:35",
+      "lat": 34.68927,
+      "lon": 135.84427,
+      "desc": "24 小時開放、免費；舞台上可以俯瞰大佛殿屋頂與奈良市街"
+    },
+    {
+      "name": "春日大社",
+      "ja": "春日大社",
+      "time": "12:00",
+      "lat": 34.680506,
+      "lon": 135.846075,
+      "desc": "御本殿特別參拜 ¥700（受理 9:00～16:00），走進掛滿釣燈籠的回廊"
+    }
+  ],
+  "photos": [
+    {
+      "id": "nandaimon",
+      "label": "東大寺南大門與參道上的鹿",
+      "q": [
+        "Todai-ji"
+      ],
+      "pick": "File:Nara Todai-ji Nandai-mon South Side 1.jpg"
+    },
+    {
+      "id": "daibutsuden",
+      "label": "東大寺大佛殿",
+      "q": [
+        "Todai-ji"
+      ],
+      "pick": "File:Nara Todai-ji Daibutsuden Exterior South Side 06.jpg"
+    },
+    {
+      "id": "daibutsu",
+      "label": "盧舍那佛坐像（奈良大佛）",
+      "q": [
+        "Todai-ji"
+      ],
+      "pick": "File:Nara Todai-ji Daibutsuden Interior Daibutsu 07.jpg"
+    },
+    {
+      "id": "lanterns",
+      "label": "春日大社參道的石燈籠與鹿",
+      "q": [
+        "Kasuga Taisha"
+      ],
+      "pick": "File:Nara deer between stone lanterns.jpg"
+    },
+    {
+      "id": "cloister",
+      "label": "春日大社回廊的釣燈籠",
+      "q": [
+        "Kasuga Taisha"
+      ],
+      "pick": "File:East Cloister of Kasuga-taisha-3.jpg"
+    }
+  ]
+}

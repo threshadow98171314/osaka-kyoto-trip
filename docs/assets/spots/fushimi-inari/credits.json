@@ -1,0 +1,54 @@
+[
+  {
+    "id": "romon",
+    "label": "樓門",
+    "file": "Romon, Fushimi Inari-taisha 2022.jpg",
+    "author": "Kakidai",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "taken": "2022-07-06",
+    "source": "https://commons.wikimedia.org/wiki/File:Romon,_Fushimi_Inari-taisha_2022.jpg",
+    "width": 960,
+    "height": 665,
+    "bytes": 223439
+  },
+  {
+    "id": "naihaiden",
+    "label": "本殿前的內拜殿",
+    "file": "Fushimi Inari-taisha, Kyoto, 20240818 1341 4404.jpg",
+    "author": "Jakub Hałun",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "taken": "2024-08-18",
+    "source": "https://commons.wikimedia.org/wiki/File:Fushimi_Inari-taisha,_Kyoto,_20240818_1341_4404.jpg",
+    "width": 960,
+    "height": 684,
+    "bytes": 302040
+  },
+  {
+    "id": "senbon",
+    "label": "千本鳥居",
+    "file": "Fushimi Inari Taisha 230607 (2).jpg",
+    "author": "Nkon21",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "taken": "2023-06-07",
+    "source": "https://commons.wikimedia.org/wiki/File:Fushimi_Inari_Taisha_230607_(2).jpg",
+    "width": 960,
+    "height": 810,
+    "bytes": 206680
+  },
+  {
+    "id": "view",
+    "label": "從稻荷山眺望京都市區",
+    "file": "View of Kyoto from Mount Inari, 20240818 1435 4549.jpg",
+    "author": "Jakub Hałun",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "taken": "2024-08-18",
+    "source": "https://commons.wikimedia.org/wiki/File:View_of_Kyoto_from_Mount_Inari,_20240818_1435_4549.jpg",
+    "width": 960,
+    "height": 641,
+    "bytes": 230832
+  }
+]

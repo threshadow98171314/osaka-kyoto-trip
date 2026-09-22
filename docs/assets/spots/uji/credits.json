@@ -1,0 +1,54 @@
+[
+  {
+    "id": "ujibashi",
+    "label": "宇治橋",
+    "file": "Uji Jinja (Uji, Kyoto) Bridge hdsr S5 1.jpg",
+    "author": "Hyppolyte de Saint-Rambert",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "taken": "2024-01-03",
+    "source": "https://commons.wikimedia.org/wiki/File:Uji_Jinja_(Uji,_Kyoto)_Bridge_hdsr_S5_1.jpg",
+    "width": 960,
+    "height": 721,
+    "bytes": 192452
+  },
+  {
+    "id": "hoodo",
+    "label": "平等院鳳凰堂",
+    "file": "20260426 Phoenixhalle Byodo-In-Tempel 03, Uji, Kyoto, Japan anagoria.jpg",
+    "author": "Anagoria",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "taken": "2026-04-26",
+    "source": "https://commons.wikimedia.org/wiki/File:20260426_Phoenixhalle_Byodo-In-Tempel_03,_Uji,_Kyoto,_Japan_anagoria.jpg",
+    "width": 960,
+    "height": 720,
+    "bytes": 226143
+  },
+  {
+    "id": "asagiri",
+    "label": "朝霧橋",
+    "file": "Asagiri Bashi.jpg",
+    "author": "御影守駒氏",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "taken": "2026-03-27",
+    "source": "https://commons.wikimedia.org/wiki/File:Asagiri_Bashi.jpg",
+    "width": 960,
+    "height": 720,
+    "bytes": 281447
+  },
+  {
+    "id": "ujigami",
+    "label": "宇治上神社 本殿（國寶）",
+    "file": "Uji kami Jinja (Uji, Kyoto) Honden hdsr S5 1.jpg",
+    "author": "Hyppolyte de Saint-Rambert",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "taken": "2024-01-04",
+    "source": "https://commons.wikimedia.org/wiki/File:Uji_kami_Jinja_(Uji,_Kyoto)_Honden_hdsr_S5_1.jpg",
+    "width": 960,
+    "height": 721,
+    "bytes": 311036
+  }
+]

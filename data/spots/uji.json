@@ -1,0 +1,91 @@
+{
+  "id": "uji",
+  "title": "宇治散步建議順路",
+  "day": 5,
+  "date": "2026-09-30",
+  "note": "座標取自 OpenStreetMap（2026-09-23 查，Nominatim）：JR 宇治站、宇治橋、鳳凰堂、朝霧橋、宇治上神社；午餐的伊藤久右衛門 JR 宇治站前店在車站旁（Nominatim 查到的是平等院表參道的另一家分店，沒有採用）",
+  "stops": [
+    {
+      "name": "JR 宇治站・午餐",
+      "ja": "JR宇治駅・伊藤久右衛門 JR宇治駅前店",
+      "time": "11:40",
+      "lat": 34.89041,
+      "lon": 135.80071,
+      "desc": "站前的伊藤久右衛門茶房吃抹茶蕎麥麵"
+    },
+    {
+      "name": "宇治橋",
+      "ja": "宇治橋",
+      "time": "12:35",
+      "lat": 34.8928,
+      "lon": 135.806,
+      "desc": "從橋頭轉進平等院表參道"
+    },
+    {
+      "name": "平等院 鳳凰堂",
+      "ja": "平等院 鳳凰堂",
+      "time": "12:45",
+      "lat": 34.8893,
+      "lon": 135.80762,
+      "desc": "庭園＋鳳翔館 ¥700；鳳凰堂內部 ¥300，先到先得"
+    },
+    {
+      "name": "朝霧橋（中之島）",
+      "ja": "朝霧橋",
+      "time": "13:50",
+      "lat": 34.89021,
+      "lon": 135.80941,
+      "desc": "從中之島過橋到宇治川東岸"
+    },
+    {
+      "name": "宇治上神社",
+      "ja": "宇治上神社",
+      "time": "13:55",
+      "lat": 34.89205,
+      "lon": 135.81146,
+      "desc": "世界遺產；本殿是日本最古的神社建築（國寶）"
+    },
+    {
+      "name": "JR 宇治站",
+      "ja": "JR宇治駅",
+      "time": "14:10",
+      "lat": 34.89041,
+      "lon": 135.80071,
+      "desc": "走回車站約 17 分，14:30 搭車去任天堂博物館"
+    }
+  ],
+  "photos": [
+    {
+      "id": "ujibashi",
+      "label": "宇治橋",
+      "q": [
+        "Uji Bridge"
+      ],
+      "pick": "File:Uji Jinja (Uji, Kyoto) Bridge hdsr S5 1.jpg"
+    },
+    {
+      "id": "hoodo",
+      "label": "平等院鳳凰堂",
+      "q": [
+        "Byodo-in"
+      ],
+      "pick": "File:20260426 Phoenixhalle Byodo-In-Tempel 03, Uji, Kyoto, Japan anagoria.jpg"
+    },
+    {
+      "id": "asagiri",
+      "label": "朝霧橋",
+      "q": [
+        "Asagiri"
+      ],
+      "pick": "File:Asagiri Bashi.jpg"
+    },
+    {
+      "id": "ujigami",
+      "label": "宇治上神社 本殿（國寶）",
+      "q": [
+        "Ujigami"
+      ],
+      "pick": "File:Uji kami Jinja (Uji, Kyoto) Honden hdsr S5 1.jpg"
+    }
+  ]
+}

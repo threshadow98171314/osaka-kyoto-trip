@@ -1,0 +1,91 @@
+{
+  "id": "kinkakuji",
+  "title": "金閣寺建議順路",
+  "day": 6,
+  "date": "2026-10-01",
+  "note": "座標取自 OpenStreetMap（2026-09-23 查，Nominatim）：金閣寺道公車站（北大路通與西大路通各一個站牌）、鏡湖池、安民沢、夕佳亭、不動堂。「金閣寺 総門」在 Nominatim 會查到銀閣寺的總門，沒有採用",
+  "stops": [
+    {
+      "name": "金閣寺道（公車站）",
+      "ja": "金閣寺道",
+      "time": "08:50",
+      "lat": 35.04036,
+      "lon": 135.73444,
+      "desc": "從北大路搭市巴士過來，走到鏡湖池約 11 分鐘（含入口）"
+    },
+    {
+      "name": "鏡湖池",
+      "ja": "鏡湖池",
+      "time": "09:00",
+      "lat": 35.03921,
+      "lon": 135.72815,
+      "desc": "隔著池子看舍利殿（金閣），一進門先來拍照"
+    },
+    {
+      "name": "龍門瀧・安民澤",
+      "ja": "龍門滝・安民沢",
+      "time": "09:40",
+      "lat": 35.04038,
+      "lon": 135.72873,
+      "desc": "高 2.3m 的龍門瀧放著鯉魚石；安民澤池中小島上的石塔是白蛇塚"
+    },
+    {
+      "name": "夕佳亭",
+      "ja": "夕佳亭",
+      "time": "09:55",
+      "lat": 35.04014,
+      "lon": 135.72928,
+      "desc": "茶人金森宗和的數寄屋造茶席"
+    },
+    {
+      "name": "不動堂・茶所",
+      "ja": "不動堂・不動釜茶所",
+      "time": "10:05",
+      "lat": 35.0402,
+      "lon": 135.73009,
+      "desc": "出口前的不動堂；茶所 9:15 開始營業，只收現金"
+    },
+    {
+      "name": "金閣寺道（往南的站牌）",
+      "ja": "金閣寺道",
+      "time": "11:05",
+      "lat": 35.03944,
+      "lon": 135.73335,
+      "desc": "西大路通上的站牌，搭 101／102 系統往北野天滿宮"
+    }
+  ],
+  "photos": [
+    {
+      "id": "kinkaku",
+      "label": "隔著鏡湖池看舍利殿（金閣）",
+      "q": [
+        "Kinkaku-ji"
+      ],
+      "pick": "File:Kinkaku-ji, Kyoto.jpg"
+    },
+    {
+      "id": "phoenix",
+      "label": "屋頂的鳳凰",
+      "q": [
+        "Kinkaku-ji"
+      ],
+      "pick": "File:Rokuon-ji (Kita-ku Kyoto) Kinkaku-ji Phoenix hdsr S5 03.jpg"
+    },
+    {
+      "id": "ryumon",
+      "label": "龍門瀧",
+      "q": [
+        "Kinkaku-ji"
+      ],
+      "pick": "File:Rokuon-ji (Kita-ku Kyoto) Kinkaku-ji Garden hdsr S5 09.jpg"
+    },
+    {
+      "id": "anmintaku",
+      "label": "安民澤（池中小島上是白蛇塚）",
+      "q": [
+        "Kinkaku-ji"
+      ],
+      "pick": "File:Rokuon-ji (Kita-ku Kyoto) Kinkaku-ji Garden hdsr S5 15.jpg"
+    }
+  ]
+}

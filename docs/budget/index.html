@@ -219,15 +219,18 @@
     { key: 'esim',   label: '📶 網路（eSIM／WiFi 機）' },
   ];
 
-  /* 行程表中已查證的固定門票（每人・日圓），合計 ¥9,300 */
+  /* 行程表中已查證的固定門票（每人・日圓），合計 ¥11,900 */
   var DAYS = [
     { n: 1, date: '9/26（六）', title: '抵達大阪', fixed: [] },
     { n: 2, date: '9/27（日）', title: '大阪經典巡禮', fixed: [
+        { name: '大阪城天守閣（含豐臣石垣館）', amount: 1200 },
+        { name: '大阪城 西之丸庭園', amount: 200 },
         { name: 'なにわの湯（週日價）', amount: 1000 } ] },
     { n: 3, date: '9/28（一）', title: '姬路城與神戶牛', fixed: [
         { name: '姬路城（2026/3 起調漲）', amount: 2500 } ] },
     { n: 4, date: '9/29（二）', title: '奈良與 teamLab', fixed: [
-        { name: '東大寺大佛殿', amount: 800 } ] },
+        { name: '東大寺大佛殿', amount: 800 },
+        { name: '春日大社 御本殿特別參拜', amount: 700 } ] },
     { n: 5, date: '9/30（三）', title: '伏見稻荷與任天堂', fixed: [
         { name: '平等院（庭園＋鳳翔館）', amount: 700 },
         { name: '任天堂博物館', amount: 3300 } ] },

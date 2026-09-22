@@ -1,0 +1,99 @@
+{
+  "id": "himeji-castle",
+  "title": "姬路城建議順路",
+  "day": 3,
+  "date": "2026-09-28",
+  "note": "座標取自 OpenStreetMap（2026-09-23 查，Nominatim）：大手門、入城口、菱の門、ワの櫓（西の丸・百間廊下的入口）、化粧櫓、備前丸；大天守用行程表地圖的「姫路城」座標；JR 姫路站用英文站名 Himeji Station",
+  "stops": [
+    {
+      "name": "大手門",
+      "ja": "大手門",
+      "time": "10:50",
+      "lat": 34.83606,
+      "lon": 134.69309,
+      "desc": "從 JR 姬路站沿大手前通走過來約 15 分鐘"
+    },
+    {
+      "name": "入城口・菱之門",
+      "ja": "入城口・菱の門",
+      "time": "10:55",
+      "lat": 34.83818,
+      "lon": 134.69256,
+      "desc": "買票入城（18 歲以上 ¥2,500）；菱之門是守住二之丸入口的櫓門"
+    },
+    {
+      "name": "西之丸 百間廊下",
+      "ja": "西の丸長局（百間廊下）",
+      "time": "11:00",
+      "lat": 34.83817,
+      "lon": 134.69137,
+      "desc": "千姬的侍女們住過的長屋，從ワの櫓進去"
+    },
+    {
+      "name": "化粧櫓",
+      "ja": "化粧櫓",
+      "time": "11:25",
+      "lat": 34.83936,
+      "lon": 134.69226,
+      "desc": "千姬的休息所，百間廊下走到底就是"
+    },
+    {
+      "name": "大天守",
+      "ja": "大天守",
+      "time": "11:45",
+      "lat": 34.839331,
+      "lon": 134.69402,
+      "desc": "外觀 5 重、內部地下 1 樓・地上 6 樓，樓梯很陡"
+    },
+    {
+      "name": "備前丸",
+      "ja": "備前丸",
+      "time": "12:30",
+      "lat": 34.83893,
+      "lon": 134.69389,
+      "desc": "大天守正下方的廣場，池田輝政的居所遺址"
+    },
+    {
+      "name": "大手門",
+      "ja": "大手門",
+      "time": "12:45",
+      "lat": 34.83606,
+      "lon": 134.69309,
+      "desc": "出城後走回大手門，12:50 往 JR 姬路站"
+    }
+  ],
+  "photos": [
+    {
+      "id": "keep",
+      "label": "大天守（國寶）",
+      "q": [
+        "Himeji Castle"
+      ],
+      "pick": "File:Himeji castle 20241025- YAS2703.jpg"
+    },
+    {
+      "id": "hishi",
+      "label": "菱之門",
+      "q": [
+        "Hishi-no-mon"
+      ],
+      "pick": "File:Himeji Himeji-jo Hishi Gate 4.jpg"
+    },
+    {
+      "id": "nishinomaru",
+      "label": "從天守俯瞰西之丸的百間廊下",
+      "q": [
+        "Himeji Castle"
+      ],
+      "pick": "File:Himeji Himeji-jo Keep View to the Hyakka Roka 3.jpg"
+    },
+    {
+      "id": "interior",
+      "label": "大天守內部（2 樓）",
+      "q": [
+        "Himeji Castle"
+      ],
+      "pick": "File:Himeji Himeji-jo Keep Interior 3.jpg"
+    }
+  ]
+}

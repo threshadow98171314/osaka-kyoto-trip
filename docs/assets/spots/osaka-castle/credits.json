@@ -1,0 +1,54 @@
+[
+  {
+    "id": "tenshu",
+    "label": "天守閣與本丸石垣",
+    "file": "Osaka Castle and walls.jpg",
+    "author": "Ian G Shingler",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "taken": "2023-09-30",
+    "source": "https://commons.wikimedia.org/wiki/File:Osaka_Castle_and_walls.jpg",
+    "width": 960,
+    "height": 640,
+    "bytes": 226215
+  },
+  {
+    "id": "moat",
+    "label": "本丸的高石垣與內護城河",
+    "file": "Inner moat at Osaka Castle, Osaka, Japan.jpg",
+    "author": "Joli Rumi",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "taken": "2025-11-10",
+    "source": "https://commons.wikimedia.org/wiki/File:Inner_moat_at_Osaka_Castle,_Osaka,_Japan.jpg",
+    "width": 960,
+    "height": 540,
+    "bytes": 192283
+  },
+  {
+    "id": "view",
+    "label": "從天守閣往外看（左：大阪商務園區、中：大阪城音樂廳）",
+    "file": "Osaka Business Park and Osaka-jo Hall view from Osaka Castle Keep Tower.jpg",
+    "author": "MN5",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "taken": "2023-11-12",
+    "source": "https://commons.wikimedia.org/wiki/File:Osaka_Business_Park_and_Osaka-jo_Hall_view_from_Osaka_Castle_Keep_Tower.jpg",
+    "width": 960,
+    "height": 432,
+    "bytes": 161206
+  },
+  {
+    "id": "ishigaki",
+    "label": "豐臣石垣館（2025 年開館）",
+    "file": "Osaka Castle Toyotomi Stone Wall Museum.jpg",
+    "author": "掬茶",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "taken": "2025-09-01",
+    "source": "https://commons.wikimedia.org/wiki/File:Osaka_Castle_Toyotomi_Stone_Wall_Museum.jpg",
+    "width": 960,
+    "height": 641,
+    "bytes": 176659
+  }
+]

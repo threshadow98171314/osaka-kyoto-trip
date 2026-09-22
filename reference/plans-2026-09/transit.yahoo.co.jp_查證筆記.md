@@ -78,3 +78,6 @@ https://transit.yahoo.co.jp/search/result?from=%E5%86%86%E7%94%BA&to=%E4%BA%AC%E
   — https://transit.yahoo.co.jp/search/result?from=%E4%BA%AC%E9%83%BD&to=%E7%A5%87%E5%9C%92%E5%9B%9B%E6%9D%A1&y=2026&m=10&d=02&hh=13&m1=3&m2=0&type=1&ticket=ic
 - 京都 → 烏丸御池（13 時台）：地下鐵烏丸線（往国際会館，經五条、四条），13:35 → 13:41（5～6 分），IC ¥220
   — https://transit.yahoo.co.jp/search/result?from=%E4%BA%AC%E9%83%BD&to=%E7%83%8F%E4%B8%B8%E5%BE%A1%E6%B1%A0&y=2026&m=10&d=02&hh=13&m1=3&m2=0&type=1&ticket=ic
+- 清水道 → 京都（11 時台，清水寺回京都站吃午餐）：京都市營巴士 **206 號**（三十三間堂・京都駅行），
+  11:01 → 11:23（22 分），¥230。行程表原本寫「約 15 分鐘」，已更正
+  — https://transit.yahoo.co.jp/search/result?from=%E6%B8%85%E6%B0%B4%E9%81%93&to=%E4%BA%AC%E9%83%BD&y=2026&m=10&d=02&hh=11&m1=0&m2=0&type=1&ticket=ic

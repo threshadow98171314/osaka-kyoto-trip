@@ -1,0 +1,54 @@
+[
+  {
+    "id": "kinkaku",
+    "label": "隔著鏡湖池看舍利殿（金閣）",
+    "file": "Kinkaku-ji, Kyoto.jpg",
+    "author": "27curlyta",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "taken": "2025-04-15",
+    "source": "https://commons.wikimedia.org/wiki/File:Kinkaku-ji,_Kyoto.jpg",
+    "width": 960,
+    "height": 720,
+    "bytes": 258614
+  },
+  {
+    "id": "phoenix",
+    "label": "屋頂的鳳凰",
+    "file": "Rokuon-ji (Kita-ku Kyoto) Kinkaku-ji Phoenix hdsr S5 03.jpg",
+    "author": "Hyppolyte de Saint-Rambert",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "taken": "2023-12-27",
+    "source": "https://commons.wikimedia.org/wiki/File:Rokuon-ji_(Kita-ku_Kyoto)_Kinkaku-ji_Phoenix_hdsr_S5_03.jpg",
+    "width": 960,
+    "height": 721,
+    "bytes": 109927
+  },
+  {
+    "id": "ryumon",
+    "label": "龍門瀧",
+    "file": "Rokuon-ji (Kita-ku Kyoto) Kinkaku-ji Garden hdsr S5 09.jpg",
+    "author": "Hyppolyte de Saint-Rambert",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "taken": "2023-12-27",
+    "source": "https://commons.wikimedia.org/wiki/File:Rokuon-ji_(Kita-ku_Kyoto)_Kinkaku-ji_Garden_hdsr_S5_09.jpg",
+    "width": 960,
+    "height": 721,
+    "bytes": 352902
+  },
+  {
+    "id": "anmintaku",
+    "label": "安民澤（池中小島上是白蛇塚）",
+    "file": "Rokuon-ji (Kita-ku Kyoto) Kinkaku-ji Garden hdsr S5 15.jpg",
+    "author": "Hyppolyte de Saint-Rambert",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "taken": "2023-12-27",
+    "source": "https://commons.wikimedia.org/wiki/File:Rokuon-ji_(Kita-ku_Kyoto)_Kinkaku-ji_Garden_hdsr_S5_15.jpg",
+    "width": 960,
+    "height": 721,
+    "bytes": 349476
+  }
+]

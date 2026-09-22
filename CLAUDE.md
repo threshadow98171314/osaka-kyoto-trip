@@ -85,6 +85,8 @@ node scripts/fetch-hero-photos.js                # 下載 WANTED 裡 pick 指定
 - 依 Day1～Day8 分別記帳，每天有交通／餐飲／門票／購物／其他五類
 - 另有「共同支出」區（機票、住宿、交通票券、保險、網路）
 - 行程表中<b>已查證的門票</b>寫死在 `DAYS[].fixed`，自動計入當日小計；**改動票價時這裡要一併更新**
+  （2026-09-23：合計 ¥11,900／人。新增大阪城天守閣含豐臣石垣館 ¥1,200、西之丸庭園 ¥200、春日大社御本殿特別參拜 ¥700；
+  註解裡的合計數字以前沒跟著改過，現在由腳本重算後寫入）
 - 資料存於 localStorage `budget2.*`
 
 ### 行前 Check List docs/checklist/
@@ -237,15 +239,33 @@ Nominatim 對少數地點解析不佳，腳本內 `QUERY_OVERRIDE` 可指定替�
   - 車程、票價用 Yahoo!路線情報查當天同時段的班次（頁面禁止轉載，記在 `reference/plans-2026-09/transit.yahoo.co.jp_查證筆記.md`）；
     步行時間用 OSRM 算（`routing.openstreetmap.de`），店家座標取食べログ地圖頁，不要用 Nominatim 查店名
   - **大阪 → 新今宮 搭環狀線是「内回り」**（經西九条，約 14～16 分）。曾經寫成「外回り」，那是往京橋、天王寺繞大半圈的方向
-- **景點卡片裡的順路清單 `ul.spot-route`**（2026-09-22 起，金閣寺與嵐山）：**不要用 `<ol>`** ——
+- **景點卡片裡的順路清單 `ul.spot-route`**（8 個大景點都有）：**不要用 `<ol>`** ——
   「1. 14:50 天龍寺」序號後面緊接時間很難讀（使用者反映）。改成圓點清單，時間放在 `.sr-time`（主色粗體）
-- **景點卡片的照片與小地圖 `.spot-media`**（2026-09-22 起，目前只有 Day 6 嵐山）：
-  - 照片：`docs/assets/spots/<id>/`，**和頁首照片同一套標準**（Wikimedia Commons 自由授權、近五年拍攝），
-    下載 960px 版本即可；作者與授權寫在每張照片下方，來源記在 `credits.json`；`loading="lazy"`
+- **景點卡片的照片與小地圖 `.spot-media`**（2026-09-22 起；2026-09-23 起 **8 個大景點全部都有**：
+  大阪城、姬路城、奈良公園・東大寺・春日大社、伏見稻荷、宇治平等院、金閣寺、嵐山、清水寺）：
+  - 一個景點一個 `data/spots/<id>.json`：`stops`（停留點：名稱、日文、時間、座標、一句說明）與
+    `photos`（`cat` Commons 分類／`q` 全文搜尋／`pick` 選定的檔名）
+  - 照片：`docs/assets/spots/<id>/`，**和頁首照片同一套標準**（Wikimedia Commons 自由授權、
+    EXIF 拍攝日期在 2021-09-21 之後、橫式；卡片是 4:3 小圖，原圖寬 ≥ 1920px 即可），下載 960px：
+    ```bash
+    node scripts/fetch-spot-photos.js <id> --candidates   # 依標準搜尋候選
+    node scripts/fetch-spot-photos.js <id>                # 下載 pick 的照片與 credits.json
+    ```
+  - **一定要用眼睛看過再填 `pick`**（作法：把候選縮圖拼成一張總覽圖再看）。實際踩過的雷：
+    標題寫 Osaka Castle 但拍的是姬路城、搜 Senbon torii 會混進東京根津神社、法觀寺東大阪也有一座、
+    平等院有夏威夷複製品與北九州競艇場的「鳳凰堂」、宇治友好庭園在加拿大；
+    還有一整批角落壓了拍攝日期浮水印的手機快照，不要用
+  - **分類（`cat`）比全文搜尋準**，但小地點（大阪城的城門、蛸石、西之丸庭園；伏見稻荷奧社奉拜所）
+    的分類裡常常沒有近五年的照片 —— 這時改拍同一條順路上的其他重點，**不要放寬標準**；
+    沒收的原因寫進 `photoNote`
+  - 作者與授權寫在每張照片下方，來源記在 `credits.json`；`loading="lazy"`
   - 小地圖：`<iframe src="../map/spot.html?id=<id>&embed=1" loading="lazy">`。Leaflet 只在 spot.html 載入，
-    行程表本身不載入。停留點定義在 `data/spots/<id>.json`（座標要自己查證，同名地點很多），
+    行程表本身不載入。停留點的**座標要自己查證**（Nominatim 對「清水寺 本堂」會給島根縣安來市的同名寺、
+    「金閣寺 総門」會給銀閣寺、日文站名「谷町四丁目駅」會落到廣島），
     `node scripts/build-spots.js` 用 OSRM 算步行路線寫入 `docs/map/spots/<id>.json`（**不要手動編輯**）
   - iframe 在那一天還沒顯示時尺寸是 0，spot.html 會在尺寸改變時重新 `fitBounds`；離線時隱藏地圖、顯示提示
+  - 查證來源存在 `reference/spots-2026-09/`；禁止轉載的官網（姬路城、東大寺、祈りの回廊、伏見稻荷）
+    只存 `禁止轉載網站_查證筆記.md`
 - **複製這天行程**：`copyDay()` 匯出純文字（含日文地名）貼給旅伴；Clipboard API 失敗時退回 `execCommand`
 - **日期列置中**：`.day-nav-inner` 用 `width: fit-content` + `margin: 0 auto` 達成寬螢幕置中；`min-width: max-content` 會讓 `justify-content` 失效，**不要改回去**。560px 以下改為靠左並可橫向捲動
   - `.tip.warn` — **會撲空／會關門的警告**（例如木津市場週日公休）
@@ -344,6 +364,7 @@ Nominatim 對少數地點解析不佳，腳本內 `QUERY_OVERRIDE` 可指定替�
 - `reference/plans-2026-09/` - 彈性方案（B～E）與主行程計畫B 的查證來源備份（2026-09-22）。
   檔名是「網域_路徑」，避免不同網站的首頁都變成 `index.md` 互相覆蓋
 - `reference/bread-2026-09/` - 美食選擇器麵包類的查證來源備份（2026-09-22，含沒收的店的食べログ頁面）
+- `reference/spots-2026-09/` - 8 個大景點的順路、開放時間、票價查證來源（2026-09-23）
 
 ### docs/ 目錄結構
 ```
@@ -468,5 +489,6 @@ crawler.crawl_batch(['https://example.com/page1', 'https://example.com/page2'])
 - `scripts/build-routes.js` - 依 `data/routes.json` 產生地圖上依交通方式的實際路線（見上方「docs/map/ 行程地圖」）
 - `scripts/sync-attractions.js` - 用 `data/attractions.json` 重新產生景點選擇器的內嵌陣列
 - `scripts/build-spots.js` - 依 `data/spots/*.json` 產生景點小地圖的步行路線（`docs/map/spots/`）
+- `scripts/fetch-spot-photos.js` - 抓景點卡片的照片（見上方「景點卡片的照片與小地圖」）
 - `scripts/sync-counts.js` - 把首頁的選擇器筆數 badge 同步成實際資料筆數
 - `scripts/fetch-hero-photos.js` - 重新抓取頁首背景照片（見上方「頁首背景照片」）

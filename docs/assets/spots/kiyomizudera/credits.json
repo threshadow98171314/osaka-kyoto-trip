@@ -1,0 +1,67 @@
+[
+  {
+    "id": "butai",
+    "label": "本堂與清水舞台（國寶）",
+    "file": "Kiyomizu-dera in Kyoto (53654609669).jpg",
+    "author": "Sergiy Galyonkin from Raleigh, USA",
+    "license": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+    "taken": "2022-07-28",
+    "source": "https://commons.wikimedia.org/wiki/File:Kiyomizu-dera_in_Kyoto_(53654609669).jpg",
+    "width": 960,
+    "height": 638,
+    "bytes": 237742
+  },
+  {
+    "id": "otowa",
+    "label": "音羽瀑布",
+    "file": "Three water sources in a temple, Kyoto (52359912068).jpg",
+    "author": "Sergiy Galyonkin from Raleigh, USA",
+    "license": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+    "taken": "2022-07-28",
+    "source": "https://commons.wikimedia.org/wiki/File:Three_water_sources_in_a_temple,_Kyoto_(52359912068).jpg",
+    "width": 960,
+    "height": 673,
+    "bytes": 263230
+  },
+  {
+    "id": "sanneizaka",
+    "label": "三年坂（產寧坂）",
+    "file": "Sannei-zaka, Road to Kiyomizu-dera, Kyoto - Jul 28, 2022.jpg",
+    "author": "Sergiy Galyonkin",
+    "license": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+    "taken": "2022-07-28",
+    "source": "https://commons.wikimedia.org/wiki/File:Sannei-zaka,_Road_to_Kiyomizu-dera,_Kyoto_-_Jul_28,_2022.jpg",
+    "width": 960,
+    "height": 859,
+    "bytes": 372760
+  },
+  {
+    "id": "ninenzaka",
+    "label": "二年坂（二寧坂）",
+    "file": "HigashiyamaStreets7215.jpg",
+    "author": "lumoplank",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "taken": "2026-03-03",
+    "source": "https://commons.wikimedia.org/wiki/File:HigashiyamaStreets7215.jpg",
+    "width": 960,
+    "height": 659,
+    "bytes": 203897
+  },
+  {
+    "id": "yasaka",
+    "label": "八坂塔（法觀寺五重塔）",
+    "file": "Yasaka no Tō 20211123-2.jpg",
+    "author": "Suicasmo",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "taken": "2021-11-23",
+    "source": "https://commons.wikimedia.org/wiki/File:Yasaka_no_T%C5%8D_20211123-2.jpg",
+    "width": 960,
+    "height": 640,
+    "bytes": 129734
+  }
+]
