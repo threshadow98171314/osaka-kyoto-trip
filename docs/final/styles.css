@@ -1110,6 +1110,74 @@ body.is-offline .offline-badge {
 /* 方案內的提醒（預約、會撲空）跟卡片之間的間距 */
 .plan-body > .tl-tips { margin: 4px 0 2px; }
 
+/* === 景點卡片的照片與小地圖（目前是 Day 6 嵐山） ===
+   照片橫向捲動；地圖是 iframe 嵌入 ../map/spot.html?id=…&embed=1，Leaflet 只在那一頁載入。
+   日期滑動會略過起點落在 .spot-photos 的手勢（見 index.html 的 enableSwipe）。 */
+.spot-media { margin-top: 10px; }
+
+.spot-photos {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.spot-photos figure {
+  flex: 0 0 min(78%, 280px);
+  scroll-snap-align: start;
+  margin: 0;
+}
+
+.spot-photos img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  background: var(--surface-alt);
+}
+
+.spot-photos figcaption {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--on-surface);
+  margin-top: 4px;
+}
+
+.spot-photos figcaption small {
+  display: block;
+  font-size: 0.66rem;
+  font-weight: 500;
+  color: var(--on-surface-muted);
+}
+
+.spot-photos figcaption a { color: inherit; }
+
+.spot-map {
+  margin-top: 8px;
+  height: 280px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surface-alt);
+}
+
+.spot-map iframe { display: block; width: 100%; height: 100%; border: 0; }
+
+.spot-offline { display: none; font-size: 0.76rem; color: var(--on-surface-muted); margin-top: 6px; }
+body.is-offline .spot-map { display: none; }
+body.is-offline .spot-offline { display: block; }
+
+.spot-credit { font-size: 0.66rem; color: var(--on-surface-muted); margin-top: 6px; line-height: 1.5; }
+
+.tl-detail ol.spot-route { margin: 6px 0 4px 1.2em; }
+.tl-detail ol.spot-route li { margin-bottom: 3px; }
+
 /* === 主行程的「計畫B」 ===
    主行程是已訂或非去不可的項目，不做成輪播：輪播代表「任選一個」，而且會換掉標題。
    計畫B 只是備案 —— 平常收成一列（B＋名稱＋什麼情況用），點開才看查證過的細節。
@@ -1249,6 +1317,11 @@ body.is-offline .offline-badge {
 @media print {
   .plan { display: block !important; animation: none !important; break-inside: avoid; margin-bottom: 8px; }
   .plans-nav { display: none; }
+
+  /* 地圖在紙上沒有用；照片縮小成一排小圖 */
+  .spot-map, .spot-offline { display: none !important; }
+  .spot-photos { overflow: visible; flex-wrap: wrap; }
+  .spot-photos figure { flex: 0 0 23%; }
 
   /* 計畫B 由 JS 在 beforeprint 時展開；箭頭在紙上沒有意義 */
   .alt-plan { break-inside: avoid; }

@@ -1,0 +1,54 @@
+[
+  {
+    "id": "tenryuji-sogenchi",
+    "label": "天龍寺 曹源池庭園",
+    "file": "Tenryū Shisei-zenji (Ukyo-Ku Kyoto) Sōgen Pond hdsr S5 05.jpg",
+    "author": "Hyppolyte de Saint-Rambert",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "taken": "2023-12-13",
+    "source": "https://commons.wikimedia.org/wiki/File:Tenry%C5%AB_Shisei-zenji_(Ukyo-Ku_Kyoto)_S%C5%8Dgen_Pond_hdsr_S5_05.jpg",
+    "width": 960,
+    "height": 721,
+    "bytes": 188443
+  },
+  {
+    "id": "bamboo-grove",
+    "label": "竹林小徑",
+    "file": "Sagano Bamboo forest, Kyoto, 20240818 1730 4584.jpg",
+    "author": "Jakub Hałun",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "taken": "2024-08-18",
+    "source": "https://commons.wikimedia.org/wiki/File:Sagano_Bamboo_forest,_Kyoto,_20240818_1730_4584.jpg",
+    "width": 960,
+    "height": 637,
+    "bytes": 278447
+  },
+  {
+    "id": "nonomiya",
+    "label": "野宮神社 黑木鳥居",
+    "file": "Nonomiya-jinja (Ukyō-ku Kyoto) Black Torii hdsr S5 07.jpg",
+    "author": "Hyppolyte de Saint-Rambert",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "taken": "2023-12-13",
+    "source": "https://commons.wikimedia.org/wiki/File:Nonomiya-jinja_(Uky%C5%8D-ku_Kyoto)_Black_Torii_hdsr_S5_07.jpg",
+    "width": 960,
+    "height": 721,
+    "bytes": 309004
+  },
+  {
+    "id": "togetsukyo-sunset",
+    "label": "渡月橋的夕陽",
+    "file": "JP 日本 JAPAN 京都 KYOTO 日落 SUNSET 渡月橋 Togetsukyo June 2026 SS21G5 10.jpg",
+    "author": "GeyatGar 668 200001",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "taken": "2026-06-19",
+    "source": "https://commons.wikimedia.org/wiki/File:JP_%E6%97%A5%E6%9C%AC_JAPAN_%E4%BA%AC%E9%83%BD_KYOTO_%E6%97%A5%E8%90%BD_SUNSET_%E6%B8%A1%E6%9C%88%E6%A9%8B_Togetsukyo_June_2026_SS21G5_10.jpg",
+    "width": 960,
+    "height": 720,
+    "bytes": 198486
+  }
+]

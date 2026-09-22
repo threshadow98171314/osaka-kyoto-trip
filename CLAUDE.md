@@ -45,6 +45,7 @@
 - `docs/final/sw.js` / `manifest.json` / `icon.svg` - PWA，讓行程可離線閱讀
 - `docs/map/index.html` - **行程地圖**（Leaflet + OpenStreetMap）
 - `docs/map/places.json` - 地圖資料，**由腳本產生，不要手動編輯**
+- `docs/map/spot.html` - 單一景點的建議順路小地圖（`?id=arashiyama`，嵌在行程表卡片裡用 `&embed=1`）
 - `docs/budget/index.html` - **預算追蹤**（依 Day 分開記帳）
 - `docs/checklist/index.html` - **行前 Check List**
 - `docs/assets/base.css` - 預算與 Check List 共用樣式
@@ -153,14 +154,16 @@ Nominatim 對少數地點解析不佳，腳本內 `QUERY_OVERRIDE` 可指定替�
 - **今日標記**：日期列上「今天」那一格右上角有金色圓點
 - **三種項目分類**（2026-09-21 起）：每個 `.timeline-item` 都必須有 `.tl-kind` 標示
   - `.is-main` ＋ `主行程`：航班、住宿 check-in/out、5 個已預約項目、報到與退房，
-    以及 8 個大景點（大阪城、姬路城、奈良公園、伏見稻荷、平等院、金閣寺、嵐山、清水寺）。左側為實線邊
+    8 個大景點（大阪城、姬路城、奈良公園、伏見稻荷、平等院、金閣寺、嵐山、清水寺），
+    以及 Day 6 瑞饋祭的 3 項（出御祭、神轎出遊、御旅所）。左側為實線邊
   - `.is-move` ＋ `交通`：**所有移動與過關**。交通不是「行程」而是兩個行程之間的過程，
     所以獨立成一類，左側為灰色點線、標籤是灰字外框，讓視線可以直接跳過
   - `.is-flex` ＋ `彈性`：其餘餐飲、購物、機動景點。左側為虛線邊，內含方案輪播
-  - 目前為 **20 主行程 / 25 交通 / 17 彈性**（共 62），**不應有未標示的項目**
+  - 目前為 **22 主行程 / 27 交通 / 18 彈性**（共 67），**不應有未標示的項目**
   - 交通項目**不再另外掛 `.tl-tag.transport`「交通」pill**，那會和分類標籤重複顯示同一個字
 - **方案輪播 `.plans`**：方案 A 一律是原訂行程，B～E 為替代方案
-  （2026-09-22：17 組、共 51 個替代方案 —— B、C 各 17，D 15，E 2）
+  （2026-09-22：18 組、共 54 個替代方案 —— B、C 各 18，D 16，E 2）
+  - **Day 6 11:30 午餐**也是 2026-09-22 新增（北野天滿宮一帶、週四有開的四家），A 是首選
   - **Day 4 15:30** 是 2026-09-22 為了填補「入住後到 teamLab 前的 2 小時空檔」新增的一組，
     沒有原訂行程，A 是首選（東寺）；四個方案都要能在 18:30 前走到 teamLab
   - **挑選原則**（使用者明確要求，不要退回「每天都給同一批店」）：
@@ -189,7 +192,7 @@ Nominatim 對少數地點解析不佳，腳本內 `QUERY_OVERRIDE` 可指定替�
   - `go()` 會把導覽列**釘回原本的螢幕位置**：方案長短不同會改變整份文件的高度，
     使用者若正捲在頁尾，瀏覽器會夾住捲動位置、整頁往下位移。捲不動時會撐開
     `.scroll-slack`（頁尾臨時墊片）補回距離，使用者一捲動就收掉
-  - **頁面層級的日期滑動會略過起點落在 `.plans` 內的手勢**，兩種滑動才不會打架
+  - **頁面層級的日期滑動會略過起點落在 `.plans` 或 `.spot-photos` 內的手勢**，兩種滑動才不會打架
   - 方案中引用的店家／景點資料一律來自已查證的資料庫（`docs/selector/foods.html` 的
     `foods`、`data/attractions.json`），**不要在方案裡手寫未查證的票價或營業時間**
   - 列印時所有方案會攤平顯示（連同各自的標題），不會只印出目前那一個
@@ -203,6 +206,19 @@ Nominatim 對少數地點解析不佳，腳本內 `QUERY_OVERRIDE` 可指定替�
   - 內容一樣只能引用已查證的資料庫（目前是 `data/attractions.json` 的 `osaka-museum-history`）
   - 列印時由 `beforeprint` 全部展開、`afterprint` 還原；`copyDay()` 會在該項下面多一行「└ 計畫B｜…」
   - 目前只有一處：Day 2 大阪城 → 大阪歷史博物館
+- **Day 6（10/1）以瑞饋祭為最優先**（2026-09-22 使用者要求，不要為了其他景點壓縮祭典）：
+  08:50 出御祭（09:00）→ 金閣寺 1.5 小時 → 11:30 北野午餐 → 12:40 神轎出遊（13:00 出發）→
+  14:45 嵐山 3 小時、渡月橋看日落（17:42）→ 18:20 御旅所（ずいき神轎＋攤販）→ 19:30 木屋町晚餐 → 21:00 夜間
+  - **北野天滿宮本社沒有攤販**，攤販只在西ノ京的御旅所（地圖用 OSM 的「北野神社御旅所」，
+    Nominatim 查「北野天満宮御旅所」會落到中京區壬生的另一個點）
+  - 16:00 御旅所的着御祭・八乙女舞和嵐山夕陽衝突，行程選了嵐山，卡片裡有寫明
+- **景點卡片的照片與小地圖 `.spot-media`**（2026-09-22 起，目前只有 Day 6 嵐山）：
+  - 照片：`docs/assets/spots/<id>/`，**和頁首照片同一套標準**（Wikimedia Commons 自由授權、近五年拍攝），
+    下載 960px 版本即可；作者與授權寫在每張照片下方，來源記在 `credits.json`；`loading="lazy"`
+  - 小地圖：`<iframe src="../map/spot.html?id=<id>&embed=1" loading="lazy">`。Leaflet 只在 spot.html 載入，
+    行程表本身不載入。停留點定義在 `data/spots/<id>.json`（座標要自己查證，同名地點很多），
+    `node scripts/build-spots.js` 用 OSRM 算步行路線寫入 `docs/map/spots/<id>.json`（**不要手動編輯**）
+  - iframe 在那一天還沒顯示時尺寸是 0，spot.html 會在尺寸改變時重新 `fitBounds`；離線時隱藏地圖、顯示提示
 - **複製這天行程**：`copyDay()` 匯出純文字（含日文地名）貼給旅伴；Clipboard API 失敗時退回 `execCommand`
 - **日期列置中**：`.day-nav-inner` 用 `width: fit-content` + `margin: 0 auto` 達成寬螢幕置中；`min-width: max-content` 會讓 `justify-content` 失效，**不要改回去**。560px 以下改為靠左並可橫向捲動
   - `.tip.warn` — **會撲空／會關門的警告**（例如木津市場週日公休）
@@ -237,7 +253,7 @@ Nominatim 對少數地點解析不佳，腳本內 `QUERY_OVERRIDE` 可指定替�
 ### docs/selector/ -HTML選擇器（GitHub Pages顯示用）
 這些 HTML 檔案使用 Tailwind CSS CDN 引入樣式，無需 build step：
 - `docs/selector/attractions.html` - 景點選擇器（綠色主題，123 筆）
-- `docs/selector/foods.html` - 美食選擇器（橙色主題，111 筆）
+- `docs/selector/foods.html` - 美食選擇器（橙色主題，115 筆）
 
 > ⚠️ 首頁 `docs/index.html` 的卡片上有筆數 badge，**改完資料陣列後要同步**：
 > ```bash
@@ -422,5 +438,6 @@ crawler.crawl_batch(['https://example.com/page1', 'https://example.com/page2'])
     地圖上會出現「入住｜一難波南2號店 主行程」這種標題
 - `scripts/build-routes.js` - 依 `data/routes.json` 產生地圖上依交通方式的實際路線（見上方「docs/map/ 行程地圖」）
 - `scripts/sync-attractions.js` - 用 `data/attractions.json` 重新產生景點選擇器的內嵌陣列
+- `scripts/build-spots.js` - 依 `data/spots/*.json` 產生景點小地圖的步行路線（`docs/map/spots/`）
 - `scripts/sync-counts.js` - 把首頁的選擇器筆數 badge 同步成實際資料筆數
 - `scripts/fetch-hero-photos.js` - 重新抓取頁首背景照片（見上方「頁首背景照片」）
