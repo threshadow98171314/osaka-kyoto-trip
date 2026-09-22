@@ -221,7 +221,7 @@ Nominatim 對少數地點解析不佳，腳本內 `QUERY_OVERRIDE` 可指定替�
 
 ### 審核目錄 audit/
 - `audit/records/` - 審核記錄（按日期存放）
-- `audit/records/2026-09-22.md` - 最新審核記錄（主行程計畫B、換天捲動位置、大丸梅田店改名 LUCUA SOUTH）
+- `audit/records/2026-09-22.md` - 最新審核記錄（主行程計畫B、換天捲動位置、大丸梅田店改名 LUCUA SOUTH、麵包類擴充）
 - `audit/records/2026-09-21.md` - 地圖實際路線、Day 8 出發時間、頁首照片、彈性方案 B～E
 - `audit/verified.md` - 已驗證的資訊
 - `audit/discrepancies.md` - 發現的資訊不一致處
@@ -235,7 +235,7 @@ Nominatim 對少數地點解析不佳，腳本內 `QUERY_OVERRIDE` 可指定替�
 ### docs/selector/ -HTML選擇器（GitHub Pages顯示用）
 這些 HTML 檔案使用 Tailwind CSS CDN 引入樣式，無需 build step：
 - `docs/selector/attractions.html` - 景點選擇器（綠色主題，121 筆）
-- `docs/selector/foods.html` - 美食選擇器（橙色主題，91 筆）
+- `docs/selector/foods.html` - 美食選擇器（橙色主題，111 筆）
 
 > ⚠️ 首頁 `docs/index.html` 的卡片上有筆數 badge，**改完資料陣列後要同步**：
 > ```bash
@@ -275,6 +275,11 @@ Nominatim 對少數地點解析不佳，腳本內 `QUERY_OVERRIDE` 可指定替�
   要寫查詢年月）、`award`（百名店／Award）、`note`（公休、預約等注意事項）、
   `mapq`（Google Maps 查詢字串，**明文日文**）、`src`（查證來源網址）。
   `data/attractions.json` 也有 `mapq`
+- **選擇器只顯示** 店名、標籤、`features`、價位、`hours`、`address`；`rating`／`award`／`note` 不會顯示。
+  公休一定要寫進 `hours`，百名店入選紀錄寫進 `features` 並加上 `百名店` 標籤
+- `price` 用字串比對判斷價位：含「¥1,000」就算中價位，所以千円以內要寫成「¥999 內」才會是平價
+- **麵包類**（2026-09-22，22 筆）：以食べログ パン WEST 百名店 2026 為名單，只收行程會經過、
+  而且**行程當天有營業**的店（例如 Day 3 神戶是週一，週一公休的名店一律不收）；同一品牌只收一家
 - 篩選功能：地區（單選）、類別標籤（多選 AND 邏輯）、平價、已選、文字搜尋
 - 標籤系統：所有標籤都有顏色底色，支援多選（需同時滿足所有選中的標籤）
 - 價位標籤：自動判斷平價/中價位/高價位
@@ -291,6 +296,7 @@ Nominatim 對少數地點解析不佳，腳本內 `QUERY_OVERRIDE` 可指定替�
 - 包含交通、美食、景點等各類參考資料
 - `reference/plans-2026-09/` - 彈性方案（B～E）與主行程計畫B 的查證來源備份（2026-09-22）。
   檔名是「網域_路徑」，避免不同網站的首頁都變成 `index.md` 互相覆蓋
+- `reference/bread-2026-09/` - 美食選擇器麵包類的查證來源備份（2026-09-22，含沒收的店的食べログ頁面）
 
 ### docs/ 目錄結構
 ```
