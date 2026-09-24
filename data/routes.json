@@ -35,15 +35,15 @@
     ],
     "3": [
       {
-        "from": "大国町駅",
+        "from": "新今宮駅",
         "to": "姫路城",
         "legs": [
           {
-            "mode": "subway",
-            "relation": 8028808,
-            "label": "地鐵御堂筋線",
-            "board": "大国町",
-            "alight": "梅田"
+            "mode": "rail",
+            "relation": 10073682,
+            "label": "JR 大阪環狀線（外回り）",
+            "board": "新今宮",
+            "alight": "大阪"
           },
           {
             "mode": "rail",

@@ -81,3 +81,23 @@ https://transit.yahoo.co.jp/search/result?from=%E5%86%86%E7%94%BA&to=%E4%BA%AC%E
 - 清水道 → 京都（11 時台，清水寺回京都站吃午餐）：京都市營巴士 **206 號**（三十三間堂・京都駅行），
   11:01 → 11:23（22 分），¥230。行程表原本寫「約 15 分鐘」，已更正
   — https://transit.yahoo.co.jp/search/result?from=%E6%B8%85%E6%B0%B4%E9%81%93&to=%E4%BA%AC%E9%83%BD&y=2026&m=10&d=02&hh=11&m1=0&m2=0&type=1&ticket=ic
+
+## Day 2、Day 3 改從新今宮站出發；Day 5 延後到 15:00（2026-09-24 查）
+
+### Day 2（9/27 週日）
+- 新今宮 → 森ノ宮（10 時台）：JR 大阪環状線**内回り**（天王寺・鶴橋方面，1 番線），10:24 → 10:36（12 分），IC ¥180，直達
+  — https://transit.yahoo.co.jp/search/result?from=%E6%96%B0%E4%BB%8A%E5%AE%AE&to=%E6%A3%AE%E3%83%8E%E5%AE%AE&y=2026&m=09&d=27&hh=10&m1=2&m2=0&type=1&ticket=ic
+- なんば → 谷町四丁目（10 時台，早餐方案 C、D 吃完接大阪城）：地下鐵千日前線 → 谷町九丁目 → 谷町線，
+  10:25 → 10:37（含轉乘 12 分），IC ¥240；另有御堂筋線 → 本町 → 中央線，同樣 ¥240
+  — https://transit.yahoo.co.jp/search/result?from=%E3%81%AA%E3%82%93%E3%81%B0&to=%E8%B0%B7%E7%94%BA%E5%9B%9B%E4%B8%81%E7%9B%AE&y=2026&m=09&d=27&hh=10&m1=1&m2=5&type=1&ticket=ic
+
+### Day 3（9/28 週一）
+- 新今宮 → 姫路（09 時台）：JR 大和路快速 京橋行 09:10（3・4 番線）→ 大正・弁天町・西九条・福島 → 大阪 09:24；
+  JR 神戸線 新快速 姫路行 09:30 → 姫路 10:33。1 小時 23 分，轉乘 1 次，IC ¥1,640
+  — https://transit.yahoo.co.jp/search/result?from=%E6%96%B0%E4%BB%8A%E5%AE%AE&to=%E5%A7%AB%E8%B7%AF&y=2026&m=09&d=28&hh=09&m1=0&m2=5&type=1&ticket=ic
+- 同一查詢的第 2、3 條走地下鐵＋阪急／阪神到三ノ宮再轉 JR，11:03 才到姬路，不採用
+
+### Day 5（9/30 週三）
+- 宇治(JR) → JR小倉（15 時台）：JR 奈良線 城陽行 15:07 → 15:09（2 分），IC ¥150；之後還有 15:22（みやこ路快速）、15:26
+  — https://transit.yahoo.co.jp/search/result?from=%E5%AE%87%E6%B2%BB(JR)&to=JR%E5%B0%8F%E5%80%89&y=2026&m=09&d=30&hh=15&m1=0&m2=0&type=1&ticket=ic
+- 查「小倉(京都府)」會解析成近鉄小倉，要查「JR小倉」
