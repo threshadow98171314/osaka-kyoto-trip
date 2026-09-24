@@ -1,25 +1,30 @@
 /* 依交通方式產生地圖上的移動路線，寫入 docs/map/routes.json
  *
  * 為什麼需要這支腳本：
- *   地圖原本只把當天的地點依時間用直線連起來。Day 1 關西機場 → 新今宮、
- *   Day 8 京都 → 關西機場 的直線會橫跨大阪灣；Day 3 姬路 → 神戶 的直線則從山上
- *   切過去，和實際沿海岸走的 JR 差了十幾公里。
+ *   地圖原本只把當天的地點依時間用直線連起來，看不出來是走路還是搭車；
+ *   Day 1 關西機場 → 新今宮的直線還會橫跨大阪灣。2026-09-24 起**八天全部**改畫實際路線，
+ *   不再有「隨意連線」（使用者要求）。
  *
  * 哪一段搭什麼車、在哪站上下車，寫在 data/routes.json；本腳本負責把它變成座標：
- *   - 鐵路／地鐵：抓 OpenStreetMap 上「該班次」的 route relation
- *     （例如「空港急行 (関西空港 => なんば)」），用它的軌道建圖，
- *     在上下車站之間找最短路 —— 畫出來就是列車實際走的軌道
- *   - 步行：OSRM 步行路徑（routing.openstreetmap.de，openstreetmap.org 的導航也用它）
+ *   - 鐵路／地鐵／公車：抓 OpenStreetMap 上該路線的 route relation，用它的軌道（公車是道路）建圖，
+ *     在上下車站之間找最短路 —— 畫出來就是列車、公車實際走的路
+ *   - 步行：OSRM 步行路徑（routing.openstreetmap.de）
  *   - 起訖點與車站之間、轉乘的兩站之間，會自動補上步行
  *
- * 沒有在 data/routes.json 定義的天數，地圖維持原本的虛線直線。
- * 有定義的天數，每一段都必須定義；少一段會直接報錯，避免路線默默斷掉。
+ * data/routes.json 的寫法（依「行程表上的項目」定義，而不是依地點）：
+ *   - 每一天是一串「區段」：from／to 是項目的時間（"09:00"），當天出發的飯店是 "start"
+ *   - 彈性行程有好幾個方案，區段的 legs 是預設走法；某些方案走法不同時寫在 cases 裡
+ *     （{ "from": ["B"], "to": ["C"], "legs": [...] }，由上往下第一個符合的生效）
+ *   - 本腳本會把「前一站的每個方案 × 下一站的每個方案」都算一次，地圖上不管選哪個方案都有實際路線
+ *   - 某個方案沒有地點（例如「在飯店休息」）時，地圖會跳過它，這時需要「跨過它」的區段，
+ *     少了會直接報錯
+ *   - 同一個項目裡有好幾個地點（例如奈良公園 → 東大寺 → 春日大社）時，中間一律步行
  *
  * 用法：
- *   node scripts/build-routes.js            沿用已算過的路段（定義與起訖座標都沒變時）
- *   node scripts/build-routes.js --refresh  全部重算
+ *   node scripts/build-routes.js            沿用已抓過的 relation 與已算過的步行路徑（存在 scripts/.cache/）
+ *   node scripts/build-routes.js --refresh  全部重抓重算
  *
- * 請遵守公共服務的使用規範：Overpass 與 OSRM 都是志工維運的免費服務，
+ * 請遵守公共服務的使用規範：OSM API、Overpass 與 OSRM 都是志工維運的免費服務，
  * 本腳本每次請求之間都有間隔、帶可識別的 User-Agent，並且會沿用上次的結果。
  */
 const fs = require('fs');
@@ -31,13 +36,14 @@ const ROOT = path.resolve(__dirname, '..');
 const DEF = path.join(ROOT, 'data/routes.json');
 const PLACES = path.join(ROOT, 'docs/map/places.json');
 const OUT = path.join(ROOT, 'docs/map/routes.json');
-/* 抓過的 OSM relation 原始資料存在本機（不進版控），重跑時不必再打 Overpass */
+/* 抓過的 OSM relation 與算過的步行路徑存在本機（不進版控），重跑時不必再打 API */
 const CACHE_DIR = path.join(ROOT, 'scripts/.cache');
 const REFRESH = process.argv.includes('--refresh');
 
 const UA = 'osaka-kyoto-trip-map/1.0 (personal trip planner; github.com/threshadow98171314/osaka-kyoto-trip)';
 
-/* Overpass 主站常常 504，備援站依序嘗試 */
+/* relation 先用 OSM 主 API 抓（穩定），失敗才用 Overpass；Overpass 主站常常 504 */
+const OSM_API = 'https://api.openstreetmap.org/api/0.6/relation/';
 const OVERPASS = [
   'https://overpass-api.de/api/interpreter',
   'https://overpass.private.coffee/api/interpreter',
@@ -45,14 +51,15 @@ const OVERPASS = [
 ];
 const OSRM_FOOT = 'https://routing.openstreetmap.de/routed-foot/route/v1/driving/';
 
+const MODES = ['walk', 'rail', 'subway', 'bus'];
 /* 起訖點離車站超過這個距離才補畫步行，太短的畫出來只是一個點 */
 const WALK_MIN_M = 120;
 /* 步行路徑比直線遠這麼多就不採用。例如關西機場航廈與車站之間有室內連通道，
    OSM 的步行網路沒畫到，OSRM 會繞出 3.4 km 的怪路線；這種情況直接畫直線 */
 const WALK_DETOUR_MAX = 3;
 const WALK_SPEED = 1.25;   // m/s，約時速 4.5 km，退回直線時用來估時間
-/* 路線演算法改版時 +1，舊的快取會自動失效 */
-const ALGO_VERSION = 2;
+/* 走路超過這個距離就提醒：可能少寫了搭車的區段 */
+const WALK_WARN_M = 2600;
 /* 簡化折線的容許誤差（公尺）：縮小檔案，肉眼看不出差別 */
 const SIMPLIFY_M = 8;
 
@@ -97,6 +104,7 @@ function simplify(pts, tol) {
 
 const round = (p) => [Math.round(p[0] * 1e5) / 1e5, Math.round(p[1] * 1e5) / 1e5];
 const lengthOf = (pts) => pts.reduce((a, p, i) => (i ? a + dist(pts[i - 1], p) : 0), 0);
+const hash = (x) => crypto.createHash('sha1').update(JSON.stringify(x)).digest('hex').slice(0, 12);
 
 /* ---------- 網路 ---------- */
 function request(url, opts, body) {
@@ -115,58 +123,70 @@ function request(url, opts, body) {
 
 async function overpass(query) {
   const body = 'data=' + encodeURIComponent(query);
-  const post = (ep, timeout) => request(ep, {
-    method: 'POST',
-    timeout,
-    headers: {
-      'User-Agent': UA,
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Content-Length': Buffer.byteLength(body),
-    },
-  }, body);
-
-  /* 主站：429（同一 IP 同時請求太多）或 504（伺服器忙）就等一下再試同一台。
-     備援站在這個網路環境下常常逾時，放到最後才用 */
   let lastErr;
-  for (let i = 0; i < 5; i++) {
-    try {
-      const r = await post(OVERPASS[0], 120000);
-      if (r.status === 200) return JSON.parse(r.body);
-      lastErr = new Error(OVERPASS[0] + ' HTTP ' + r.status);
-    } catch (e) {
-      lastErr = new Error(OVERPASS[0] + ' ' + e.message);
+  for (const ep of OVERPASS) {
+    for (let i = 0; i < 2; i++) {
+      try {
+        const r = await request(ep, {
+          method: 'POST',
+          timeout: 120000,
+          headers: { 'User-Agent': UA, 'Content-Type': 'application/x-www-form-urlencoded', 'Content-Length': Buffer.byteLength(body) },
+        }, body);
+        if (r.status === 200) return JSON.parse(r.body);
+        lastErr = new Error(ep + ' HTTP ' + r.status);
+      } catch (e) {
+        lastErr = new Error(ep + ' ' + e.message);
+      }
+      console.log('\n    ⟳ ' + lastErr.message + '，稍後重試');
+      await sleep(15000 * (i + 1));
     }
-    const wait = 20 * (i + 1);
-    console.log('\n    ⟳ ' + lastErr.message + '，' + wait + ' 秒後重試');
-    await sleep(wait * 1000);
-  }
-  for (const ep of OVERPASS.slice(1)) {
-    try {
-      const r = await post(ep, 90000);
-      if (r.status === 200) return JSON.parse(r.body);
-      lastErr = new Error(ep + ' HTTP ' + r.status);
-    } catch (e) {
-      lastErr = new Error(ep + ' ' + e.message);
-    }
-    console.log('\n    ⟳ ' + lastErr.message + '，換下一個備援站');
   }
   throw lastErr;
 }
 
+/* OSM 主 API 的 relation/<id>/full 轉成和 Overpass「out geom」相同的格式 */
+async function fetchRelationFromApi(id) {
+  const r = await request(OSM_API + id + '/full.json', { headers: { 'User-Agent': UA } });
+  if (r.status !== 200) throw new Error('OSM API relation ' + id + ' HTTP ' + r.status);
+  const j = JSON.parse(r.body);
+  const nodes = new Map(j.elements.filter((e) => e.type === 'node').map((n) => [n.id, n]));
+  const ways = new Map(j.elements.filter((e) => e.type === 'way').map((w) => [w.id, w]));
+  const rel = j.elements.find((e) => e.type === 'relation' && e.id === id);
+  if (!rel) throw new Error('OSM 找不到 relation ' + id);
+  const members = rel.members.map((m) => {
+    if (m.type === 'way') {
+      const w = ways.get(m.ref);
+      return { type: 'way', ref: m.ref, role: m.role, geometry: w ? w.nodes.map((n) => ({ lat: nodes.get(n).lat, lon: nodes.get(n).lon })) : undefined };
+    }
+    if (m.type === 'node') { const n = nodes.get(m.ref); return { type: 'node', ref: m.ref, role: m.role, lat: n && n.lat, lon: n && n.lon }; }
+    return { type: m.type, ref: m.ref, role: m.role };
+  });
+  const stopNodes = rel.members.filter((m) => m.type === 'node').map((m) => nodes.get(m.ref)).filter(Boolean)
+    .map((n) => ({ type: 'node', id: n.id, lat: n.lat, lon: n.lon, tags: n.tags || {} }));
+  return { version: 0.6, generator: 'OSM API relation/full', elements: [{ type: 'relation', id, members, tags: rel.tags }, ...stopNodes] };
+}
+
+/* ---------- 步行（OSRM），結果存在快取 ---------- */
 async function osrmFoot(a, b) {
-  const url = OSRM_FOOT + a[1] + ',' + a[0] + ';' + b[1] + ',' + b[0]
-    + '?overview=full&geometries=geojson';
-  for (let i = 0; i < 3; i++) {
+  const key = hash(['walk', round(a), round(b)]);
+  const file = path.join(CACHE_DIR, 'walk-' + key + '.json');
+  if (!REFRESH && fs.existsSync(file)) return JSON.parse(fs.readFileSync(file, 'utf8'));
+  const url = OSRM_FOOT + a[1] + ',' + a[0] + ';' + b[1] + ',' + b[0] + '?overview=full&geometries=geojson';
+  for (let i = 0; i < 4; i++) {
     try {
+      await sleep(1100);   // 每秒至多 1 次
       const r = await request(url, { headers: { 'User-Agent': UA } });
       if (r.status === 200) {
         const j = JSON.parse(r.body);
         if (j.code === 'Ok' && j.routes && j.routes[0]) {
-          return {
+          const w = {
             coords: j.routes[0].geometry.coordinates.map((c) => [c[1], c[0]]),
             meters: j.routes[0].distance,
             seconds: j.routes[0].duration,
           };
+          fs.mkdirSync(CACHE_DIR, { recursive: true });
+          fs.writeFileSync(file, JSON.stringify(w));
+          return w;
         }
       }
     } catch (e) { /* 重試 */ }
@@ -175,7 +195,7 @@ async function osrmFoot(a, b) {
   throw new Error('OSRM 步行路徑查詢失敗：' + a + ' → ' + b);
 }
 
-/* ---------- 鐵路：在班次的軌道上找路 ---------- */
+/* ---------- 鐵路、地鐵、公車：在路線的軌道（道路）上找路 ---------- */
 const relCache = new Map();
 
 async function loadRelation(id) {
@@ -186,16 +206,23 @@ async function loadRelation(id) {
     j = JSON.parse(fs.readFileSync(file, 'utf8'));
   } else {
     await sleep(1500);
-    j = await overpass('[out:json][timeout:120];relation(' + id + ')->.r;.r out geom;node(r.r);out;');
+    try {
+      j = await fetchRelationFromApi(id);
+    } catch (e) {
+      console.log('\n    ⟳ ' + e.message + '，改用 Overpass');
+      j = await overpass('[out:json][timeout:120];relation(' + id + ')->.r;.r out geom;node(r.r);out;');
+    }
     fs.mkdirSync(CACHE_DIR, { recursive: true });
     fs.writeFileSync(file, JSON.stringify(j));
   }
   const rel = j.elements.find((e) => e.type === 'relation');
   if (!rel) throw new Error('OSM 找不到 relation ' + id);
 
+  // 停靠站：有名字的 node 成員。班次 relation 的角色是 stop／platform（公車多半只有 platform），
+  // 鐵道線路 relation（type=railway，例如京阪本線）的車站沒有角色
   const nodeById = new Map(j.elements.filter((e) => e.type === 'node').map((n) => [n.id, n]));
   const stops = rel.members
-    .filter((m) => m.type === 'node' && /stop/.test(m.role))
+    .filter((m) => m.type === 'node' && (/stop|platform/.test(m.role) || m.role === ''))
     .map((m) => nodeById.get(m.ref))
     .filter((n) => n && n.tags && n.tags.name)
     .map((n) => ({ name: n.tags.name, at: [n.lat, n.lon] }));
@@ -203,7 +230,7 @@ async function loadRelation(id) {
     .filter((m) => m.type === 'way' && !/platform/.test(m.role) && m.geometry)
     .map((m) => m.geometry.map((g) => [g.lat, g.lon]));
 
-  const data = { id, name: rel.tags.name, stops, ways };
+  const data = { id, name: rel.tags.name, stops, ways, graph: null };
   relCache.set(id, data);
   return data;
 }
@@ -305,78 +332,70 @@ function findStop(rel, name) {
     || rel.stops.find((x) => x.name.replace(/駅$/, '') === name.replace(/駅$/, ''));
   if (!s) {
     throw new Error('relation ' + rel.id + '（' + rel.name + '）沒有「' + name + '」這一站。'
-      + '可用的站：' + rel.stops.map((x) => x.name).join('、'));
+      + '可用的站：' + [...new Set(rel.stops.map((x) => x.name))].join('、'));
   }
   return s;
 }
 
-async function railLeg(leg) {
+const transitCache = new Map();
+
+async function transitLeg(leg) {
+  const k = [leg.relation, leg.board, leg.alight].join('|');
+  if (transitCache.has(k)) return transitCache.get(k);
   const rel = await loadRelation(leg.relation);
   const board = findStop(rel, leg.board);
   const alight = findStop(rel, leg.alight);
-  const g = buildGraph(rel.ways);
+  if (!rel.graph) rel.graph = buildGraph(rel.ways);
+  const g = rel.graph;
   const a = nearestNode(g, board.at);
   const b = nearestNode(g, alight.at);
   if (a.meters > 400 || b.meters > 400) {
-    throw new Error(rel.name + '：車站離軌道太遠（' + Math.round(a.meters) + 'm / '
+    throw new Error(rel.name + '：車站離路線太遠（' + Math.round(a.meters) + 'm / '
       + Math.round(b.meters) + 'm），relation 資料可能不完整');
   }
   const p = shortestPath(g, a.key, b.key);
-  if (!p) throw new Error(rel.name + '：' + leg.board + ' → ' + leg.alight + ' 之間的軌道不連通');
-  return {
-    board: board.at,
-    alight: alight.at,
-    coords: p,
-    meters: lengthOf(p),
-    service: rel.name,
-  };
-}
-
-/* ---------- 主流程 ---------- */
-function dayPoints(places, day) {
-  const pts = places
-    .filter((p) => String(p.day) === String(day) && p.time && p.lat != null)   // places.json 的 day 是數字
-    .map((p, i) => ({ p, i }))
-    .sort((a, b) => a.p.time.localeCompare(b.p.time) || a.i - b.i)   // 與地圖排序一致
-    .map((x) => x.p);
-  // 同一個座標連續出現（例如「步行到姬路城」和「參觀姬路城」）只算一次
-  return pts.filter((p, i) => i === 0 || p.lat !== pts[i - 1].lat || p.lon !== pts[i - 1].lon);
+  if (!p) throw new Error(rel.name + '：' + leg.board + ' → ' + leg.alight + ' 之間的路線不連通');
+  const out = { board: board.at, alight: alight.at, coords: p, meters: lengthOf(p), service: rel.name };
+  transitCache.set(k, out);
+  return out;
 }
 
 const walkLabel = (m, s) => '步行 約 ' + Math.max(1, Math.round(s / 60)) + ' 分鐘（' + (m >= 1000 ? (m / 1000).toFixed(1) + ' km' : Math.round(m) + ' m') + '）';
 
-async function buildSegment(seg, A, B) {
+/* 一段移動：依 legs 的交通方式把 A 到 B 接起來；起訖點與車站之間自動補步行 */
+async function buildLegs(defs, A, B, warn) {
   const legs = [];
   let cursor = [A.lat, A.lon];
   const end = [B.lat, B.lon];
 
   const walkTo = async (to) => {
     if (dist(cursor, to) < WALK_MIN_M) { cursor = to; return; }
-    await sleep(1200);
     let w = await osrmFoot(cursor, to);
     const straight = dist(cursor, to);
     if (w.meters > Math.max(straight * WALK_DETOUR_MAX, straight + 800)) {
       w = { coords: [cursor, to], meters: straight, seconds: straight / WALK_SPEED };
     }
+    if (w.meters > WALK_WARN_M) warn('步行 ' + (w.meters / 1000).toFixed(1) + ' km：' + A.query + ' → ' + B.query);
     legs.push({ mode: 'walk', label: walkLabel(w.meters, w.seconds), coords: w.coords, meters: w.meters });
     cursor = to;
   };
 
-  for (const leg of seg.legs) {
+  for (const leg of defs) {
     if (leg.mode === 'walk') {
       await walkTo(end);
-    } else if (leg.mode === 'rail' || leg.mode === 'subway') {
-      const r = await railLeg(leg);
+    } else if (MODES.includes(leg.mode)) {
+      const r = await transitLeg(leg);
       await walkTo(r.board);
       legs.push({
         mode: leg.mode,
         label: (leg.label || r.service) + '｜' + leg.board + ' → ' + leg.alight,
+        from: leg.board, to: leg.alight,
         coords: r.coords,
         meters: r.meters,
       });
       cursor = r.alight;
     } else {
-      throw new Error('不支援的交通方式：' + leg.mode);
+      throw new Error('不支援的交通方式：' + leg.mode + '（可用：' + MODES.join('、') + '）');
     }
   }
   await walkTo(end);
@@ -387,58 +406,143 @@ async function buildSegment(seg, A, B) {
   }));
 }
 
+/* ---------- 當天的項目：行程表上的每一張卡片（有地點的），彈性行程帶全部方案 ---------- */
+function dayItems(data, day) {
+  const items = [];
+  const byOrder = new Map();
+  for (const p of data.places) {
+    if (p.day !== day || !p.time || p.lat == null || p.slot) continue;
+    const key = p.start ? 'start' : p.time;
+    const id = p.start ? 'start' : 'o' + p.order;
+    if (!byOrder.has(id)) {
+      const it = { key, time: p.time, start: !!p.start, order: p.order, variants: [{ k: null, pts: [] }] };
+      byOrder.set(id, it);
+      items.push(it);
+    }
+    byOrder.get(id).variants[0].pts.push(p);
+  }
+  for (const s of data.slots || []) {
+    if (s.day !== day) continue;
+    items.push({
+      key: s.time, time: s.time, start: false, order: s.order, slot: s.id,
+      variants: s.plans.map((pl) => ({ k: pl.k, pts: pl.pts.filter((pt) => pt.lat != null) })),
+    });
+  }
+  items.sort((a, b) => (a.start === b.start ? 0 : (a.start ? -1 : 1)) || a.time.localeCompare(b.time) || a.order - b.order);
+  const keys = items.map((it) => it.key);
+  const dup = keys.find((k, i) => keys.indexOf(k) !== i);
+  if (dup) throw new Error('Day ' + day + ' 有兩個項目的時間都是 ' + dup + '，routes.json 分不出來');
+  return items;
+}
+
+/* 挑出這一組方案要用的走法：cases 由上往下第一個符合的生效，都不符合就用預設 legs */
+function pickLegs(def, fromK, toK) {
+  for (const c of def.cases || []) {
+    const okFrom = !c.from || [].concat(c.from).includes(fromK);
+    const okTo = !c.to || [].concat(c.to).includes(toK);
+    if (okFrom && okTo) { c._used = true; return c.legs; }
+  }
+  def._usedDefault = true;
+  return def.legs;
+}
+
 (async () => {
   const def = JSON.parse(fs.readFileSync(DEF, 'utf8'));
-  const places = JSON.parse(fs.readFileSync(PLACES, 'utf8')).places;
+  const data = JSON.parse(fs.readFileSync(PLACES, 'utf8'));
 
-  let prev = {};
-  if (!REFRESH && fs.existsSync(OUT)) {
-    const old = JSON.parse(fs.readFileSync(OUT, 'utf8'));
-    for (const d of Object.values(old.days || {})) for (const s of d) prev[s.key] = s;
+  const legsOut = {};           // 路段：同一段車、同一段步行只存一次
+  const days = {};
+  const errors = [];
+  const warnings = new Set();
+  let segCount = 0;
+
+  const allDays = [...new Set(data.places.map((p) => p.day))].sort((a, b) => a - b);
+  for (const day of allDays) {
+    const items = dayItems(data, day);
+    const pointCount = items.length;
+    if (pointCount < 2) continue;
+    const gaps = def.days[String(day)];
+    if (!gaps) { errors.push('Day ' + day + ' 沒有路線定義（八天都要定義，地圖不再畫直線）'); continue; }
+    days[day] = [];
+    const seen = new Map();
+    process.stdout.write('Day ' + day + ' ');
+
+    const addSeg = async (from, to, legDefs, ctx) => {
+      if (from.lat === to.lat && from.lon === to.lon) return;
+      const pair = from.query + ' → ' + to.query;
+      const sig = JSON.stringify(legDefs);
+      if (seen.has(pair)) {
+        if (seen.get(pair) !== sig) warnings.add('Day ' + day + ' 同一對地點有兩種走法（' + ctx + '）：' + pair);
+        return;
+      }
+      seen.set(pair, sig);
+      const legs = await buildLegs(legDefs, from, to, (w) => warnings.add('Day ' + day + ' ' + w + '（' + ctx + '）'));
+      const ids = legs.map((l) => {
+        const id = 'L' + hash([l.mode, l.label, l.coords]);
+        legsOut[id] = l;
+        return id;
+      });
+      days[day].push({ from: from.query, to: to.query, legs: ids });
+      segCount++;
+      process.stdout.write('.');
+    };
+
+    for (let i = 0; i < items.length; i++) {
+      const I = items[i];
+      // 同一個方案裡的好幾個地點：依序步行
+      for (const v of I.variants) {
+        for (let k = 1; k < v.pts.length; k++) await addSeg(v.pts[k - 1], v.pts[k], [{ mode: 'walk' }], I.key + ' 同一項目內');
+      }
+      // 和後面的項目相連：下一個項目；若中間的彈性行程選了「沒有地點」的方案，也要能跨過去
+      for (let j = i + 1; j < items.length; j++) {
+        const J = items[j];
+        const gap = gaps.find((g) => g.from === I.key && g.to === J.key);
+        const needed = I.variants.some((v) => v.pts.length) && J.variants.some((v) => v.pts.length);
+        if (needed) {
+          if (!gap) {
+            errors.push('Day ' + day + ' 缺少區段定義：{ "from": "' + I.key + '", "to": "' + J.key + '" }'
+              + (j > i + 1 ? '（中間的彈性行程選了沒有地點的方案時會用到）' : ''));
+          } else {
+            gap._used = true;
+            for (const vi of I.variants) {
+              if (!vi.pts.length) continue;
+              for (const vj of J.variants) {
+                if (!vj.pts.length) continue;
+                const legDefs = pickLegs(gap, vi.k, vj.k);
+                await addSeg(vi.pts[vi.pts.length - 1], vj.pts[0], legDefs,
+                  I.key + (vi.k ? vi.k : '') + ' → ' + J.key + (vj.k ? vj.k : ''));
+              }
+            }
+          }
+        }
+        // 只有「可以選沒有地點的方案」的彈性行程能被跨過
+        if (!J.variants.some((v) => !v.pts.length)) break;
+      }
+    }
+    for (const g of gaps) {
+      if (!g._used) warnings.add('Day ' + day + ' 的區段定義沒被用到（時間可能改了）：' + g.from + ' → ' + g.to);
+      for (const c of g.cases || []) if (!c._used) warnings.add('Day ' + day + ' ' + g.from + ' → ' + g.to + ' 有一個 case 沒被用到：' + JSON.stringify({ from: c.from, to: c.to }));
+    }
+    console.log(' ' + days[day].length + ' 段');
   }
 
-  const days = {};
-  let built = 0, reused = 0;
-
-  for (const day of Object.keys(def.days).sort()) {
-    const pts = dayPoints(places, day);
-    const segs = def.days[day];
-    days[day] = [];
-
-    for (let i = 1; i < pts.length; i++) {
-      const A = pts[i - 1], B = pts[i];
-      const seg = segs.find((s) => s.from === A.query && s.to === B.query);
-      if (!seg) {
-        throw new Error('Day ' + day + ' 缺少路段定義：\n  "from": ' + JSON.stringify(A.query)
-          + ',\n  "to":   ' + JSON.stringify(B.query) + '\n請在 data/routes.json 補上。');
-      }
-      const key = crypto.createHash('sha1')
-        .update(JSON.stringify([ALGO_VERSION, seg, A.lat, A.lon, B.lat, B.lon])).digest('hex').slice(0, 12);
-
-      if (prev[key]) {
-        days[day].push(prev[key]);
-        reused++;
-        continue;
-      }
-      process.stdout.write('  Day ' + day + '  ' + A.query + ' → ' + B.query + ' … ');
-      const legs = await buildSegment(seg, A, B);
-      days[day].push({ key, from: A.query, to: B.query, legs });
-      built++;
-      console.log(legs.map((l) => l.mode + ' ' + (l.meters / 1000).toFixed(1) + 'km').join(' + '));
-    }
-
-    const unused = segs.filter((s) => !days[day].some((x) => x.from === s.from && x.to === s.to));
-    unused.forEach((s) => console.log('  ⚠ Day ' + day + ' 的路段定義沒被用到（地點或時間可能改了）：' + s.from + ' → ' + s.to));
+  [...warnings].forEach((w) => console.log('  ⚠ ' + w));
+  if (errors.length) {
+    console.error('\n✗ data/routes.json 需要補：\n  ' + errors.join('\n  '));
+    process.exit(1);
   }
 
   fs.writeFileSync(OUT, JSON.stringify({
     generatedAt: new Date().toISOString().slice(0, 10),
     source: 'data/routes.json',
-    attribution: '© OpenStreetMap contributors — 鐵路軌道取自 OSM route relation，步行路徑由 OSRM 計算',
+    attribution: '© OpenStreetMap contributors — 鐵路、地鐵、公車的路線取自 OSM route relation，步行路徑由 OSRM 計算',
+    legs: legsOut,
     days,
   }) + '\n', 'utf8');
 
-  console.log('\n路線：新算 ' + built + ' 段 / 沿用 ' + reused + ' 段，已寫入 ' + path.relative(ROOT, OUT));
+  const size = fs.statSync(OUT).size;
+  console.log('\n路線：' + segCount + ' 段、' + Object.keys(legsOut).length + ' 個路段，'
+    + (size / 1024).toFixed(0) + ' KB，已寫入 ' + path.relative(ROOT, OUT));
 })().catch((e) => {
   console.error('\n✗ ' + e.message);
   process.exit(1);

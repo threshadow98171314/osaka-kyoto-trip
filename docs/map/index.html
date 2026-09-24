@@ -32,6 +32,7 @@
   --c-transport: #4A6FA5;
   --c-hotel: #6B4E9B;
   --c-fixed: #B8901F;
+  --c-bus: #2E8B57;         /* 市巴士路線：綠色，和鐵路（主色）、地鐵（次色）分開 */
   /* 推薦景點用低彩度的青綠，和行程地點的暖色系明顯區隔 */
   --c-reco: #4E8C7A;
   --c-reco-must: #2F7A62;
@@ -58,6 +59,7 @@
     --c-transport: #8FB3DE;
     --c-hotel: #A68BD4;
     --c-fixed: #D9B463;
+    --c-bus: #5CC48C;
     --c-reco: #6FB8A2;
     --c-reco-must: #8FD4BB;
     --chip-border: #35485C;
@@ -263,13 +265,62 @@ body {
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
-/* 狀態列上的路線圖例 */
-.route-legend { display: inline-flex; align-items: center; gap: 10px; margin-left: 6px; white-space: nowrap; }
-.route-legend i { display: inline-block; width: 18px; height: 0; vertical-align: middle; margin-right: 3px; }
-.route-legend .rl-rail { border-top: 4px solid var(--primary); }
-.route-legend .rl-subway { border-top: 4px solid var(--secondary); }
-.route-legend .rl-walk { border-top: 3px dotted var(--muted); }
-.route-legend .rl-straight { border-top: 3px dashed var(--primary); opacity: 0.75; }
+/* 地圖左下角的交通方式圖例：只列這一天用到的 */
+.legend-ctl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+  max-width: calc(100vw - 90px);
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  padding: 4px 9px;
+  font-family: var(--font);
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1.8;
+}
+.legend-ctl[hidden] { display: none; }
+.legend-ctl span { white-space: nowrap; }
+.legend-ctl i { display: inline-block; width: 22px; height: 0; vertical-align: middle; margin-right: 4px; }
+.legend-ctl .lg-rail { border-top: 5px solid var(--primary); }
+.legend-ctl .lg-subway { border-top: 5px solid var(--secondary); }
+.legend-ctl .lg-bus { border-top: 5px solid var(--c-bus); }
+.legend-ctl .lg-walk { border-top: 3px dashed var(--muted); }
+.legend-ctl .lg-stn { width: 9px; height: 9px; border: 2px solid var(--text); border-radius: 50%; background: var(--surface); }
+.legend-ctl .lg-miss { border-top: 3px dashed #C62828; }
+
+/* 放大或移動地圖後出現的「回到全觀」按鈕（左上角縮放鈕下面） */
+.home-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 6px 11px;
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.home-btn:hover { border-color: var(--primary); color: var(--primary); }
+.home-btn[hidden] { display: none; }
+
+/* 上下車站：白底小圓圈，放大到一定程度才顯示 */
+.leaflet-tooltip.stn-tip {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: var(--font);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  box-shadow: var(--shadow);
+}
 
 /* 推薦景點的名稱標籤（hover 才出現） */
 .leaflet-tooltip.reco-tip {
@@ -489,6 +540,15 @@ body {
 
 .pop-plans { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin: 2px 0 8px; font-size: 0.72rem; color: var(--muted); }
 
+/* 手機、平板（觸控）：按鈕放大到手指點得準 */
+@media (pointer: coarse) {
+  .pk { width: 34px; height: 34px; font-size: 0.82rem; border-radius: 8px; }
+  .fp-btns { gap: 5px; }
+  .flex-toggle, .home-btn { padding: 9px 14px; font-size: 0.8rem; }
+  .fp-btn { padding: 7px 12px; font-size: 0.76rem; }
+  .flex-panel { width: 300px; }
+}
+
 @media (min-width: 640px) {
   .topbar h1 { font-size: 1.15rem; }
 }
@@ -544,8 +604,10 @@ body {
     return 'spot';
   }
 
-  var map, layer, recoLayer, altLayer, routeLine, routeLayer, meMarker, flexCtlEl;
-  var routes = {};      // docs/map/routes.json：依交通方式算好的實際路線（只有部分天數有）
+  var map, layer, recoLayer, altLayer, routeLayer, stationLayer, meMarker, flexCtlEl, homeCtlEl, legendCtlEl;
+  var routes = {};      // docs/map/routes.json：每天每一對相鄰地點依交通方式算好的路線
+  var routeLegs = {};   // routes.json 的路段（同一段車、同一段步行只存一次）
+  var homeBounds = null; // 這一天（目前選的方案）全部地點與路線的範圍，「回到全觀」就是回到這裡
   var places = [];       // 行程表上的地點（彈性行程只含方案 A）
   var slots = [];        // 彈性行程的全部方案（places.json 的 slots）
   var recos = [];        // data/attractions.json 的推薦景點
@@ -574,6 +636,17 @@ body {
     try { localStorage.setItem(PLAN_KEY, JSON.stringify(planSel)); } catch (e) { /* 忽略 */ }
   }
 
+  /* 每一天的縮放與位置（使用者要求「記憶縮放」）：切換方案、開關圖層都不會重置；
+     換到別天再換回來、或從行程表連回地圖，也停在剛才看的地方。
+     存在 sessionStorage，關掉分頁就清掉；想看整天就按「回到全觀」 */
+  var VIEW_KEY = 'mapViews';
+  var views = (function () {
+    try { return JSON.parse(sessionStorage.getItem(VIEW_KEY)) || {}; } catch (e) { return {}; }
+  })();
+  function saveViews() {
+    try { sessionStorage.setItem(VIEW_KEY, JSON.stringify(views)); } catch (e) { /* 忽略 */ }
+  }
+
   /* ---------- 建立地圖 ---------- */
   function initMap() {
     $('map').innerHTML = '';
@@ -584,9 +657,43 @@ body {
     }).addTo(map);
     // 由下而上：路線 → 推薦景點 → 沒選的彈性方案 → 行程地點（行程地點永遠蓋在最上面）
     routeLayer = L.layerGroup().addTo(map);
+    stationLayer = L.layerGroup();   // 上下車站：放大到 12 級以上才加到地圖上
     recoLayer = L.layerGroup().addTo(map);
     altLayer = L.layerGroup().addTo(map);
     layer = L.layerGroup().addTo(map);
+
+    /* 左上角縮放鈕下面：放大或移開之後才出現的「回到全觀」 */
+    var HomeCtl = L.Control.extend({
+      options: { position: 'topleft' },
+      onAdd: function () {
+        var div = L.DomUtil.create('div', 'home-ctl');
+        L.DomEvent.disableClickPropagation(div);
+        div.innerHTML = '<button type="button" class="home-btn" data-act="home" hidden title="回到這一天的全部路線">⤢ 回到全觀</button>';
+        homeCtlEl = div.firstChild;
+        return div;
+      },
+    });
+    new HomeCtl().addTo(map);
+
+    /* 左下角：這一天用到的交通方式 */
+    var LegendCtl = L.Control.extend({
+      options: { position: 'bottomleft' },
+      onAdd: function () {
+        var div = L.DomUtil.create('div', 'legend-ctl');
+        L.DomEvent.disableClickPropagation(div);
+        div.hidden = true;
+        legendCtlEl = div;
+        return div;
+      },
+    });
+    new LegendCtl().addTo(map);
+
+    map.on('moveend', function () {
+      views[activeDay] = { c: [map.getCenter().lat, map.getCenter().lng], z: map.getZoom() };
+      saveViews();
+      syncHomeBtn();
+    });
+    map.on('zoomend', syncStations);
 
     /* 右上角的彈性方案面板；地圖上的點擊、捲動不要穿透到面板後面的地圖 */
     var FlexCtl = L.Control.extend({
@@ -705,21 +812,61 @@ body {
     return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
   }
 
-  /* 一段交通：鐵路用主色實線、地鐵用次色實線、步行用灰色點線。
-     底下先墊一條較粗的白線，在街道很多的底圖上才看得清楚 */
+  /* 交通方式的線條（使用者要求：走路虛線、搭車實線，而且不同交通工具不同顏色）
+     鐵路（JR・私鐵・嵐電）＝主色實線、地鐵＝次色實線、市巴士＝綠色實線、步行＝灰色虛線 */
+  var MODES = {
+    rail:   { name: '鐵路（JR・私鐵）', icon: '🚃', css: 'lg-rail',   color: function () { return cssVar('--primary', '#B5451B'); } },
+    subway: { name: '地鐵',             icon: '🚇', css: 'lg-subway', color: function () { return cssVar('--secondary', '#4A6FA5'); } },
+    bus:    { name: '市巴士',           icon: '🚌', css: 'lg-bus',    color: function () { return cssVar('--c-bus', '#2E8B57'); } },
+    walk:   { name: '步行',             icon: '🚶', css: 'lg-walk',   color: function () { return cssVar('--muted', '#7A6E5D'); } },
+  };
+
+  /* 底下先墊一條較粗的白線，在街道很多的底圖上才看得清楚；
+     最上面再疊一條看不見的粗線當觸控範圍：滑鼠滑過、手指點一下都會顯示搭哪一班 */
   function drawLeg(leg) {
+    var st = MODES[leg.mode] || MODES.walk;
+    var color = st.color();
     var walk = leg.mode === 'walk';
-    var color = walk ? cssVar('--muted', '#7A6E5D')
-      : (leg.mode === 'subway' ? cssVar('--secondary', '#4A6FA5') : cssVar('--primary', '#B5451B'));
     if (!walk) {
-      L.polyline(leg.coords, { color: cssVar('--surface', '#fff'), weight: 8, opacity: 0.85, interactive: false })
+      L.polyline(leg.coords, { color: cssVar('--surface', '#fff'), weight: 9, opacity: 0.9, interactive: false })
         .addTo(routeLayer);
     }
     L.polyline(leg.coords, walk
-      ? { color: color, weight: 3.5, opacity: 0.95, dashArray: '1 7', lineCap: 'round' }
-      : { color: color, weight: 4.5, opacity: 0.9 })
-      .bindTooltip(leg.label, { sticky: true, className: 'route-tip' })
+      ? { color: color, weight: 4, opacity: 0.95, dashArray: '3 9', lineCap: 'round', interactive: false }
+      : { color: color, weight: 5, opacity: 0.95, interactive: false })
       .addTo(routeLayer);
+    L.polyline(leg.coords, { color: '#000', weight: 20, opacity: 0, interactive: true })
+      .bindTooltip(st.icon + ' ' + esc(leg.label), { sticky: true, className: 'route-tip' })
+      .on('click', function (e) { this.openTooltip(e.latlng); })
+      .addTo(routeLayer);
+
+    if (!walk && leg.coords.length) {
+      var stn = function (ll, name, what) {
+        L.circleMarker(ll, { radius: 5, color: color, weight: 2.5, fillColor: cssVar('--surface', '#fff'), fillOpacity: 1 })
+          .bindTooltip(st.icon + ' ' + what + '｜' + esc(name) + (leg.mode === 'bus' ? '' : '站'), { direction: 'top', offset: [0, -6], className: 'stn-tip' })
+          .on('click', function () { this.openTooltip(); })
+          .addTo(stationLayer);
+      };
+      stn(leg.coords[0], leg.from || '', '上車');
+      stn(leg.coords[leg.coords.length - 1], leg.to || '', '下車');
+    }
+  }
+
+  /* 車站小圓圈放大到 12 級以上才顯示，整天或整趟的縮圖不會一堆圓點 */
+  function syncStations() {
+    var want = activeDay !== 'all' && map.getZoom() >= 12;
+    if (want && !map.hasLayer(stationLayer)) stationLayer.addTo(map);
+    if (!want && map.hasLayer(stationLayer)) map.removeLayer(stationLayer);
+  }
+
+  /* 「回到全觀」：這一天全部地點與路線都在畫面裡時隱藏，放大或移開才出現 */
+  function syncHomeBtn() {
+    if (!homeCtlEl || !map._loaded) return;
+    homeCtlEl.hidden = !homeBounds || map.getBounds().pad(0.02).contains(homeBounds);
+  }
+
+  function fitHome() {
+    if (homeBounds) map.fitBounds(homeBounds, { padding: [45, 45], maxZoom: 15 });
   }
 
   /* 某一天的所有地點：行程地點＋每組彈性行程「目前選的方案」。
@@ -773,11 +920,13 @@ body {
     flexCtlEl.innerHTML = html;
   }
 
-  function setPlan(slotId, k) {
+  /* 換方案：保留目前的縮放與位置（不重置成整張地圖）。
+     新方案的點不在畫面裡時，只平移過去、不改縮放；從彈窗換的會在新的點上再打開彈窗，方便繼續比較 */
+  function setPlan(slotId, k, fromPopup) {
     if (k === 'A') delete planSel[slotId]; else planSel[slotId] = k;
     savePlanSel();
     map.closePopup();
-    render({ keepView: true });
+    render({ keepView: true, focusSlot: slotId, reopen: fromPopup });
   }
 
   /* 面板、彈窗裡的按鈕都是動態產生的，統一在 document 上接點擊
@@ -785,9 +934,13 @@ body {
   document.addEventListener('click', function (e) {
     var el = e.target && e.target.closest ? e.target.closest('[data-slot][data-k], [data-act]') : null;
     if (!el) return;
-    if (el.hasAttribute('data-slot')) { setPlan(el.getAttribute('data-slot'), el.getAttribute('data-k')); return; }
+    if (el.hasAttribute('data-slot')) {
+      setPlan(el.getAttribute('data-slot'), el.getAttribute('data-k'), !!el.closest('.leaflet-popup'));
+      return;
+    }
     var act = el.getAttribute('data-act');
-    if (act === 'panel') { panelOpen = !panelOpen; renderPanel(); }
+    if (act === 'home') { fitHome(); }
+    else if (act === 'panel') { panelOpen = !panelOpen; renderPanel(); }
     else if (act === 'alts') { showAlts = !showAlts; render({ keepView: true }); }
     else if (act === 'resetA') {
       slots.forEach(function (s) { if (s.day === activeDay) delete planSel[s.id]; });
@@ -802,11 +955,11 @@ body {
     layer.clearLayers();
     recoLayer.clearLayers();
     altLayer.clearLayers();
-    if (routeLine) { map.removeLayer(routeLine); routeLine = null; }
     routeLayer.clearLayers();
+    stationLayer.clearLayers();
     var routeBounds = [];
     var routeModes = {};   // 這一天實際用到的交通方式，圖例只列這些
-    var straightLegs = 0;  // 沒有實際路線、用虛線直線示意的段數
+    var missing = 0;       // 沒有路線資料的段數（應該是 0；build-routes.js 缺定義會直接報錯）
 
     // 單日檢視：當天全部地點（含選的彈性方案），依時間排序編號、連成路線。
     // 編號與路線不受類別篩選影響 —— 關掉某類標記，其他點的號碼不該跟著變
@@ -828,21 +981,20 @@ body {
           var A = pts[i - 1], B = pts[i];
           var seg = segs.filter(function (s) { return s.from === A.query && s.to === B.query; })[0];
           if (seg) {
-            /* 依交通方式畫實際路線：鐵路沿著軌道、步行沿著道路 */
-            seg.legs.forEach(function (leg) {
+            /* 依交通方式畫實際路線：鐵路、地鐵沿著軌道，公車、步行沿著道路 */
+            seg.legs.forEach(function (id) {
+              var leg = typeof id === 'string' ? routeLegs[id] : id;
+              if (!leg) return;
               drawLeg(leg);
               routeModes[leg.mode] = true;
               routeBounds = routeBounds.concat(leg.coords);
             });
           } else {
-            /* 沒有算好的路線（多數天數，或換了彈性方案），用虛線直線示意移動順序 */
-            straightLegs++;
-            L.polyline([[A.lat, A.lon], [B.lat, B.lon]], {
-              color: cssVar('--primary', '#B5451B'),
-              weight: 3,
-              opacity: 0.7,
-              dashArray: '7 6',
-            }).addTo(routeLayer);
+            /* 萬一缺資料：紅色虛線，並在狀態列提醒，不假裝它是路線 */
+            missing++;
+            L.polyline([[A.lat, A.lon], [B.lat, B.lon]], { color: '#C62828', weight: 3, opacity: 0.8, dashArray: '6 6' })
+              .bindTooltip('這一段沒有路線資料', { sticky: true, className: 'route-tip' })
+              .addTo(routeLayer);
           }
         }
       }
@@ -854,11 +1006,13 @@ body {
     ).filter(function (p) { return p.lat != null && activeCats.has(categorize(p)); });
 
     /* --- 行程地點 --- */
+    var focusMarkers = [];
     shown.forEach(function (p) {
       var m = L.marker([p.lat, p.lon], {
         icon: makeIcon(categorize(p), seqOf[seqKey(p)]),
         zIndexOffset: 500,          // 永遠蓋在推薦景點之上
       }).bindPopup(popupHtml(p));
+      if (opts.focusSlot && p.slot === opts.focusSlot) focusMarkers.push(m);
 
       // 時間直接浮在標記旁邊，不用點開也看得到；彈性行程多標一個方案字母
       if (showTimes && p.time) {
@@ -921,26 +1075,38 @@ body {
     $('status').textContent = label + '：行程 ' + shown.length + ' 點'
       + (altShown ? '／其他方案 ' + altShown + ' 點' : '')
       + (showReco ? '／推薦 ' + recoShown.length + ' 點' : '')
-      + (activeDay !== 'all' && !showRoute ? '（路線已隱藏）' : '');
-    if (activeDay !== 'all' && showRoute && (straightLegs || Object.keys(routeModes).length)) {
-      $('status').insertAdjacentHTML('beforeend', '<span class="route-legend">'
-        + (routeModes.rail ? '<span><i class="rl-rail"></i>鐵路</span>' : '')
-        + (routeModes.subway ? '<span><i class="rl-subway"></i>地鐵</span>' : '')
-        + (routeModes.walk ? '<span><i class="rl-walk"></i>步行</span>' : '')
-        + (straightLegs ? '<span><i class="rl-straight"></i>移動順序（直線示意）</span>' : '')
-        + '</span>');
-    }
+      + (activeDay !== 'all' && !showRoute ? '（路線已隱藏）' : '')
+      + (missing ? '（有 ' + missing + ' 段沒有路線資料）' : '');
+
+    /* 左下角圖例：只列這一天用到的交通方式 */
+    var used = ['rail', 'subway', 'bus', 'walk'].filter(function (m) { return routeModes[m]; });
+    legendCtlEl.hidden = !(activeDay !== 'all' && showRoute && (used.length || missing));
+    legendCtlEl.innerHTML = used.map(function (m) {
+      return '<span><i class="' + MODES[m].css + '"></i>' + MODES[m].name + '</span>';
+    }).join('')
+      + (routeModes.rail || routeModes.subway || routeModes.bus ? '<span><i class="lg-stn"></i>上下車站（放大才顯示）</span>' : '')
+      + (missing ? '<span><i class="lg-miss"></i>缺路線資料</span>' : '');
 
     renderPanel();
 
-    // 只依行程地點決定視野，避免被散落各地的推薦景點拉遠。
-    // 換彈性方案時保留目前的視野，除非新的點跑到畫面外
-    if (shown.length) {
-      var bounds = L.latLngBounds(shown.map(function (p) { return [p.lat, p.lon]; }).concat(routeBounds));
-      var cur = map.getBounds && map._loaded ? map.getBounds() : null;
-      var outside = !cur || shown.some(function (p) { return !cur.contains([p.lat, p.lon]); });
-      if (!opts.keepView || outside) map.fitBounds(bounds, { padding: [45, 45], maxZoom: 15 });
+    // 這一天的全觀範圍：只依行程地點與路線決定，避免被散落各地的推薦景點拉遠
+    homeBounds = shown.length
+      ? L.latLngBounds(shown.map(function (p) { return [p.lat, p.lon]; }).concat(routeBounds))
+      : null;
+
+    if (!opts.keepView) {
+      // 換天或第一次載入：這一天看過就回到上次的位置，沒看過就顯示整天
+      var v = views[activeDay];
+      if (v && v.c && v.z != null) map.setView(v.c, v.z);
+      else fitHome();
+    } else if (focusMarkers.length && map._loaded) {
+      // 換了方案：新的點不在畫面裡就平移過去，但不改縮放
+      var ll = focusMarkers[0].getLatLng();
+      if (!map.getBounds().contains(ll)) map.panInside(ll, { padding: [60, 60] });
+      if (opts.reopen) focusMarkers[0].openPopup();
     }
+    syncStations();
+    syncHomeBtn();
   }
 
   /* ---------- 篩選鈕 ---------- */
@@ -981,7 +1147,7 @@ body {
         var on = b.getAttribute('aria-pressed') === 'true';
         if (on) { activeCats.delete(key); } else { activeCats.add(key); }
         b.setAttribute('aria-pressed', String(!on));
-        render();
+        render({ keepView: true });
       };
       catBox.appendChild(b);
     });
@@ -1001,7 +1167,7 @@ body {
     rb.onclick = function () {
       showReco = !showReco;
       rb.setAttribute('aria-pressed', String(showReco));
-      render();
+      render({ keepView: true });
     };
     catBox.appendChild(rb);
 
@@ -1016,7 +1182,7 @@ body {
     routeBtn.onclick = function () {
       showRoute = !showRoute;
       routeBtn.setAttribute('aria-pressed', String(showRoute));
-      render();
+      render({ keepView: true });
     };
     catBox.appendChild(routeBtn);
 
@@ -1030,7 +1196,7 @@ body {
     tb.onclick = function () {
       showTimes = !showTimes;
       tb.setAttribute('aria-pressed', String(showTimes));
-      render();
+      render({ keepView: true });
     };
     catBox.appendChild(tb);
   }
@@ -1057,12 +1223,13 @@ body {
   };
 
   /* ---------- 載入資料 ---------- */
-  /* 路線資料是加分項：讀不到就退回虛線直線，不影響地圖本身 */
+  /* 路線資料讀不到（例如離線）時不影響地圖本身，只是不畫路線、狀態列會提醒 */
   fetch('routes.json')
     .then(function (r) { return r.ok ? r.json() : null; })
     .catch(function () { return null; })
     .then(function (rd) {
       if (rd && rd.days) {
+        routeLegs = rd.legs || {};
         Object.keys(rd.days).forEach(function (d) { routes[+d] = rd.days[d]; });
       }
       return fetch('places.json');
