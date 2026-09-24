@@ -269,6 +269,7 @@ body {
 .route-legend .rl-rail { border-top: 4px solid var(--primary); }
 .route-legend .rl-subway { border-top: 4px solid var(--secondary); }
 .route-legend .rl-walk { border-top: 3px dotted var(--muted); }
+.route-legend .rl-straight { border-top: 3px dashed var(--primary); opacity: 0.75; }
 
 /* 推薦景點的名稱標籤（hover 才出現） */
 .leaflet-tooltip.reco-tip {
@@ -372,6 +373,122 @@ body {
   font-size: 0.85rem;
 }
 
+/* === 彈性行程：切換方案（地圖右上角，可收合） ===
+   行程表的彈性行程有 A～E 幾個方案，地圖上一次只標「目前選的那一個」，
+   其他方案的位置預設隱藏，要看再打開，畫面才不會亂 */
+.flex-ctl { font-family: var(--font); }
+.flex-ctl[hidden] { display: none; }
+
+.flex-toggle {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 6px 11px;
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.flex-toggle:hover { border-color: var(--primary); color: var(--primary); }
+.flex-toggle b { color: var(--secondary); }
+
+.flex-panel {
+  margin-top: 6px;
+  width: 264px;
+  max-width: calc(100vw - 70px);
+  max-height: 52vh;
+  overflow-y: auto;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  padding: 6px 10px 8px;
+  font-size: 0.74rem;
+}
+
+.fp-note { color: var(--muted); font-size: 0.68rem; line-height: 1.45; margin: 2px 0 4px; }
+
+.fp-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 0;
+  border-top: 1px dashed var(--border);
+}
+
+.fp-time { font-weight: 800; color: var(--primary); min-width: 36px; }
+.fp-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fp-btns { display: flex; gap: 3px; flex-shrink: 0; }
+
+/* 方案按鈕：A＝主色（原訂／首選），B～E＝次色（替代方案），和行程表一致 */
+.pk {
+  width: 23px;
+  height: 23px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface-alt);
+  color: var(--muted);
+  font-family: var(--font);
+  font-weight: 800;
+  font-size: 0.7rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+}
+
+.pk:hover { border-color: var(--primary); color: var(--primary); }
+.pk.on { background: var(--primary); border-color: var(--primary); color: #fff; }
+.pk.alt.on { background: var(--secondary); border-color: var(--secondary); }
+.pk.nopt { border-style: dashed; }
+
+.fp-foot {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding-top: 7px;
+  border-top: 1px solid var(--border);
+  margin-top: 2px;
+}
+
+.fp-btn {
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.fp-btn[aria-pressed="true"] { background: var(--secondary); border-color: var(--secondary); color: #fff; }
+
+/* 沒選的方案：虛線框的小圓點＋字母，明顯比行程地點低調 */
+.alt-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 2px dashed var(--secondary);
+  color: var(--secondary);
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  opacity: 0.92;
+}
+
+.pop-plans { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin: 2px 0 8px; font-size: 0.72rem; color: var(--muted); }
+
 @media (min-width: 640px) {
   .topbar h1 { font-size: 1.15rem; }
 }
@@ -412,31 +529,50 @@ body {
     fixed:     { label: '已預約', icon: '⭐', color: 'var(--c-fixed)' },
   };
 
-  /* 機場＝旅程的起訖點；當天最早的點若是機場，編號從 0 起算代表「抵達／出發點」 */
+  /* 機場＝旅程的起訖點；當天最早的點若是機場（或前一晚的飯店），編號從 0 起算代表「抵達／出發點」 */
   function isGateway(p) {
     return /機場|空港|airport/i.test((p.label || '') + ' ' + (p.title || '') + ' ' + (p.query || ''));
   }
 
   /* 依行程表的分類與標題判斷屬於哪一類 */
   function categorize(p) {
+    if (p.start) return 'hotel';
     if (p.kind === 'fixed') return 'fixed';
     if (/入住|飯店|退房/.test(p.title)) return 'hotel';
     if (p.kind === 'transport' || /駅|車站|機場|空港|步行｜|交通｜/.test(p.title)) return 'transport';
-    if (/早餐|午餐|晚餐|美食|市場/.test(p.title)) return 'food';
+    if (/早餐|午餐|晚餐|宵夜|美食|市場/.test(p.title)) return 'food';
     return 'spot';
   }
 
-  var map, layer, recoLayer, routeLine, routeLayer, meMarker;
+  var map, layer, recoLayer, altLayer, routeLine, routeLayer, meMarker, flexCtlEl;
   var routes = {};      // docs/map/routes.json：依交通方式算好的實際路線（只有部分天數有）
-  var places = [];       // 行程表上的地點
+  var places = [];       // 行程表上的地點（彈性行程只含方案 A）
+  var slots = [];        // 彈性行程的全部方案（places.json 的 slots）
   var recos = [];        // data/attractions.json 的推薦景點
   var activeDay = 'all';
   var activeCats = new Set(Object.keys(CATS));
   var showReco = false;  // 推薦景點預設關閉，避免一開始就太雜
   var showTimes = true;  // 行程地點旁是否常駐顯示時間
   var showRoute = true;  // 單日檢視時是否畫出移動路線
+  var showAlts = false;  // 沒選的彈性方案位置，預設隱藏
+  var panelOpen = false; // 彈性方案面板，預設收合
 
   var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  };
+
+  /* 每個彈性時段目前看哪個方案：{ 'd5-1920': 'B' }，沒存的就是 A。
+     localStorage 在無痕視窗會丟例外，全部包起來 */
+  var PLAN_KEY = 'mapPlanSel';
+  var planSel = (function () {
+    try { return JSON.parse(localStorage.getItem(PLAN_KEY)) || {}; } catch (e) { return {}; }
+  })();
+  function savePlanSel() {
+    try { localStorage.setItem(PLAN_KEY, JSON.stringify(planSel)); } catch (e) { /* 忽略 */ }
+  }
 
   /* ---------- 建立地圖 ---------- */
   function initMap() {
@@ -446,16 +582,30 @@ body {
       maxZoom: 19,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
-    // 由下而上：路線 → 推薦景點 → 行程地點（行程地點永遠蓋在最上面）
+    // 由下而上：路線 → 推薦景點 → 沒選的彈性方案 → 行程地點（行程地點永遠蓋在最上面）
     routeLayer = L.layerGroup().addTo(map);
     recoLayer = L.layerGroup().addTo(map);
+    altLayer = L.layerGroup().addTo(map);
     layer = L.layerGroup().addTo(map);
+
+    /* 右上角的彈性方案面板；地圖上的點擊、捲動不要穿透到面板後面的地圖 */
+    var FlexCtl = L.Control.extend({
+      options: { position: 'topright' },
+      onAdd: function () {
+        var div = L.DomUtil.create('div', 'flex-ctl');
+        L.DomEvent.disableClickPropagation(div);
+        L.DomEvent.disableScrollPropagation(div);
+        flexCtlEl = div;
+        return div;
+      },
+    });
+    new FlexCtl().addTo(map);
   }
 
   /* ---------- 標記 ---------- */
   function makeIcon(cat, seq) {
     var c = CATS[cat];
-    // 注意：序號 0 代表起點（機場），0 是 falsy 不能用 seq ? ... 判斷
+    // 注意：序號 0 代表起點（機場或前一晚的飯店），0 是 falsy 不能用 seq ? ... 判斷
     var badge = (seq === undefined || seq === null)
       ? ''
       : '<i class="pin-seq" style="color:' + c.color + '">' + seq + '</i>';
@@ -470,19 +620,61 @@ body {
     });
   }
 
+  function slotById(id) {
+    for (var i = 0; i < slots.length; i++) if (slots[i].id === id) return slots[i];
+    return null;
+  }
+
+  function selectedPlan(s) {
+    var k = planSel[s.id] || 'A';
+    return s.plans.filter(function (pl) { return pl.k === k; })[0] || s.plans[0];
+  }
+
+  /* 一組彈性行程的方案按鈕；沒有固定地點的方案（例如「在飯店附近吃」）用虛線框 */
+  function planBtns(s) {
+    var sel = selectedPlan(s).k;
+    return s.plans.map(function (pl) {
+      var has = pl.pts.some(function (pt) { return pt.lat != null; });
+      return '<button type="button" class="pk' + (pl.k === sel ? ' on' : '') + (pl.k !== 'A' ? ' alt' : '')
+        + (has ? '' : ' nopt') + '" data-slot="' + s.id + '" data-k="' + pl.k + '" title="'
+        + esc(pl.k + '｜' + pl.title + (has ? '' : '（沒有固定地點，地圖上不標）')) + '"'
+        + ' aria-pressed="' + (pl.k === sel) + '">' + pl.k + '</button>';
+    }).join('');
+  }
+
+  function timeText(p) {
+    if (p.start) return p.startTime ? p.startTime + ' 出發' : '出發';
+    return p.time + (p.slot ? '・' + p.plan : '');
+  }
+
   function popupHtml(p) {
     var gmaps = 'https://maps.google.com/maps?q=' + encodeURIComponent(p.query);
     var parts = [];
-    parts.push('<span class="pop-day">Day ' + p.day + (p.time ? '　' + p.time : '') + '</span>');
-    parts.push('<div class="pop-title">' + p.icon + ' ' + p.label + '</div>');
-    if (p.ja) parts.push('<div class="pop-ja">' + p.ja + '</div>');
-    if (p.title && p.title !== p.label) parts.push('<div class="pop-ja">' + p.title + '</div>');
-    if (p.note) parts.push('<div class="pop-note">' + p.note + '</div>');
+    var when = p.start ? '　' + (p.startTime ? p.startTime + ' ' : '') + '從飯店出發' : (p.time ? '　' + p.time : '');
+    parts.push('<span class="pop-day">Day ' + p.day + when + (p.slot ? '・彈性 ' + p.plan : '') + '</span>');
+    parts.push('<div class="pop-title">' + p.icon + ' ' + esc(p.label) + '</div>');
+    if (p.ja) parts.push('<div class="pop-ja">' + esc(p.ja) + '</div>');
+    if (p.title && p.title !== p.label) parts.push('<div class="pop-ja">' + esc(p.title) + '</div>');
+    if (p.note) parts.push('<div class="pop-note">' + esc(p.note) + '</div>');
+    var s = p.slot && slotById(p.slot);
+    if (s && s.plans.length > 1) parts.push('<div class="pop-plans">換方案 ' + planBtns(s) + '</div>');
     parts.push('<div class="pop-actions">'
       + '<a href="' + gmaps + '" target="_blank" rel="noopener">在 Google Maps 開啟</a>'
       + '<a href="../final/index.html#day-' + p.day + '">看這天的行程</a>'
       + '</div>');
     return parts.join('');
+  }
+
+  /* 沒選的方案（小圓點）的彈窗 */
+  function altPopupHtml(s, pl, pt) {
+    var gmaps = 'https://maps.google.com/maps?q=' + encodeURIComponent(pt.query);
+    return '<span class="pop-day">Day ' + s.day + '　' + s.time + '・彈性 ' + pl.k + '（沒有選）</span>'
+      + '<div class="pop-title">' + pl.icon + ' ' + esc(pt.label) + '</div>'
+      + '<div class="pop-ja">' + esc(pl.title) + '</div>'
+      + (pl.head ? '<div class="pop-note">' + esc(pl.head) + '</div>' : '')
+      + '<div class="pop-plans">換方案 ' + planBtns(s) + '</div>'
+      + '<div class="pop-actions"><a href="' + gmaps + '" target="_blank" rel="noopener">在 Google Maps 開啟</a>'
+      + '<a href="../final/index.html#day-' + s.day + '">看這天的行程</a></div>';
   }
 
   /* 推薦景點的彈窗：資料欄位與行程地點不同 */
@@ -530,63 +722,147 @@ body {
       .addTo(routeLayer);
   }
 
+  /* 某一天的所有地點：行程地點＋每組彈性行程「目前選的方案」。
+     彈性行程在 places 裡的是方案 A，這裡換成選的那一個 */
+  function dayPoints(day) {
+    var list = places.filter(function (p) { return p.day === day && !p.slot; });
+    slots.forEach(function (s) {
+      if (s.day !== day) return;
+      var pl = selectedPlan(s);
+      pl.pts.forEach(function (pt, j) {
+        if (pt.lat == null) return;
+        list.push({
+          day: s.day, date: s.date, time: s.time, icon: pl.icon, title: pl.title, ja: '',
+          label: pt.label, tag: '', kind: 'spot', note: pl.head, query: pt.query,
+          lat: pt.lat, lon: pt.lon, order: s.order, sub: j, slot: s.id, plan: pl.k,
+        });
+      });
+    });
+    return list;
+  }
+
+  /* 出發點（飯店）永遠第一個，其餘依時間、再依行程表上的先後 */
+  function byTime(a, b) {
+    if (!!a.start !== !!b.start) return a.start ? -1 : 1;
+    return a.time.localeCompare(b.time) || ((a.order || 0) - (b.order || 0)) || ((a.sub || 0) - (b.sub || 0));
+  }
+
+  var seqKey = function (p) { return (p.start ? 'S' : '') + p.query + '@' + p.time + '@' + (p.slot || '') + '@' + (p.sub || 0); };
+
+  /* ---------- 彈性方案面板 ---------- */
+  function renderPanel() {
+    if (!flexCtlEl) return;
+    var list = activeDay === 'all' ? [] : slots.filter(function (s) { return s.day === activeDay && s.plans.length > 1; });
+    flexCtlEl.hidden = !list.length;
+    if (!list.length) { flexCtlEl.innerHTML = ''; return; }
+    var changed = list.filter(function (s) { return selectedPlan(s).k !== 'A'; }).length;
+    var html = '<button type="button" class="flex-toggle" data-act="panel" aria-expanded="' + panelOpen + '">🔀 彈性方案 '
+      + list.length + ' 組' + (changed ? '・<b>' + changed + ' 組改選</b>' : '') + (panelOpen ? ' ▴' : ' ▾') + '</button>';
+    if (panelOpen) {
+      html += '<div class="flex-panel"><p class="fp-note">地圖上只標目前選的方案；A 是原訂或首選，B～E 是替代方案。虛線框的方案沒有固定地點。</p>';
+      list.forEach(function (s) {
+        html += '<div class="fp-row"><span class="fp-time">' + s.time + '</span>'
+          + '<span class="fp-name" title="' + esc(selectedPlan(s).title) + '">' + esc(selectedPlan(s).title) + '</span>'
+          + '<span class="fp-btns">' + planBtns(s) + '</span></div>';
+      });
+      html += '<div class="fp-foot">'
+        + '<button type="button" class="fp-btn" data-act="alts" aria-pressed="' + showAlts + '">📍 其他方案的位置</button>'
+        + (changed ? '<button type="button" class="fp-btn" data-act="resetA">全部改回 A</button>' : '')
+        + '</div></div>';
+    }
+    flexCtlEl.innerHTML = html;
+  }
+
+  function setPlan(slotId, k) {
+    if (k === 'A') delete planSel[slotId]; else planSel[slotId] = k;
+    savePlanSel();
+    map.closePopup();
+    render({ keepView: true });
+  }
+
+  /* 面板、彈窗裡的按鈕都是動態產生的，統一在 document 上接點擊
+     （Leaflet 只擋 mousedown／touchstart 的冒泡，click 會傳上來） */
+  document.addEventListener('click', function (e) {
+    var el = e.target && e.target.closest ? e.target.closest('[data-slot][data-k], [data-act]') : null;
+    if (!el) return;
+    if (el.hasAttribute('data-slot')) { setPlan(el.getAttribute('data-slot'), el.getAttribute('data-k')); return; }
+    var act = el.getAttribute('data-act');
+    if (act === 'panel') { panelOpen = !panelOpen; renderPanel(); }
+    else if (act === 'alts') { showAlts = !showAlts; render({ keepView: true }); }
+    else if (act === 'resetA') {
+      slots.forEach(function (s) { if (s.day === activeDay) delete planSel[s.id]; });
+      savePlanSel();
+      render({ keepView: true });
+    }
+  });
+
   /* ---------- 重繪 ---------- */
-  function render() {
+  function render(opts) {
+    opts = opts || {};
     layer.clearLayers();
     recoLayer.clearLayers();
+    altLayer.clearLayers();
     if (routeLine) { map.removeLayer(routeLine); routeLine = null; }
     routeLayer.clearLayers();
-    var routeKind = '';   // 'real'＝依交通方式的實際路線、'straight'＝舊的虛線直線
     var routeBounds = [];
     var routeModes = {};   // 這一天實際用到的交通方式，圖例只列這些
+    var straightLegs = 0;  // 沒有實際路線、用虛線直線示意的段數
 
-    var shown = places.filter(function (p) {
-      if (p.lat == null) return false;
-      if (activeDay !== 'all' && p.day !== activeDay) return false;
-      return activeCats.has(categorize(p));
-    });
-
-    // 單日檢視時依時間排序並編號、連成路線
+    // 單日檢視：當天全部地點（含選的彈性方案），依時間排序編號、連成路線。
+    // 編號與路線不受類別篩選影響 —— 關掉某類標記，其他點的號碼不該跟著變
+    var ordered = [];
     var seqOf = {};
     if (activeDay !== 'all') {
-      var ordered = shown.filter(function (p) { return p.time; })
-        .sort(function (a, b) { return a.time.localeCompare(b.time); });
-      // 當天最早的點若是機場，視為起點標 0，其餘依序從 1 開始
-      var offset = (ordered.length && isGateway(ordered[0])) ? 0 : 1;
-      ordered.forEach(function (p, i) { seqOf[p.query + '@' + p.time] = i + offset; });
+      ordered = dayPoints(activeDay).filter(function (p) { return p.time && p.lat != null; }).sort(byTime);
+      // 當天最早的點若是機場或前一晚的飯店，視為起點標 0，其餘依序從 1 開始
+      var offset = (ordered.length && (ordered[0].start || isGateway(ordered[0]))) ? 0 : 1;
+      ordered.forEach(function (p, i) { seqOf[seqKey(p)] = i + offset; });
 
-      if (showRoute && routes[activeDay]) {
-        /* 依交通方式畫實際路線：鐵路沿著軌道、步行沿著道路。
-           不受類別篩選影響 —— 路線是「這一天怎麼移動」，關掉某類標記不該讓路線斷掉 */
-        routeKind = 'real';
-        routes[activeDay].forEach(function (seg) {
-          seg.legs.forEach(function (leg) {
-            drawLeg(leg);
-            routeModes[leg.mode] = true;
-            routeBounds = routeBounds.concat(leg.coords);
-          });
+      if (showRoute) {
+        // 同一個座標連續出現（例如出發的飯店和第一站同一處）只算一次
+        var pts = ordered.filter(function (p, i) {
+          return i === 0 || p.lat !== ordered[i - 1].lat || p.lon !== ordered[i - 1].lon;
         });
-      } else if (showRoute && ordered.length > 1) {
-        routeKind = 'straight';
-        routeLine = L.polyline(ordered.map(function (p) { return [p.lat, p.lon]; }), {
-          color: cssVar('--primary', '#B5451B'),
-          weight: 3,
-          opacity: 0.7,
-          dashArray: '7 6',
-        }).addTo(map);
+        var segs = routes[activeDay] || [];
+        for (var i = 1; i < pts.length; i++) {
+          var A = pts[i - 1], B = pts[i];
+          var seg = segs.filter(function (s) { return s.from === A.query && s.to === B.query; })[0];
+          if (seg) {
+            /* 依交通方式畫實際路線：鐵路沿著軌道、步行沿著道路 */
+            seg.legs.forEach(function (leg) {
+              drawLeg(leg);
+              routeModes[leg.mode] = true;
+              routeBounds = routeBounds.concat(leg.coords);
+            });
+          } else {
+            /* 沒有算好的路線（多數天數，或換了彈性方案），用虛線直線示意移動順序 */
+            straightLegs++;
+            L.polyline([[A.lat, A.lon], [B.lat, B.lon]], {
+              color: cssVar('--primary', '#B5451B'),
+              weight: 3,
+              opacity: 0.7,
+              dashArray: '7 6',
+            }).addTo(routeLayer);
+          }
+        }
       }
     }
+
+    var shown = (activeDay === 'all'
+      ? places.filter(function (p) { return !p.start; })   // 全部檢視：每天的出發飯店就是前一天的住宿，不重複標
+      : ordered.concat(dayPoints(activeDay).filter(function (p) { return !p.time; }))
+    ).filter(function (p) { return p.lat != null && activeCats.has(categorize(p)); });
 
     /* --- 行程地點 --- */
     shown.forEach(function (p) {
       var m = L.marker([p.lat, p.lon], {
-        icon: makeIcon(categorize(p), seqOf[p.query + '@' + p.time]),
+        icon: makeIcon(categorize(p), seqOf[seqKey(p)]),
         zIndexOffset: 500,          // 永遠蓋在推薦景點之上
       }).bindPopup(popupHtml(p));
 
-      // 時間直接浮在標記旁邊，不用點開也看得到
+      // 時間直接浮在標記旁邊，不用點開也看得到；彈性行程多標一個方案字母
       if (showTimes && p.time) {
-        m.bindTooltip(p.time, {
+        m.bindTooltip(timeText(p), {
           permanent: true,
           direction: 'right',
           offset: [10, -12],
@@ -595,6 +871,29 @@ body {
       }
       m.addTo(layer);
     });
+
+    /* --- 沒選的彈性方案：小圓點，預設隱藏 --- */
+    var altShown = 0;
+    if (showAlts && activeDay !== 'all') {
+      slots.forEach(function (s) {
+        if (s.day !== activeDay) return;
+        var sel = selectedPlan(s).k;
+        s.plans.forEach(function (pl) {
+          if (pl.k === sel) return;
+          pl.pts.forEach(function (pt) {
+            if (pt.lat == null) return;
+            altShown++;
+            L.marker([pt.lat, pt.lon], {
+              icon: L.divIcon({ className: '', html: '<div class="alt-dot">' + pl.k + '</div>', iconSize: [22, 22], iconAnchor: [11, 11], popupAnchor: [0, -10] }),
+              zIndexOffset: 300,
+            })
+              .bindTooltip(s.time + '・' + pl.k + '｜' + pt.label, { direction: 'top', offset: [0, -10], className: 'reco-tip' })
+              .bindPopup(altPopupHtml(s, pl, pt))
+              .addTo(altLayer);
+          });
+        });
+      });
+    }
 
     /* --- 推薦景點 --- */
     var recoShown = [];
@@ -620,21 +919,27 @@ body {
 
     var label = activeDay === 'all' ? '全部行程' : ('Day ' + activeDay);
     $('status').textContent = label + '：行程 ' + shown.length + ' 點'
+      + (altShown ? '／其他方案 ' + altShown + ' 點' : '')
       + (showReco ? '／推薦 ' + recoShown.length + ' 點' : '')
-      + (routeKind === 'straight' ? '（虛線＝當日移動順序）'
-                   : (activeDay !== 'all' && !showRoute ? '（路線已隱藏）' : ''));
-    if (routeKind === 'real') {
+      + (activeDay !== 'all' && !showRoute ? '（路線已隱藏）' : '');
+    if (activeDay !== 'all' && showRoute && (straightLegs || Object.keys(routeModes).length)) {
       $('status').insertAdjacentHTML('beforeend', '<span class="route-legend">'
         + (routeModes.rail ? '<span><i class="rl-rail"></i>鐵路</span>' : '')
         + (routeModes.subway ? '<span><i class="rl-subway"></i>地鐵</span>' : '')
         + (routeModes.walk ? '<span><i class="rl-walk"></i>步行</span>' : '')
+        + (straightLegs ? '<span><i class="rl-straight"></i>移動順序（直線示意）</span>' : '')
         + '</span>');
     }
 
-    // 只依行程地點決定視野，避免被散落各地的推薦景點拉遠
+    renderPanel();
+
+    // 只依行程地點決定視野，避免被散落各地的推薦景點拉遠。
+    // 換彈性方案時保留目前的視野，除非新的點跑到畫面外
     if (shown.length) {
-      map.fitBounds(L.latLngBounds(shown.map(function (p) { return [p.lat, p.lon]; }).concat(routeBounds)),
-        { padding: [45, 45], maxZoom: 15 });
+      var bounds = L.latLngBounds(shown.map(function (p) { return [p.lat, p.lon]; }).concat(routeBounds));
+      var cur = map.getBounds && map._loaded ? map.getBounds() : null;
+      var outside = !cur || shown.some(function (p) { return !cur.contains([p.lat, p.lon]); });
+      if (!opts.keepView || outside) map.fitBounds(bounds, { padding: [45, 45], maxZoom: 15 });
     }
   }
 
@@ -768,6 +1073,7 @@ body {
     })
     .then(function (data) {
       places = (data.places || []).filter(function (p) { return p.lat != null; });
+      slots = data.slots || [];
       recos = (data.recommended || []).filter(function (r) { return r.lat != null; });
       if (!places.length) throw new Error('places.json 沒有任何含座標的地點');
       initMap();

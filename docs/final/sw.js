@@ -13,7 +13,7 @@
  *
  * 改版時把 CACHE 的版本號 +1，舊快取會在 activate 時清掉。
  */
-const CACHE = 'kansai-2026-v12';
+const CACHE = 'kansai-2026-v13';
 
 const PRECACHE = [
   './',

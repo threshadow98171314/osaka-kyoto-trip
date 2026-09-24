@@ -35,8 +35,15 @@
     ],
     "3": [
       {
+        "from": "Apartment Hotel 11 Namba Minami Shin-Imamiya II",
+        "to": "新今宮駅",
+        "legs": [
+          { "mode": "walk" }
+        ]
+      },
+      {
         "from": "新今宮駅",
-        "to": "姫路城",
+        "to": "姫路駅",
         "legs": [
           {
             "mode": "rail",
@@ -52,6 +59,13 @@
             "board": "大阪",
             "alight": "姫路"
           }
+        ]
+      },
+      {
+        "from": "姫路駅",
+        "to": "姫路城",
+        "legs": [
+          { "mode": "walk" }
         ]
       },
       {
@@ -116,6 +130,13 @@
       }
     ],
     "8": [
+      {
+        "from": "Randor Residential Hotel Kyoto Suites",
+        "to": "京都駅",
+        "legs": [
+          { "mode": "walk" }
+        ]
+      },
       {
         "from": "京都駅",
         "to": "関西国際空港",

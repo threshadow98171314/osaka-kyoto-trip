@@ -1,0 +1,310 @@
+{
+  "_說明": [
+    "地圖頁「彈性行程」各方案的地點座標，scripts/build-places.js 會優先採用（順序：FIXED_COORDS → 這裡 → 快取 → Nominatim）。",
+    "key 是行程表方案小卡 .pr-map（或卡片 map-link）?q= 的內容，+ 換成空白。",
+    "店家一律取食べログ地圖頁（https://tabelog.com/en/<地區>/<店號>/dtlmap/ 裡的 center=緯度,經度），不要用 Nominatim 查店名；",
+    "景點、商店街用 Nominatim 查過並核對回傳地址。2026-09-22～24 查。"
+  ],
+  "coords": {
+    "無鉄砲 大阪店": {
+      "lat": 34.654608,
+      "lon": 135.500227,
+      "src": "食べログ地圖 https://tabelog.com/en/osaka/A2701/A270206/27005006/dtlmap/"
+    },
+    "串かつ横綱 通天閣店": {
+      "lat": 34.651069,
+      "lon": 135.50571,
+      "src": "食べログ地圖 https://tabelog.com/en/osaka/A2701/A270206/27066939/dtlmap/"
+    },
+    "スパワールド 世界の大温泉": {
+      "lat": 34.64991,
+      "lon": 135.50561,
+      "src": "OpenStreetMap Nominatim「スパワールド 浪速区」→ スパワールド 恵美須東三丁目"
+    },
+    "千成屋珈琲": {
+      "lat": 34.649507,
+      "lon": 135.505969,
+      "src": "食べログ地圖 https://tabelog.com/en/osaka/A2701/A270206/27017860/dtlmap/"
+    },
+    "純喫茶アメリカン 道頓堀": {
+      "lat": 34.66839,
+      "lon": 135.50305,
+      "src": "食べログ地圖 https://tabelog.com/en/osaka/A2701/A270202/27005758/dtlmap/"
+    },
+    "丸福珈琲店 千日前本店": {
+      "lat": 34.667631,
+      "lon": 135.504208,
+      "src": "食べログ地圖 https://tabelog.com/en/osaka/A2701/A270202/27001450/dtlmap/"
+    },
+    "千とせ 本店 難波千日前": {
+      "lat": 34.664088,
+      "lon": 135.504011,
+      "src": "食べログ地圖 https://tabelog.com/en/osaka/A2701/A270202/27002763/dtlmap/"
+    },
+    "美津の 道頓堀": {
+      "lat": 34.668363,
+      "lon": 135.503232,
+      "src": "食べログ地圖 https://tabelog.com/en/osaka/A2701/A270202/27001278/dtlmap/"
+    },
+    "自由軒 難波本店": {
+      "lat": 34.66634,
+      "lon": 135.50241,
+      "src": "食べログ地圖 https://tabelog.com/en/osaka/A2701/A270202/27001310/dtlmap/"
+    },
+    "グリル梵 新世界": {
+      "lat": 34.65331,
+      "lon": 135.506317,
+      "src": "食べログ地圖 https://tabelog.com/en/osaka/A2701/A270206/27001105/dtlmap/"
+    },
+    "アメリカ村 大阪": {
+      "lat": 34.672098,
+      "lon": 135.497928,
+      "src": "OpenStreetMap Nominatim「三角公園 大阪市中央区」→ 三角公園, 中央区, 大阪市"
+    },
+    "心斎橋PARCO": {
+      "lat": 34.673865,
+      "lon": 135.500972,
+      "src": "OpenStreetMap Nominatim「心斎橋PARCO」→ 心斎橋PARCO, 1, 心斎橋筋一丁目"
+    },
+    "とんぼりリバークルーズ": {
+      "lat": 34.669122,
+      "lon": 135.502705,
+      "src": "OpenStreetMap Nominatim「太左衛門橋 船着場」→ 太左衛門橋船着場, とんぼりリバーウォーク, 宗右衛門町"
+    },
+    "千日前道具屋筋商店街": {
+      "lat": 34.663935,
+      "lon": 135.503517,
+      "src": "OpenStreetMap Nominatim「千日前道具屋筋商店街」→ 千日前道具屋筋商店街, 難波千日前, 中央区"
+    },
+    "梅田スカイビル 空中庭園展望台": {
+      "lat": 34.705293,
+      "lon": 135.490535,
+      "src": "OpenStreetMap Nominatim「梅田スカイビル」→ 梅田スカイビル, 大阪伊丹線, 大淀中一丁目"
+    },
+    "グラングリーン大阪": {
+      "lat": 34.703666,
+      "lon": 135.492395,
+      "src": "OpenStreetMap Nominatim「うめきた公園」→ うめきた公園 サウスパーク, 北区, 大阪市"
+    },
+    "HEP FIVE 観覧車": {
+      "lat": 34.704059,
+      "lon": 135.500379,
+      "src": "OpenStreetMap Nominatim「HEP FIVE」→ HEP FIVE, 15, 角田町"
+    },
+    "春駒 本店 天神橋": {
+      "lat": 34.707742,
+      "lon": 135.51161,
+      "src": "食べログ地圖 https://tabelog.com/en/osaka/A2701/A270103/27002205/dtlmap/"
+    },
+    "天満酒蔵": {
+      "lat": 34.706607,
+      "lon": 135.511291,
+      "src": "食べログ地圖 https://tabelog.com/en/osaka/A2701/A270103/27004399/dtlmap/"
+    },
+    "百足家 天神橋": {
+      "lat": 34.708533,
+      "lon": 135.511884,
+      "src": "食べログ地圖 https://tabelog.com/en/osaka/A2701/A270103/27093520/dtlmap/"
+    },
+    "うめきた温泉 蓮": {
+      "lat": 34.702512,
+      "lon": 135.492413,
+      "src": "OpenStreetMap Nominatim「うめきた温泉 蓮」→ うめきた温泉 蓮, 市道九条梅田線, 大深町"
+    },
+    "大阪市中央公会堂": {
+      "lat": 34.69354,
+      "lon": 135.504009,
+      "src": "OpenStreetMap Nominatim「大阪市中央公会堂」→ 大阪市中央公会堂, 27, 中之島一丁目"
+    },
+    "南京町 神戸": {
+      "lat": 34.688216,
+      "lon": 135.188158,
+      "src": "OpenStreetMap Nominatim「南京町広場」→ 南京町広場, 元町通二丁目, 中央区"
+    },
+    "神戸ポートタワー": {
+      "lat": 34.682628,
+      "lon": 135.186724,
+      "src": "OpenStreetMap Nominatim「神戸ポートタワー」→ 神戸ポートタワー, 5, 波止場町"
+    },
+    "パティスリーモンプリュ 本店": {
+      "lat": 34.686315,
+      "lon": 135.18681,
+      "src": "食べログ地圖 https://tabelog.com/en/hyogo/A2801/A280102/28002315/dtlmap/"
+    },
+    "きつね 鹿猿狐ビルヂング": {
+      "lat": 34.681073,
+      "lon": 135.829883,
+      "src": "食べログ地圖 https://tabelog.com/en/nara/A2901/A290101/29012524/dtlmap/"
+    },
+    "麺屋K 奈良": {
+      "lat": 34.679852,
+      "lon": 135.829065,
+      "src": "食べログ地圖 https://tabelog.com/en/nara/A2901/A290101/29011962/dtlmap/"
+    },
+    "玄 福智院町 そば": {
+      "lat": 34.676856,
+      "lon": 135.833875,
+      "src": "食べログ地圖 https://tabelog.com/en/nara/A2901/A290101/29000052/dtlmap/"
+    },
+    "樫舎 奈良": {
+      "lat": 34.678569,
+      "lon": 135.8306,
+      "src": "食べログ地圖 https://tabelog.com/en/nara/A2901/A290101/29002296/dtlmap/"
+    },
+    "三十三間堂": {
+      "lat": 34.988172,
+      "lon": 135.771778,
+      "src": "OpenStreetMap Nominatim「三十三間堂」→ 三十三間堂, 657, 大和大路"
+    },
+    "京都鉄道博物館": {
+      "lat": 34.986489,
+      "lon": 135.742696,
+      "src": "OpenStreetMap Nominatim「京都鉄道博物館」→ 京都鉄道博物館, 観喜寺町, 下京区"
+    },
+    "ニデック京都タワー": {
+      "lat": 34.987552,
+      "lon": 135.75933,
+      "src": "OpenStreetMap Nominatim「京都タワー」→ 京都タワー, 木津屋橋通, 東塩小路町"
+    },
+    "山本まんぼ": {
+      "lat": 34.987944,
+      "lon": 135.762853,
+      "src": "食べログ地圖 https://tabelog.com/en/kyoto/A2601/A260101/26034294/dtlmap/"
+    },
+    "へんこつ 京都駅": {
+      "lat": 34.987646,
+      "lon": 135.75889,
+      "src": "食べログ地圖 https://tabelog.com/en/kyoto/A2601/A260101/26000797/dtlmap/"
+    },
+    "京都タワーサンド": {
+      "lat": 34.987552,
+      "lon": 135.75933,
+      "src": "OpenStreetMap Nominatim「京都タワー（タワーサンドは京都タワービル B1～2F）」→ 京都タワー, 木津屋橋通, 東塩小路町"
+    },
+    "本家第一旭 たかばし本店": {
+      "lat": 34.986705,
+      "lon": 135.762511,
+      "src": "食べログ地圖 https://tabelog.com/en/kyoto/A2601/A260101/26000873/dtlmap/"
+    },
+    "吉田山せせり": {
+      "lat": 34.982788,
+      "lon": 135.756971,
+      "src": "食べログ地圖 https://tabelog.com/en/kyoto/A2601/A260101/26030970/dtlmap/"
+    },
+    "天婦羅処 京林泉": {
+      "lat": 34.98581,
+      "lon": 135.759356,
+      "src": "食べログ地圖 https://tabelog.com/en/kyoto/A2601/A260101/26000484/dtlmap/"
+    },
+    "なぶら 上京区": {
+      "lat": 35.027979,
+      "lon": 135.73946,
+      "src": "食べログ地圖 https://tabelog.com/en/kyoto/A2601/A260501/26038042/dtlmap/"
+    },
+    "上七軒 ふた葉": {
+      "lat": 35.029938,
+      "lon": 135.738614,
+      "src": "食べログ地圖 https://tabelog.com/en/kyoto/A2601/A260501/26007628/dtlmap/"
+    },
+    "クリケット 北野白梅町": {
+      "lat": 35.031555,
+      "lon": 135.731253,
+      "src": "食べログ地圖 https://tabelog.com/en/kyoto/A2601/A260401/26000321/dtlmap/"
+    },
+    "ぎょうざ歩兵 祇園本店": {
+      "lat": 35.005205,
+      "lon": 135.774532,
+      "src": "食べログ地圖 https://tabelog.com/en/kyoto/A2601/A260301/26018951/dtlmap/"
+    },
+    "京極かねよ": {
+      "lat": 35.007601,
+      "lon": 135.767958,
+      "src": "食べログ地圖 https://tabelog.com/en/kyoto/A2601/A260201/26001330/dtlmap/"
+    },
+    "京極スタンド": {
+      "lat": 35.004603,
+      "lon": 135.767307,
+      "src": "食べログ地圖 https://tabelog.com/en/kyoto/A2601/A260201/26000665/dtlmap/"
+    },
+    "八坂神社": {
+      "lat": 35.003603,
+      "lon": 135.778261,
+      "src": "OpenStreetMap Nominatim「八坂神社」→ 八坂神社, 東大路通, 祇園町北側"
+    },
+    "ロッキングチェア 京都": {
+      "lat": 35.000982,
+      "lon": 135.766413,
+      "src": "食べログ地圖 https://tabelog.com/en/kyoto/A2601/A260201/26007698/dtlmap/"
+    },
+    "京都駅ビル 大階段": {
+      "lat": 34.98522,
+      "lon": 135.75829,
+      "src": "OpenStreetMap Nominatim「京都駅ビル」→ 京都駅ビル 東塩小路町"
+    },
+    "建仁寺": {
+      "lat": 35.000257,
+      "lon": 135.773741,
+      "src": "OpenStreetMap Nominatim「建仁寺」→ 建仁寺, 八坂道り, 玉水町"
+    },
+    "京都国際マンガミュージアム": {
+      "lat": 35.011696,
+      "lon": 135.759176,
+      "src": "OpenStreetMap Nominatim「京都国際マンガミュージアム」→ 京都国際マンガミュージアム, 中京区, 京都市"
+    },
+    "新京極商店街": {
+      "lat": 35.00625,
+      "lon": 135.76721,
+      "src": "OpenStreetMap Nominatim「新京極通 京都市中京区」→ 新京極通 桜之町"
+    },
+    "大丸京都店": {
+      "lat": 35.004372,
+      "lon": 135.761899,
+      "src": "OpenStreetMap Nominatim「大丸京都店」→ 大丸京都店, 高倉通, 帯屋町"
+    },
+    "ドン・キホーテ 四条河原町店": {
+      "lat": 35.00573,
+      "lon": 135.76899,
+      "src": "OpenStreetMap Nominatim「ドン・キホーテ 京都市中京区」→ ドン・キホーテ 蛸薬師通 東側町"
+    },
+    "三嶋亭 本店": {
+      "lat": 35.00855,
+      "lon": 135.767058,
+      "src": "食べログ地圖 https://tabelog.com/en/kyoto/A2601/A260201/26000646/dtlmap/"
+    },
+    "先斗町ますだ": {
+      "lat": 35.005801,
+      "lon": 135.771072,
+      "src": "食べログ地圖 https://tabelog.com/en/kyoto/A2601/A260201/26000698/dtlmap/"
+    },
+    "グリル一平 三宮店": {
+      "lat": 34.695942,
+      "lon": 135.195,
+      "src": "食べログ地圖 https://tabelog.com/en/hyogo/A2801/A280101/28031154/dtlmap/"
+    },
+    "赤萬 三宮店": {
+      "lat": 34.692032,
+      "lon": 135.190949,
+      "src": "食べログ地圖 https://tabelog.com/en/hyogo/A2801/A280101/28004179/dtlmap/"
+    },
+    "播州地酒ひの 三宮": {
+      "lat": 34.692091,
+      "lon": 135.190332,
+      "src": "食べログ地圖 https://tabelog.com/en/hyogo/A2801/A280101/28023316/dtlmap/"
+    },
+    "祇園 花見小路": {
+      "lat": 35.004476,
+      "lon": 135.775143,
+      "src": "OpenStreetMap Nominatim「花見小路通 祇園町南側」→ 花見小路通, 富永町（四條通路口北側）"
+    },
+    "北野天満宮御旅所": {
+      "lat": 35.021313,
+      "lon": 135.729643,
+      "src": "OpenStreetMap Nominatim「北野神社御旅所」→ 妙心寺道, 西ノ京中保町（「北野天満宮御旅所」會查到壬生的另一個點）"
+    },
+    "京都高島屋 T8": {
+      "lat": 35.00354,
+      "lon": 135.76825,
+      "src": "國土地理院 地址檢索「京都府京都市下京区御旅町35」（Nintendo KYOTO 官方地址）"
+    }
+  }
+}
